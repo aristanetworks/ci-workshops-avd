@@ -1,0 +1,25 @@
+S1_FABRIC:
+  children:
+    S1_SPINES:
+      hosts:
+        s1-spine1:
+        s1-spine2:
+    S1_LEAFS:
+      hosts:
+        s1-leaf1:
+        s1-leaf2:
+        s1-leaf3:
+        s1-leaf4:
+        s1-brdr1:
+        s1-brdr2:
+    S1_CORES:
+      hosts:
+        s1-core1:
+        s1-core2:
+    S1_FABRIC_SERVICES:
+      children:
+        S1_SPINES:
+        S1_LEAFS:
+    S1_FABRIC_PORTS:
+        S1_SPINES:
+        S1_LEAFS:
