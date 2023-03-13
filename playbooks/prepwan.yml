@@ -1,0 +1,10 @@
+---
+- name: Deploy WAN Switch configuration
+  hosts: "{{ target_hosts }}"
+  gather_facts: false
+  tasks:
+
+    - name: load configuration from file
+      arista.eos.eos_config:
+        src: ../wan_configs/{{inventory_hostname}}.cfg
+        replace: line

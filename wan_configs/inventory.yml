@@ -1,0 +1,11 @@
+---
+WAN:
+  hosts:
+    s1-brdr1:
+    s1-brdr2:
+    s1-core1:
+    s1-core2:
+    s2-brdr1:
+    s2-brdr2:
+    s2-core1:
+    s2-core2:
