@@ -21,7 +21,7 @@ Create a new ATD Dual Center Lab and then follow along
 
 ``` bash
 cd /home/coder/project/labfiles
-git clone https://github.com/mthiel117/atd-avd-dual-dc-l2ls.git
+git clone https://github.com/PacketAnglers/workshops-avd.git
 ```
 
 ## ATD Lab Updates
