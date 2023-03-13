@@ -1,0 +1,26 @@
+---
+SITE2:
+  children:
+    CVP:
+      hosts:
+        cvp:
+    SITE2_FABRIC:
+      children:
+        SITE2_SPINES:
+          hosts:
+            s2-spine1:
+            s2-spine2:
+        SITE2_LEAFS:
+          hosts:
+            s2-leaf1:
+            s2-leaf2:
+            s2-leaf3:
+            s2-leaf4:
+    SITE2_FABRIC_SERVICES:
+      children:
+        SITE2_SPINES:
+        SITE2_LEAFS:
+    SITE2_FABRIC_PORTS:
+      children:
+        SITE2_SPINES:
+        SITE2_LEAFS:
