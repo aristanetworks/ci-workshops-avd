@@ -17,6 +17,7 @@ Site 2
 ## Create ATD Lab
 
 Create a new ATD Dual Center Lab and then follow along
+
 ## Clone this repo to ATD Programmability IDE
 
 ``` bash
@@ -26,16 +27,13 @@ git clone https://github.com/PacketAnglers/workshops-avd.git
 
 ## ATD Lab Updates
 
-Update AVD to latest version
+Update AVD and requirements to the latest version
 
 ``` bash
-ansible-galaxy collection install arista.avd --force
-```
-
-Install Deepmerge module
-
-``` bash
-pip install deepmerge
+ansible-galaxy collection install arista.avd arista.cvp --force
+export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
+pip3 config set global.disable-pip-version-check true
+pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 ```
 
 ## Update Password in Global Vars
