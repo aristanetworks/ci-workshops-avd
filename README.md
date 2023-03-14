@@ -38,6 +38,10 @@ Install Deepmerge module
 pip install deepmerge
 ```
 
+## Update Password in Global Vars
+
+Update `ansible_password:` in global_vars/global_dc_vars.yml (line 5).
+
 ## Initialize WAN environment
 
 Push pre-defined configs for WAN Nodes
@@ -45,15 +49,6 @@ Push pre-defined configs for WAN Nodes
 ``` bash
 make prepwan
 ```
-
-## Update Passwords & SSH in Data Models
-
->Note: Needs work to make this easier...  Eliminate the need to manually gen sha512 password and populate Lab password across multiple files...
-
-- sites/site_2/group_vars/SITE2.yml (line 4)
-- sites/site_2/group_vars/SITE2.yml (line 4)
-- wan_configs/group_vars/WAN.yml (line 4)
-- global_vars/global_dc_vars.yml (line 34-35)
 
 ## Build Site Configs
 
