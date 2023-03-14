@@ -3,9 +3,6 @@
   hosts: "{{ target_hosts }}"
   gather_facts: false
 
-  # vars_files:
-  #   - "../global_vars/global_dc_vars.yml"
-
   tasks:
 
     - name: Import Global Vars

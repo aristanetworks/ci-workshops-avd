@@ -136,7 +136,7 @@ management api http-commands
 
 ```eos
 !
-username arista privilege 15 role network-admin secret sha512 $6$65534$1eTBRnhHZym4iSAT8kVV2WtAYhCRZAnl7NB3Roil1OboHZs85XuMvR3EDwC56z3/MNdnvL6HZ0ukdCebdnz0x.
+username arista privilege 15 role network-admin secret sha512 $6$65534$/Fog8KC0.yz6v54eRjgaLogURVpuKiQZL5m1TlJS.5wY/zqKaJRAVmvnZRpXG2bU1H6lRSykdeoYl1KMA0e521
 ```
 
 # Monitoring
