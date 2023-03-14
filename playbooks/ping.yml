@@ -6,5 +6,10 @@
 
   tasks:
 
-  - name: Ping Hosts
-    ping:
+    - name: Import Global Vars
+      include_vars: "{{ item }}"
+      with_items:
+        - "../global_vars/global_dc_vars.yml"
+
+    - name: Ping Hosts
+      ping:

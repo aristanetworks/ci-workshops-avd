@@ -1,39 +1,25 @@
 ---
-# # AAA
-# aaa_authentication:
-#   login:
-#     default: group atds local
 
-# aaa_authorization:
-#   exec:
-#     default: group atds local
-#   commands:
-#     all_default: local
-
-# # Radius Group and Server
-# aaa_server_groups:
-#   - name: atds
-#     type: radius
-#     servers:
-#       - server: 192.168.0.1
-
-# radius_servers:
-#   - host: 192.168.0.1
-#     key: 0207165218120E
-
-# ip_radius_source_interfaces:
-#   - name: Management0
-#     # vrf: default
+# Credentials for CVP and EOS Switches
+ansible_user: arista
+ansible_password: aristayfjs # Update password with lab credentials
+ansible_network_os: arista.eos.eos
+# Configure privilege escalation
+ansible_become: true
+ansible_become_method: enable
+# HTTPAPI configuration
+ansible_connection: httpapi
+ansible_httpapi_port: 443
+ansible_httpapi_use_ssl: true
+ansible_httpapi_validate_certs: false
+ansible_python_interpreter: $(which python3)
 
 # local users
 local_users:
   arista:
     privilege: 15
     role: network-admin
-    # Update sha512_password and ssh_key (leave ssh-rsa in place) from one of your Lab switches
-     # sha512_password: "{{ 'aristayfjs' | password_hash('sha512',  65534 | random(seed=inventory_hostname) | string) }}"
-    sha512_password: "{{ 'aristayfjs' | password_hash('sha512',  '65534') }}"
-    # ssh_key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDrkPzA+FPLOkMeQaWnQSZIlS8t+lth6W1/M8Ecko3xWWyvZEoVdiscer6z8/yfVklqp2cko3nHex6P0JPQM2pJT3gDLB88NhB7Nbu8UIIGk8rSHVxeZQ/QOlTPr3f/viIQvMQowywErsAMMz+Wj6z/1OImZK9R0k4zjq40RMp7BG6xMX3WLOJ/tfJp/sqNLnQt7bRWs3KBwcnKUmC8BeH9LdiGj9nlFz8HAW4aQgyAwa7opRFkUwZopaaPPOJAy3G0xJlJ45zwnA0zjekKa1sklG2oazG/v/qC8WIYWUqqIM2SV+Hb2nediT8u6TUSDTDtKA8Gq9HH0htAYUBT0MSv arista@thiel-arist-ci-1-59c980ae-eos"
+    sha512_password: "{{ ansible_password | password_hash('sha512',  '65534') }}"
 
 # OOB Management network default gateway.
 mgmt_gateway: 192.168.0.1
@@ -51,24 +37,24 @@ ntp:
 dns_domain: atd.lab
 
 # TerminAttr
-# daemon_terminattr:
-#   # Address of the gRPC server on CloudVision
-#   # TCP 9910 is used on on-prem
-#   # TCP 443 is used on CV as a Service
-#   cvaddrs: # For single cluster
-#     - 192.168.0.5:9910
-#   # Authentication scheme used to connect to CloudVision
-#   # Deprecated Key Method, use Token
-#   # cvauth:
-#   #   method: key
-#   #   key: atd-lab
-#   cvauth:
-#     method: token
-#     token_file: "/tmp/token"
-#   # Exclude paths from Sysdb on the ingest side
-#   ingestexclude: /Sysdb/cell/1/agent,/Sysdb/cell/2/agent
-#   # Exclude paths from the shared memory table
-#   smashexcludes: ale,flexCounter,hardware,kni,pulse,strata
+daemon_terminattr:
+  # Address of the gRPC server on CloudVision
+  # TCP 9910 is used on on-prem
+  # TCP 443 is used on CV as a Service
+  cvaddrs: # For single cluster
+    - 192.168.0.5:9910
+  # Authentication scheme used to connect to CloudVision
+  # Deprecated Key Method, use Token
+  # cvauth:
+  #   method: key
+  #   key: atd-lab
+  cvauth:
+    method: token
+    token_file: "/tmp/token"
+  # Exclude paths from Sysdb on the ingest side
+  ingestexclude: /Sysdb/cell/1/agent,/Sysdb/cell/2/agent
+  # Exclude paths from the shared memory table
+  smashexcludes: ale,flexCounter,hardware,kni,pulse,strata
 
 # Point to Point Links MTU Override for Lab
 p2p_uplinks_mtu: 1500
