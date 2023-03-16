@@ -24,7 +24,7 @@
 
 The WAN IP Network runs OSPF in Area 0.0.0.0 using /31's in the 10.0.0.0/24 address block.  The Spines in each DC will peer to nodes in the cloud.
 
-![ATD L2LS Topo](images/atd-avd-dual-dc-l2ls-topo.svg)
+![ATD L2LS Topo](images/atd-avd-dual-dc-l2ls-topo.png)
 
 ## Create ATD Lab
 
