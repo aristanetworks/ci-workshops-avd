@@ -255,6 +255,7 @@ vlan 4094
 | Ethernet1 | MLAG_PEER_s1-leaf3_Ethernet1 | *trunk | *2-4094 | *- | *['MLAG'] | 1 |
 | Ethernet2 | S1-SPINE1_Ethernet5 | *trunk | *20 | *- | *- | 2 |
 | Ethernet3 | S1-SPINE2_Ethernet5 | *trunk | *20 | *- | *- | 2 |
+| Ethernet4 | s1-host2_eth2 | *access | *20 | *- | *- | 4 |
 | Ethernet6 | MLAG_PEER_s1-leaf3_Ethernet6 | *trunk | *2-4094 | *- | *['MLAG'] | 1 |
 
 *Inherited from Port-Channel Interface
@@ -278,6 +279,11 @@ interface Ethernet3
    no shutdown
    channel-group 2 mode active
 !
+interface Ethernet4
+   description s1-host2_eth2
+   no shutdown
+   channel-group 4 mode active
+!
 interface Ethernet6
    description MLAG_PEER_s1-leaf3_Ethernet6
    no shutdown
@@ -294,6 +300,7 @@ interface Ethernet6
 | --------- | ----------- | ---- | ---- | ----- | ----------- | ------------| --------------------- | ------------------ | ------- | -------- |
 | Port-Channel1 | MLAG_PEER_s1-leaf3_Po1 | switched | trunk | 2-4094 | - | ['MLAG'] | - | - | - | - |
 | Port-Channel2 | SPINES_Po4 | switched | trunk | 20 | - | - | - | - | 2 | - |
+| Port-Channel4 | s1-host2 | switched | access | 20 | - | - | - | - | 4 | - |
 
 ### Port-Channel Interfaces Device Configuration
 
@@ -314,6 +321,14 @@ interface Port-Channel2
    switchport trunk allowed vlan 20
    switchport mode trunk
    mlag 2
+!
+interface Port-Channel4
+   description s1-host2
+   no shutdown
+   switchport
+   switchport access vlan 20
+   mlag 4
+   spanning-tree portfast
 ```
 
 ## VLAN Interfaces

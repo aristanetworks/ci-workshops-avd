@@ -1,57 +1,44 @@
----
-
 port_profiles:
-  PP-DOT1X:
-    mode: "trunk phone"
+
+  PP-VLAN10:
+    mode: "access"
+    vlans: "10"
     spanning_tree_portfast: edge
-    spanning_tree_bpduguard: enabled
-    dot1x:
-      port_control: auto
-      reauthentication: true
-      pae:
-        mode: authenticator
-      host_mode:
-        mode: multi-host
-        multi_host_authenticated: true
-      mac_based_authentication:
-        enabled: true
-      timeout:
-        reauth_period: server
-        tx_period: 3
-      reauthorization_request_limit: 3
+  PP-VLAN20:
+    mode: "access"
+    vlans: "20"
+    spanning_tree_portfast: edge
 
-network_ports:
+###########################################################
+# ---------------- Endpoint Connectivity ---------------- #
+###########################################################
 
-# # ---------------- s1-leaf1/2 ----------------
+servers:
 
-#   - switches:
-#       - s1-leaf[12] # regex match s1-leaf1 & s1-leaf2
-#     switch_ports:
-#       - Ethernet7-48
-#     profile: PP-DOT1X
-#     native_vlan: 10
-#     structured_config:
-#       phone:
-#         trunk: untagged
-#         vlan: 15
-#     dot1x:
-#       authentication_failure:
-#         action: allow
-#         allow_vlan: 999
+# --------------------------------------------------------#
+# Site1 RACK1 Endpoints
+# --------------------------------------------------------#
 
-# # ---------------- s1-leaf3/4 ----------------
+  s1-host1:                                             # Server name
+    rack: RACK1                                         # Informational RACK (optional)
+    adapters:
+      - endpoint_ports: [eth1,eth2]                     # Server port to connect (optional)
+        switch_ports: [Ethernet4,Ethernet4]             # Switch port to connect server (required)
+        switches: [s1-leaf1,s1-leaf2]                   # Switch to connect server (required)
+        profile: PP-VLAN10                              # Port profile to apply (required)
+        port_channel:
+          mode: active
 
-#   - switches:
-#       - s1-leaf[34] # regex match s1-leaf3 & s1-leaf4
-#     switch_ports:
-#       - Ethernet7-48
-#     profile: PP-DOT1X
-#     native_vlan: 20
-#     structured_config:
-#       phone:
-#         trunk: untagged
-#         vlan: 25
-#     dot1x:
-#       authentication_failure:
-#         action: allow
-#         allow_vlan: 999
+# --------------------------------------------------------#
+# Site1 RACK2 Endpoints
+# --------------------------------------------------------#
+
+  s1-host2:                                             # Server name
+    rack: RACK2                                         # Informational RACK (optional)
+    adapters:
+      - endpoint_ports: [eth1,eth2]                     # Server port to connect (optional)
+        switch_ports: [Ethernet4,Ethernet4]             # Switch port to connect server (required)
+        switches: [s1-leaf3,s1-leaf4]                   # Switch to connect server (required)
+        profile: PP-VLAN20                              # Port profile to apply (required)
+        port_channel:
+          mode: active
