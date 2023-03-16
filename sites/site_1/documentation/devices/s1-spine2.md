@@ -185,7 +185,7 @@ daemon TerminAttr
 
 | Domain-id | Local-interface | Peer-address | Peer-link |
 | --------- | --------------- | ------------ | --------- |
-| SPINES | Vlan4094 | 10.1.1.0 | Port-Channel1 |
+| SPINES | Vlan4094 | 10.1.253.0 | Port-Channel1 |
 
 Dual primary detection is disabled.
 
@@ -196,7 +196,7 @@ Dual primary detection is disabled.
 mlag configuration
    domain-id SPINES
    local-interface Vlan4094
-   peer-address 10.1.1.0
+   peer-address 10.1.253.0
    peer-link Port-Channel1
    reload-delay mlag 300
    reload-delay non-mlag 330
@@ -401,7 +401,7 @@ interface Port-Channel4
 
 | Interface | Description | VRF | IP Address |
 | --------- | ----------- | --- | ---------- |
-| Loopback0 | Router_ID | default | 1.1.1.2/32 |
+| Loopback0 | Router_ID | default | 10.1.252.2/32 |
 
 #### IPv6
 
@@ -417,7 +417,7 @@ interface Port-Channel4
 interface Loopback0
    description Router_ID
    no shutdown
-   ip address 1.1.1.2/32
+   ip address 10.1.252.2/32
    ip ospf area 0.0.0.0
 ```
 
@@ -438,8 +438,8 @@ interface Loopback0
 | --------- | --- | ---------- | ------------------ | ------------------------- | ---- | ------ | ------- |
 | Vlan10 |  default  |  10.10.10.3/24  |  -  |  10.10.10.1  |  -  |  -  |  -  |
 | Vlan20 |  default  |  10.20.20.3/24  |  -  |  10.20.20.1  |  -  |  -  |  -  |
-| Vlan4093 |  default  |  10.1.2.1/31  |  -  |  -  |  -  |  -  |  -  |
-| Vlan4094 |  default  |  10.1.1.1/31  |  -  |  -  |  -  |  -  |  -  |
+| Vlan4093 |  default  |  10.1.254.1/31  |  -  |  -  |  -  |  -  |  -  |
+| Vlan4094 |  default  |  10.1.253.1/31  |  -  |  -  |  -  |  -  |  -  |
 
 ### VLAN Interfaces Device Configuration
 
@@ -461,7 +461,7 @@ interface Vlan4093
    description MLAG_PEER_L3_PEERING
    no shutdown
    mtu 1500
-   ip address 10.1.2.1/31
+   ip address 10.1.254.1/31
    ip ospf network point-to-point
    ip ospf area 0.0.0.0
 !
@@ -470,7 +470,7 @@ interface Vlan4094
    no shutdown
    mtu 1500
    no autostate
-   ip address 10.1.1.1/31
+   ip address 10.1.253.1/31
 ```
 
 # Routing
@@ -487,13 +487,13 @@ service routing protocols model multi-agent
 
 ### Virtual Router MAC Address Summary
 
-#### Virtual Router MAC Address: aa:aa:bb:bb:cc:cc
+#### Virtual Router MAC Address: 00:1c:73:00:dc:01
 
 ### Virtual Router MAC Address Configuration
 
 ```eos
 !
-ip virtual-router mac-address aa:aa:bb:bb:cc:cc
+ip virtual-router mac-address 00:1c:73:00:dc:01
 ```
 
 ## IP Routing
@@ -541,7 +541,7 @@ ip route 0.0.0.0/0 192.168.0.1
 
 | Process ID | Router ID | Default Passive Interface | No Passive Interface | BFD | Max LSA | Default Information Originate | Log Adjacency Changes Detail | Auto Cost Reference Bandwidth | Maximum Paths | MPLS LDP Sync Default | Distribute List In |
 | ---------- | --------- | ------------------------- | -------------------- | --- | ------- | ----------------------------- | ---------------------------- | ----------------------------- | ------------- | --------------------- | ------------------ |
-| 100 | 1.1.1.2 | enabled | Vlan4093 <br> Ethernet7 <br> Ethernet8 <br> | disabled | 12000 | disabled | disabled | - | - | - | - |
+| 100 | 10.1.252.2 | enabled | Vlan4093 <br> Ethernet7 <br> Ethernet8 <br> | disabled | 12000 | disabled | disabled | - | - | - | - |
 
 ### Router OSPF Router Redistribution
 
@@ -563,7 +563,7 @@ ip route 0.0.0.0/0 192.168.0.1
 ```eos
 !
 router ospf 100
-   router-id 1.1.1.2
+   router-id 10.1.252.2
    passive-interface default
    no passive-interface Vlan4093
    no passive-interface Ethernet7

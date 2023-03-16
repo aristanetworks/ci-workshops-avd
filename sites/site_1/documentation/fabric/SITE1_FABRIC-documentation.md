@@ -65,14 +65,14 @@
 
 | Loopback Pool | Available Addresses | Assigned addresses | Assigned Address % |
 | ------------- | ------------------- | ------------------ | ------------------ |
-| 1.1.1.0/24 | 256 | 2 | 0.79 % |
+| 10.1.252.0/24 | 256 | 2 | 0.79 % |
 
 ## Loopback0 Interfaces Node Allocation
 
 | POD | Node | Loopback0 |
 | --- | ---- | --------- |
-| SITE1_FABRIC | s1-spine1 | 1.1.1.1/32 |
-| SITE1_FABRIC | s1-spine2 | 1.1.1.2/32 |
+| SITE1_FABRIC | s1-spine1 | 10.1.252.1/32 |
+| SITE1_FABRIC | s1-spine2 | 10.1.252.2/32 |
 
 ## VTEP Loopback VXLAN Tunnel Source Interfaces (VTEPs Only)
 

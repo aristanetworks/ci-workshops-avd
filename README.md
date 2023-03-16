@@ -2,17 +2,29 @@
 
 ## Dual Datacenter Topology
 
-Site 1
+### Site Vlans and Subnets
 
-- vlan 10, 10.10.10.0/24
-- vlan 20, 10.20.20.0/24
+| Site | Vlan |     Subnet    |
+|:----:|:----:|:-------------:|
+| 1    | 10   | 10.10.10.0/24 |
+| 1    | 20   | 10.20.20.0/24 |
+| 2    | 30   | 10.30.30.0/24 |
+| 2    | 40   | 10.40.40.0/24 |
 
-Site 2
+### Host Addressing
 
-- vlan 30, 10.30.30.0/24
-- vlan 40, 10.40.40.0/24
+| Site | Rack | Hostname | IP Address.     |
+|:----:|:----:|:--------:|:---------------:|
+| 1    | 1    | s1-host1 | 10.10.10.100/24 |
+| 1    | 2    | s1-host2 | 10.20.20.100/24 |
+| 2    | 1    | s2-host1 | 10.30.30.100/24 |
+| 2    | 2    | s2-host2 | 10.40.40.100/24 |
 
-![ATD L2LS Topo](images/atd-avd-dual-dc-l2ls-topo.png)
+### WAN - IP Network
+
+The WAN IP Network runs OSPF in Area 0.0.0.0 using /31's in the 10.0.0.0/24 address block.  The Spines in each DC will peer to nodes in the cloud.
+
+![ATD L2LS Topo](images/atd-avd-dual-dc-l2ls-topo.svg)
 
 ## Create ATD Lab
 

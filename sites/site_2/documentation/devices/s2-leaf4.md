@@ -182,7 +182,7 @@ daemon TerminAttr
 
 | Domain-id | Local-interface | Peer-address | Peer-link |
 | --------- | --------------- | ------------ | --------- |
-| RACK2 | Vlan4094 | 10.0.0.8 | Port-Channel1 |
+| RACK2 | Vlan4094 | 10.2.253.8 | Port-Channel1 |
 
 Dual primary detection is disabled.
 
@@ -193,7 +193,7 @@ Dual primary detection is disabled.
 mlag configuration
    domain-id RACK2
    local-interface Vlan4094
-   peer-address 10.0.0.8
+   peer-address 10.2.253.8
    peer-link Port-Channel1
    reload-delay mlag 300
    reload-delay non-mlag 330
@@ -361,7 +361,7 @@ interface Port-Channel4
 
 | Interface | VRF | IP Address | IP Address Virtual | IP Router Virtual Address | VRRP | ACL In | ACL Out |
 | --------- | --- | ---------- | ------------------ | ------------------------- | ---- | ------ | ------- |
-| Vlan4094 |  default  |  10.0.0.9/31  |  -  |  -  |  -  |  -  |  -  |
+| Vlan4094 |  default  |  10.2.253.9/31  |  -  |  -  |  -  |  -  |  -  |
 
 ### VLAN Interfaces Device Configuration
 
@@ -372,7 +372,7 @@ interface Vlan4094
    no shutdown
    mtu 1500
    no autostate
-   ip address 10.0.0.9/31
+   ip address 10.2.253.9/31
 ```
 
 # Routing
