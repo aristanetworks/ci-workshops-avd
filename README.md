@@ -42,10 +42,10 @@ Update `ansible_password:` in global_vars/global_dc_vars.yml (line 5).
 
 ## Initialize WAN environment
 
-Push pre-defined configs for WAN Nodes
+Push pre-defined configs for WAN & Host Nodes
 
 ``` bash
-make prepwan
+make preplab
 ```
 
 ## Build Site Configs
