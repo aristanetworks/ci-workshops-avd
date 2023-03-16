@@ -83,14 +83,20 @@ make deploy-site-2
 
 ## Test Traffic
 
-Log on to a a spine a look at OSPF neighbors and ip routes.  Ping across to the the side.
+Log on to a spine to verify OSPF neighbors and ip routes.
 
-From s1-spine1
+From `s1-spine1`
 
 ``` bash
 show ip ospf neighbors
-
 show ip route
-
 ping 10.30.30.1
+```
+
+Log on to a host and ping to a remote host.
+
+From `s1-host1` ping `s2-host2`.
+
+``` bash
+ping 10.40.40.100
 ```
