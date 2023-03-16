@@ -23,6 +23,7 @@ Create a new ATD Dual Center Lab and then follow along
 ``` bash
 cd /home/coder/project/labfiles
 git clone https://github.com/PacketAnglers/workshops-avd.git
+cd workshops-avd
 ```
 
 ## ATD Lab Updates
