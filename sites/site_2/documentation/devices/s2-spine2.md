@@ -8,6 +8,7 @@
   - [Management API HTTP](#management-api-http)
 - [Authentication](#authentication)
   - [Local Users](#local-users)
+  - [AAA Authorization](#aaa-authorization)
 - [Monitoring](#monitoring)
   - [TerminAttr Daemon](#terminattr-daemon)
 - [MLAG](#mlag)
@@ -140,6 +141,23 @@ management api http-commands
 ```eos
 !
 username arista privilege 15 role network-admin secret sha512 $6$65534$/Fog8KC0.yz6v54eRjgaLogURVpuKiQZL5m1TlJS.5wY/zqKaJRAVmvnZRpXG2bU1H6lRSykdeoYl1KMA0e521
+```
+
+## AAA Authorization
+
+### AAA Authorization Summary
+
+| Type | User Stores |
+| ---- | ----------- |
+| Exec | local |
+
+Authorization for configuration commands is disabled.
+
+### AAA Authorization Device Configuration
+
+```eos
+aaa authorization exec default local
+!
 ```
 
 # Monitoring
