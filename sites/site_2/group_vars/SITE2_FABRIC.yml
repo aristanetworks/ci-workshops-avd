@@ -15,7 +15,7 @@ l3spine:
     mlag_peer_ipv4_pool: 10.2.253.0/24
     mlag_peer_l3_ipv4_pool: 10.2.254.0/24
     virtual_router_mac_address: 00:1c:73:00:dc:01
-    mlag_interfaces: [Ethernet1, Ethernet6]
+    mlag_interfaces: [ Ethernet1, Ethernet6 ]
   node_groups:
     SPINES:
       nodes:
@@ -33,9 +33,9 @@ leaf:
     mlag_peer_ipv4_pool: 10.2.253.0/24
     spanning_tree_mode: mstp
     spanning_tree_priority: 16384
-    uplink_switches: [s2-spine1, s2-spine2]
-    uplink_interfaces: [Ethernet2, Ethernet3]
-    mlag_interfaces: [Ethernet1, Ethernet6]
+    uplink_switches: [ s2-spine1, s2-spine2 ]
+    uplink_interfaces: [ Ethernet2, Ethernet3 ]
+    mlag_interfaces: [ Ethernet1, Ethernet6 ]
   node_groups:
     RACK1:
       mlag: true
@@ -45,11 +45,11 @@ leaf:
         s2-leaf1:
           id: 3
           mgmt_ip: 192.168.0.22/24
-          uplink_switch_interfaces: [Ethernet2, Ethernet2]
+          uplink_switch_interfaces: [ Ethernet2, Ethernet2 ]
         s2-leaf2:
           id: 4
           mgmt_ip: 192.168.0.23/24
-          uplink_switch_interfaces: [Ethernet3, Ethernet3]
+          uplink_switch_interfaces: [ Ethernet3, Ethernet3 ]
     RACK2:
       mlag: true
       filter:
@@ -58,11 +58,11 @@ leaf:
         s2-leaf3:
           id: 5
           mgmt_ip: 192.168.0.24/24
-          uplink_switch_interfaces: [Ethernet4, Ethernet4]
+          uplink_switch_interfaces: [ Ethernet4, Ethernet4 ]
         s2-leaf4:
           id: 6
           mgmt_ip: 192.168.0.25/24
-          uplink_switch_interfaces: [Ethernet5, Ethernet5]
+          uplink_switch_interfaces: [ Ethernet5, Ethernet5 ]
 
 ##################################################################
 # Underlay Routing Protocol - ran on Spines
