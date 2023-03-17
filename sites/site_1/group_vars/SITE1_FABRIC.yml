@@ -8,7 +8,7 @@ design:
 # Spine Switches
 l3spine:
   defaults:
-    platform: vEOS
+    platform: cEOS
     spanning_tree_mode: mstp
     spanning_tree_priority: 4096
     loopback_ipv4_pool: 10.1.252.0/24
@@ -29,7 +29,7 @@ l3spine:
 # IDF - Leaf Switches
 leaf:
   defaults:
-    platform: vEOS
+    platform: cEOS
     mlag_peer_ipv4_pool: 10.1.253.0/24
     spanning_tree_mode: mstp
     spanning_tree_priority: 16384

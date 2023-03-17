@@ -49,9 +49,13 @@ pip3 config set global.disable-pip-version-check true
 pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 ```
 
-## Update Password in Global Vars
+## Set Lab Password environment variable
 
-Update `ansible_password:` in global_vars/global_dc_vars.yml (line 5).
+The following command sets the environment variable `LABPASSPHRASE` which is used later for connecting to your lab switches and creating local user password.
+
+``` bash
+export LABPASSPHRASE=`cat /home/coder/.config/code-server/config.yaml| grep "password:" | awk '{print $2}'
+```
 
 ## Initialize WAN environment
 

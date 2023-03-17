@@ -17,12 +17,12 @@
 
 | POD | Type | Node | Management IP | Platform | Provisioned in CloudVision |
 | --- | ---- | ---- | ------------- | -------- | -------------------------- |
-| SITE2_FABRIC | leaf | s2-leaf1 | 192.168.0.22/24 | vEOS | Provisioned |
-| SITE2_FABRIC | leaf | s2-leaf2 | 192.168.0.23/24 | vEOS | Provisioned |
-| SITE2_FABRIC | leaf | s2-leaf3 | 192.168.0.24/24 | vEOS | Provisioned |
-| SITE2_FABRIC | leaf | s2-leaf4 | 192.168.0.25/24 | vEOS | Provisioned |
-| SITE2_FABRIC | l3spine | s2-spine1 | 192.168.0.20/24 | vEOS | Provisioned |
-| SITE2_FABRIC | l3spine | s2-spine2 | 192.168.0.21/24 | vEOS | Provisioned |
+| SITE2_FABRIC | leaf | s2-leaf1 | 192.168.0.22/24 | cEOS | Provisioned |
+| SITE2_FABRIC | leaf | s2-leaf2 | 192.168.0.23/24 | cEOS | Provisioned |
+| SITE2_FABRIC | leaf | s2-leaf3 | 192.168.0.24/24 | cEOS | Provisioned |
+| SITE2_FABRIC | leaf | s2-leaf4 | 192.168.0.25/24 | cEOS | Provisioned |
+| SITE2_FABRIC | l3spine | s2-spine1 | 192.168.0.20/24 | cEOS | Provisioned |
+| SITE2_FABRIC | l3spine | s2-spine2 | 192.168.0.21/24 | cEOS | Provisioned |
 
 > Provision status is based on Ansible inventory declaration and do not represent real status from CloudVision.
 
