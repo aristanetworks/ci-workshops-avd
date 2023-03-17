@@ -49,10 +49,6 @@ daemon_terminattr:
   cvaddrs: # For single cluster
     - 192.168.0.5:9910
   # Authentication scheme used to connect to CloudVision
-  # Deprecated Key Method, use Token
-  # cvauth:
-  #   method: key
-  #   key: atd-lab
   cvauth:
     method: token
     token_file: "/tmp/token"
