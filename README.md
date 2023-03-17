@@ -54,7 +54,7 @@ pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
 The following command sets the environment variable `LABPASSPHRASE` which is used later for connecting to your lab switches and creating local user password.
 
 ``` bash
-export LABPASSPHRASE=`cat /home/coder/.config/code-server/config.yaml| grep "password:" | awk '{print $2}'
+export LABPASSPHRASE=`cat /home/coder/.config/code-server/config.yaml| grep "password:" | awk '{print $2}'`
 ```
 
 ## Initialize WAN environment
