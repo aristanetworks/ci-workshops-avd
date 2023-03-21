@@ -101,7 +101,7 @@ make deploy-site-1
 make deploy-site-2
 ```
 
-## Test Traffic
+## STEP #8 - Test Traffic
 
 Log on to a spine to verify OSPF neighbors and ip routes.
 
