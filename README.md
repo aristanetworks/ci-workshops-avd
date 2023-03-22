@@ -36,13 +36,13 @@ The WAN IP Network runs OSPF in Area 0.0.0.0 using /31's in the 10.0.0.0/24 addr
 
 Create a new ATD Dual Center Lab and follow along. Ask your local account team for assistance.
 
-## STEP #2 - Clone this repo to your ATD Lab
+## STEP #2 - Fork and Clone this repo to your ATD Lab
 
-Using the Programmability IDE, clone this repo to your lab instance.
+From GitHub, fork this **[repo](https://github.dev/PacketAnglers/workshops-avd)** (https://github.dev/PacketAnglers/workshops-avd) to your personal GitHub account and use the Programmability IDE to clone your fork to your lab instance.
 
 ``` bash
 cd /home/coder/project/labfiles
-git clone https://github.com/PacketAnglers/workshops-avd.git
+git clone <your copied URL>
 cd workshops-avd
 ```
 
