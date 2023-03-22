@@ -38,7 +38,6 @@ leaf:
     mlag_interfaces: [ Ethernet1, Ethernet6 ]
   node_groups:
     RACK1:
-      mlag: true
       filter:
         tags: [ "30" ]
       nodes:
@@ -51,7 +50,6 @@ leaf:
           mgmt_ip: 192.168.0.23/24
           uplink_switch_interfaces: [ Ethernet3, Ethernet3 ]
     RACK2:
-      mlag: true
       filter:
         tags: [ "40" ]
       nodes:
