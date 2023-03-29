@@ -1,0 +1,10 @@
+---
+- name: Build Switch configuration
+  hosts: cvp
+  gather_facts: false
+
+  tasks:
+
+    - name: Generate Intended Config and Documentation
+      import_role:
+        name: arista.avd.eos_config_deploy_cvp

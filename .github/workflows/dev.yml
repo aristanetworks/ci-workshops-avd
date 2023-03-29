@@ -1,0 +1,32 @@
+name: Test the upcoming changes
+
+on:
+  push:
+    branches-ignore:
+      - main
+
+jobs:
+  dev:
+    env:
+      LABPASSPHRASE: ${{ secrets.LABPASSPHRASE }}
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hi
+        run: echo "Hello World!"
+
+      # - name: Checkout
+      #   uses: actions/checkout@v3
+
+      # - name: Run pre-commit on files
+      #   uses: pre-commit/action@v3.0.0
+
+      # - name: Start containers
+      #   run: docker-compose -f "docker-compose.yml" up -d --build
+
+      # - name: Test configuration build
+      #   run: docker-compose run atd-cicd make build-site-1 && make build-site-2
+
+      # - name: Stop containers
+      #   if: always()
+      #   run: docker-compose -f "docker-compose.yml" down
