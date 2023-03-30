@@ -2,11 +2,9 @@
 
 ## **ATD Dual Datacenter Topology**
 
-![ATD Dual DC Topo](images/dual-dc-topo.png)
+In this example, the ATD lab is used to create the L2LS Dual Data Center topology below. The IP Network cloud (orange area)is pre-provisioned and is comprised of the border and core nodes in the ATD topology. Our focus will be creating the L2LS AVD data models to build and deploy configurations for Site 1 and Site 2 (blue areas) and connect them to the IP Network.
 
-The ATD Dual Data Center Topology above is used in this example to create an L2LS Multi-site topology below.  The IP Network cloud is comprised of the border and core nodes in the ATD topology.  The IP Network and hosts are pre-provisioned in this example.  Our focus will be building AVD data models for Site 1 and Site 2 and configuring each site to connect to an existing IP Network.
-
-![ATD L2LS Topo](images/atd-avd-dual-dc-l2ls-topo.png)
+![Topologies](images/topologies.png)
 
 ## **Lab Instructions**
 
