@@ -18,6 +18,9 @@ jobs:
       # - name: Checkout
       #   uses: actions/checkout@v3
 
+      # - name: Setup Python
+      #   uses: actions/setup-python@v3
+
       # - name: Run pre-commit on files
       #   uses: pre-commit/action@v3.0.0
 
@@ -25,7 +28,7 @@ jobs:
       #   run: docker-compose -f "docker-compose.yml" up -d --build
 
       # - name: Test configuration build
-      #   run: docker-compose run atd-cicd make build-site-1 && make build-site-2
+      #   run: docker-compose run atd-cicd make build-site-1 build-site-2
 
       # - name: Stop containers
       #   if: always()
