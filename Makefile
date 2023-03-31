@@ -7,13 +7,12 @@ help: ## Display help message
 ########################################################
 
 .PHONY: ping-site-1
-ping-site-1: ## Ping Nodes 
+ping-site-1: ## Ping Nodes
 	ansible-playbook playbooks/ping.yml -i sites/site_1/inventory.yml -e "target_hosts=SITE1_FABRIC"
 
 .PHONY: build-site-1
-build-site-1: ## Build Configs 
+build-site-1: ## Build Configs
 	ansible-playbook playbooks/build.yml -i sites/site_1/inventory.yml -e "target_hosts=SITE1_FABRIC"
-# ansible-playbook playbooks/build.yml -i sites/site_1/inventory.yml -e "target_hosts=SITE1_FABRIC" -e "@global_vars/global_dc_vars.yml"
 
 .PHONY: deploy-site-1
 deploy-site-1: ## Deploy Configs via eAPI
@@ -24,11 +23,11 @@ deploy-site-1: ## Deploy Configs via eAPI
 ########################################################
 
 .PHONY: ping-site-2
-ping-site-2: ## Ping Nodes 
+ping-site-2: ## Ping Nodes
 	ansible-playbook playbooks/ping.yml -i sites/site_2/inventory.yml -e "target_hosts=SITE2_FABRIC"
 
 .PHONY: build-site-2
-build-site-2: ## Build Configs 
+build-site-2: ## Build Configs
 	ansible-playbook playbooks/build.yml -i sites/site_2/inventory.yml -e "target_hosts=SITE2_FABRIC"
 
 .PHONY: deploy-site-2
