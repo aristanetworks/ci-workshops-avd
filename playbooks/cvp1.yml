@@ -1,0 +1,19 @@
+---
+- name: Build Switch configuration
+  hosts: cvp
+  gather_facts: false
+
+  tasks:
+
+    - name: Import Global Vars
+      include_vars: "{{ item }}"
+      with_items:
+        - "../global_vars/global_dc_vars.yml"
+
+    - name: Generate Intended Config and Documentation
+      import_role:
+        name: arista.avd.eos_config_deploy_cvp
+      vars:
+        container_root: 'SITE1_FABRIC'
+        configlets_prefix: 'AVD'
+        state: present
