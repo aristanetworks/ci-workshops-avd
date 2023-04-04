@@ -27,8 +27,27 @@ jobs:
       # - name: Start containers
       #   run: docker-compose -f "docker-compose.yml" up -d --build
 
-      # - name: Test configuration build
-      #   run: docker-compose run atd-cicd make build-site-1 build-site-2
+      # - name: Check paths for sites/site_1
+      #   uses: dorny/paths-filter@v2
+      #   id: filter-site1
+      #   with:
+      #     filters: |
+      #       workflows:
+      #         - 'sites/site_1/**'
+
+      # - name: Check paths for sites/site_2
+      #   uses: dorny/paths-filter@v2
+      #   id: filter-site2
+      #   with:
+      #     filters: |
+      #       workflows:
+      #         - 'sites/site_2/**'
+
+      # - name: Test configuration for site1
+      #   run: docker-compose run atd-cicd make build-site-1
+
+      # - name: Test configuration for site2
+      #   run: docker-compose run atd-cicd make build-site-2
 
       # - name: Stop containers
       #   if: always()
