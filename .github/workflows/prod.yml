@@ -40,6 +40,9 @@ jobs:
       #       workflows:
       #         - 'sites/site_2/**'
 
+      # - name: Start containers
+      #   run: docker-compose -f "docker-compose.yml" up -d
+
       # - name: Build and deploy site1
       #   run: >
       #     docker-compose run atd-cicd

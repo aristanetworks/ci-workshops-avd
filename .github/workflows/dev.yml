@@ -24,9 +24,6 @@ jobs:
       # - name: Run pre-commit on files
       #   uses: pre-commit/action@v3.0.0
 
-      # - name: Start containers
-      #   run: docker-compose -f "docker-compose.yml" up -d --build
-
       # - name: Check paths for sites/site_1
       #   uses: dorny/paths-filter@v2
       #   id: filter-site1
@@ -43,11 +40,16 @@ jobs:
       #       workflows:
       #         - 'sites/site_2/**'
 
+      # - name: Start containers
+      #   run: docker-compose -f "docker-compose.yml" up -d
+
       # - name: Test configuration for site1
       #   run: docker-compose run atd-cicd make build-site-1
+      #   if: steps.filter-site1.outputs.workflows == 'true'
 
       # - name: Test configuration for site2
       #   run: docker-compose run atd-cicd make build-site-2
+      #   if: steps.filter-site2.outputs.workflows == 'true'
 
       # - name: Stop containers
       #   if: always()
