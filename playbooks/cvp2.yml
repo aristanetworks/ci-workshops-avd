@@ -1,6 +1,6 @@
 ---
 - name: Build Switch configuration
-  hosts: "{{ target_hosts }}"
+  hosts: cvp
   gather_facts: false
 
   tasks:
@@ -10,10 +10,10 @@
       with_items:
         - "../global_vars/global_dc_vars.yml"
 
-    - name: Generate Structured Variables per Device
-      ansible.builtin.import_role:
-        name: arista.avd.eos_designs
-
     - name: Generate Intended Config and Documentation
       ansible.builtin.import_role:
-        name: arista.avd.eos_cli_config_gen
+        name: arista.avd.eos_config_deploy_cvp
+      vars:
+        container_root: 'SITE2_FABRIC'
+        configlets_prefix: 'AVD'
+        state: present

@@ -1,0 +1,10 @@
+---
+version: '3.3'
+services:
+  atd-cicd:
+    container_name: atd-cicd
+    volumes:
+      - '.:/app'
+    image: juliopdx/atd-cicd:l2ls
+    environment:
+      - LABPASSPHRASE=$LABPASSPHRASE
