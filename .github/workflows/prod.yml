@@ -7,14 +7,10 @@ on:
 
 jobs:
   deploy-prod:
+    env:
+      LABPASSPHRASE: ${{ secrets.LABPASSPHRASE }}
     timeout-minutes: 15
     runs-on: ubuntu-latest
-    container:
-      image: juliopdx/atd-cicd:dev
-      volumes:
-        - ${{ github.workspace }}:/app
-      env:
-        LABPASSPHRASE: ${{ secrets.LABPASSPHRASE }}
     steps:
       - name: Hi
         run: echo "Hello World!"
@@ -22,11 +18,11 @@ jobs:
       # - name: Checkout
       #   uses: actions/checkout@v3
 
-      # - name: Mark workspace as safe for Git
-      #   run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
-
       # - name: Setup Python
       #   uses: actions/setup-python@v3
+
+      # - name: Install Python requirements
+      #   run: pip3 install -r requirements.txt
 
       # - name: Run pre-commit on files
       #   uses: pre-commit/action@v3.0.0
@@ -48,9 +44,8 @@ jobs:
       #         - 'sites/site_2/**'
 
       # - name: Install collections
-      #   run: >
-      #     ansible-galaxy collection install
-      #     arista.avd:==3.8.4 arista.cvp:==3.6.1 community.general --force
+      #   run: ansible-galaxy collection install -r requirements.yml
+      #   if: steps.filter-site1.outputs.workflows == 'true' || steps.filter-site2.outputs.workflows == 'true'
 
       # - name: Build and deploy site1
       #   run: make build-site-1 cvp-site-1
