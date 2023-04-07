@@ -21,6 +21,9 @@ jobs:
       # - name: Setup Python
       #   uses: actions/setup-python@v3
 
+      # - name: Install Python requirements
+      #   run: pip3 install requirements.txt
+
       # - name: Run pre-commit on files
       #   uses: pre-commit/action@v3.0.0
 
@@ -40,17 +43,14 @@ jobs:
       #       workflows:
       #         - 'sites/site_2/**'
 
-      # - name: Start containers
-      #   run: docker-compose -f "docker-compose.yml" up -d
+      # - name: Install collections
+      #   run: ansible-galaxy collection install -r requirements.yml
+      #   if: steps.filter-site1.outputs.workflows == 'true' || steps.filter-site2.outputs.workflows == 'true'
 
       # - name: Test configuration for site1
-      #   run: docker-compose run atd-cicd make build-site-1
+      #   run: make build-site-1
       #   if: steps.filter-site1.outputs.workflows == 'true'
 
       # - name: Test configuration for site2
-      #   run: docker-compose run atd-cicd make build-site-2
+      #   run: make build-site-2
       #   if: steps.filter-site2.outputs.workflows == 'true'
-
-      # - name: Stop containers
-      #   if: always()
-      #   run: docker-compose -f "docker-compose.yml" down
