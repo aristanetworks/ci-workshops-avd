@@ -19,7 +19,7 @@ local_users:
   arista:
     privilege: 15
     role: network-admin
-    sha512_password: "{{ ansible_password | password_hash }}"
+    sha512_password: "{{ ansible_password | password_hash(salt='workshop') }}"
 
 # AAA
 aaa_authorization:
