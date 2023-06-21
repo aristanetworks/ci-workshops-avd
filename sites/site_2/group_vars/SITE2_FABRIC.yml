@@ -17,12 +17,12 @@ l3spine:
     virtual_router_mac_address: 00:1c:73:00:dc:01
     mlag_interfaces: [ Ethernet1, Ethernet6 ]
   node_groups:
-    SPINES:
+    - group: SPINES
       nodes:
-        s2-spine1:
+        - name: s2-spine1
           id: 1
           mgmt_ip: 192.168.0.20/24
-        s2-spine2:
+        - name: s2-spine2
           id: 2
           mgmt_ip: 192.168.0.21/24
 
@@ -37,27 +37,27 @@ leaf:
     uplink_interfaces: [ Ethernet2, Ethernet3 ]
     mlag_interfaces: [ Ethernet1, Ethernet6 ]
   node_groups:
-    RACK1:
+    - group: RACK1
       filter:
         tags: [ "DB" ]
       nodes:
-        s2-leaf1:
+        - name: s2-leaf1
           id: 3
           mgmt_ip: 192.168.0.22/24
           uplink_switch_interfaces: [ Ethernet2, Ethernet2 ]
-        s2-leaf2:
+        - name: s2-leaf2
           id: 4
           mgmt_ip: 192.168.0.23/24
           uplink_switch_interfaces: [ Ethernet3, Ethernet3 ]
-    RACK2:
+    - group: RACK2
       filter:
         tags: [ "DMZ" ]
       nodes:
-        s2-leaf3:
+        - name: s2-leaf3
           id: 5
           mgmt_ip: 192.168.0.24/24
           uplink_switch_interfaces: [ Ethernet4, Ethernet4 ]
-        s2-leaf4:
+        - name: s2-leaf4
           id: 6
           mgmt_ip: 192.168.0.25/24
           uplink_switch_interfaces: [ Ethernet5, Ethernet5 ]
