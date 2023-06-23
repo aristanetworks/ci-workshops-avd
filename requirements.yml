@@ -2,7 +2,7 @@
 collections:
 
   - name: arista.avd
-    version: 3.8.4
+    version: 4.1.0
 
   - name: arista.cvp
     version: 3.6.1
