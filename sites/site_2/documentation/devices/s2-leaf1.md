@@ -189,14 +189,14 @@ daemon TerminAttr
 | VRF | Hosts | Ports | Protocol |
 | --- | ----- | ----- | -------- |
 | default | 10.200.0.108 | Default | UDP |
-| default | 10.200.1.108 | Default | UDP |
+| default | 10.200.1.123 | Default | UDP |
 
 #### Logging Servers and Features Device Configuration
 
 ```eos
 !
 logging host 10.200.0.108
-logging host 10.200.1.108
+logging host 10.200.1.123
 logging source-interface Management0
 ```
 
