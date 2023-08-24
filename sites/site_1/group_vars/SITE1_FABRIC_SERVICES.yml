@@ -26,14 +26,3 @@ tenants:
                 ip_address: 10.20.20.2/24
               - node: s1-spine2
                 ip_address: 10.20.20.3/24
-          - id: 25
-            name: 'Twenty-five'
-            tags: [ "Wifi" ]
-            enabled: true
-            ip_virtual_router_addresses:
-              - 10.25.25.1
-            nodes:
-              - node: s1-spine1
-                ip_address: 10.25.25.2/24
-              - node: s1-spine2
-                ip_address: 10.25.25.3/24
