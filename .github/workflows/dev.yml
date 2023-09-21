@@ -7,16 +7,16 @@ on:
 
 jobs:
   dev:
-    # env:
-    #   LABPASSPHRASE: ${{ secrets.LABPASSPHRASE }}
+    env:
+      LABPASSPHRASE: ${{ secrets.LABPASSPHRASE }}
     timeout-minutes: 15
     runs-on: ubuntu-latest
-    container:
-      image: juliopdx/atd-cicd:dev
-      volumes:
-        - ${{ github.workspace }}:/app
-      env:
-        LABPASSPHRASE: ${{ secrets.LABPASSPHRASE }}
+    # container:
+    #   image: juliopdx/atd-cicd:dev
+    #   volumes:
+    #     - ${{ github.workspace }}:/app
+    #   env:
+    #     LABPASSPHRASE: ${{ secrets.LABPASSPHRASE }}
 
     steps:
       - name: Hi
