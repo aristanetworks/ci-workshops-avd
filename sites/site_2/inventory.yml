@@ -3,7 +3,8 @@ SITE2:
   children:
     CVP:
       hosts:
-        cvp: toronto-workshops-internal-14-24c874ef-eos.topo.testdrive.arista.com
+        cvp: 
+          ansible_host: <wz-ci-1-52459bb6-eos.topo.testdrive.arista.com>
     SITE2_FABRIC:
       children:
         SITE2_SPINES:
