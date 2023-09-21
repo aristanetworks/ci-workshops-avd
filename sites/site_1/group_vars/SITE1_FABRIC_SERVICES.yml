@@ -37,3 +37,25 @@ tenants:
                 ip_address: 10.21.20.2/24
               - node: s1-spine2
                 ip_address: 10.21.20.3/24
+          - id: 22
+            name: 'TwentyTwo'
+            tags: [ "App" ]
+            enabled: true
+            ip_virtual_router_addresses:
+              - 10.22.20.1
+            nodes:
+              - node: s1-spine1
+                ip_address: 10.22.20.2/24
+              - node: s1-spine2
+                ip_address: 10.22.20.3/24
+          - id: 23
+            name: 'TwentyThree'
+            tags: [ "App" ]
+            enabled: true
+            ip_virtual_router_addresses:
+              - 10.23.20.1
+            nodes:
+              - node: s1-spine1
+                ip_address: 10.23.20.2/24
+              - node: s1-spine2
+                ip_address: 10.23.20.3/24
