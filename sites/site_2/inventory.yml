@@ -4,6 +4,7 @@ SITE2:
     CVP:
       hosts:
         cvp:
+          ansible_host: cicd-test3-1-bad567ae-eos.topo.testdrive.arista.com
     SITE2_FABRIC:
       children:
         SITE2_SPINES:
