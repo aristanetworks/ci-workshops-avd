@@ -10,6 +10,7 @@
 - [Authentication](#authentication)
   - [Local Users](#local-users)
   - [AAA Authorization](#aaa-authorization)
+- [Aliases](#aliases)
 - [Monitoring](#monitoring)
   - [TerminAttr Daemon](#terminattr-daemon)
 - [MLAG](#mlag)
@@ -155,6 +156,14 @@ aaa authorization exec default local
 !
 ```
 
+## Aliases
+
+```eos
+alias c bash clear
+
+!
+```
+
 ## Monitoring
 
 ### TerminAttr Daemon
@@ -271,6 +280,7 @@ vlan 4094
 | Ethernet1 | MLAG_PEER_s1-leaf2_Ethernet1 | *trunk | *- | *- | *['MLAG'] | 1 |
 | Ethernet2 | S1-SPINE1_Ethernet2 | *trunk | *10 | *- | *- | 2 |
 | Ethernet3 | S1-SPINE2_Ethernet2 | *trunk | *10 | *- | *- | 2 |
+| Ethernet4 | s1-host1_eth1 | *access | *10 | *- | *- | 4 |
 | Ethernet6 | MLAG_PEER_s1-leaf2_Ethernet6 | *trunk | *- | *- | *['MLAG'] | 1 |
 
 *Inherited from Port-Channel Interface
@@ -294,6 +304,11 @@ interface Ethernet3
    no shutdown
    channel-group 2 mode active
 !
+interface Ethernet4
+   description s1-host1_eth1
+   no shutdown
+   channel-group 4 mode active
+!
 interface Ethernet6
    description MLAG_PEER_s1-leaf2_Ethernet6
    no shutdown
@@ -310,6 +325,7 @@ interface Ethernet6
 | --------- | ----------- | ---- | ---- | ----- | ----------- | ------------| --------------------- | ------------------ | ------- | -------- |
 | Port-Channel1 | MLAG_PEER_s1-leaf2_Po1 | switched | trunk | - | - | ['MLAG'] | - | - | - | - |
 | Port-Channel2 | SPINES_Po2 | switched | trunk | 10 | - | - | - | - | 2 | - |
+| Port-Channel4 | s1-host1 | switched | access | 10 | - | - | - | - | 4 | - |
 
 #### Port-Channel Interfaces Device Configuration
 
@@ -329,6 +345,14 @@ interface Port-Channel2
    switchport trunk allowed vlan 10
    switchport mode trunk
    mlag 2
+!
+interface Port-Channel4
+   description s1-host1
+   no shutdown
+   switchport
+   switchport access vlan 10
+   mlag 4
+   spanning-tree portfast
 ```
 
 ### VLAN Interfaces

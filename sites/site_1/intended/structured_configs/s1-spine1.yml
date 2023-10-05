@@ -52,6 +52,9 @@ vlans:
 - id: 20
   name: Twenty
   tenant: MY_FABRIC
+- id: 60
+  name: Sixty
+  tenant: MY_FABRIC
 vlan_interfaces:
 - name: Vlan4093
   description: MLAG_PEER_L3_PEERING
@@ -84,6 +87,15 @@ vlan_interfaces:
   ip_address: 10.20.20.2/24
   ip_virtual_router_addresses:
   - 10.20.20.1
+- name: Vlan60
+  tenant: MY_FABRIC
+  tags:
+  - App
+  description: Sixty
+  shutdown: false
+  ip_address: 10.60.60.2/24
+  ip_virtual_router_addresses:
+  - 10.60.60.1
 port_channel_interfaces:
 - name: Port-Channel1
   description: MLAG_PEER_s1-spine2_Po1
@@ -105,7 +117,7 @@ port_channel_interfaces:
   type: switched
   shutdown: false
   mode: trunk
-  vlans: '20'
+  vlans: 20,60
   mlag: 4
 ethernet_interfaces:
 - name: Ethernet1
@@ -168,6 +180,28 @@ ethernet_interfaces:
   channel_group:
     id: 4
     mode: active
+- name: Ethernet7
+  peer: WANCORE
+  peer_interface: Ethernet2
+  peer_type: other
+  description: P2P_LINK_TO_WANCORE_Ethernet2
+  type: routed
+  shutdown: false
+  mtu: 1500
+  ip_address: 10.0.0.29/31
+  ospf_network_point_to_point: true
+  ospf_area: 0.0.0.0
+- name: Ethernet8
+  peer: WANCORE
+  peer_interface: Ethernet2
+  peer_type: other
+  description: P2P_LINK_TO_WANCORE_Ethernet2
+  type: routed
+  shutdown: false
+  mtu: 1500
+  ip_address: 10.0.0.33/31
+  ospf_network_point_to_point: true
+  ospf_area: 0.0.0.0
 mlag_configuration:
   domain_id: SPINES
   local_interface: Vlan4094
@@ -189,6 +223,8 @@ router_ospf:
     max_lsa: 12000
     no_passive_interfaces:
     - Vlan4093
+    - Ethernet7
+    - Ethernet8
     bfd_enable: false
     redistribute:
       connected: {}
