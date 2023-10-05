@@ -52,6 +52,9 @@ vlans:
 - id: 40
   name: Forty
   tenant: MY_FABRIC
+- id: 45
+  name: Forty-five
+  tenant: MY_FABRIC
 vlan_interfaces:
 - name: Vlan4093
   description: MLAG_PEER_L3_PEERING
@@ -84,6 +87,15 @@ vlan_interfaces:
   ip_address: 10.40.40.2/24
   ip_virtual_router_addresses:
   - 10.40.40.1
+- name: Vlan45
+  tenant: MY_FABRIC
+  tags:
+  - Guest
+  description: Forty-five
+  shutdown: false
+  ip_address: 10.45.45.2/24
+  ip_virtual_router_addresses:
+  - 10.45.45.1
 port_channel_interfaces:
 - name: Port-Channel1
   description: MLAG_PEER_s2-spine2_Po1
