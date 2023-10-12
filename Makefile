@@ -7,6 +7,8 @@ help: ## Display help message
 ########################################################
 
 .PHONY: ping-site-1
+
+
 ping-site-1: ## Ping Nodes
 	ansible-playbook playbooks/ping.yml -i sites/site_1/inventory.yml -e "target_hosts=SITE1_FABRIC"
 
