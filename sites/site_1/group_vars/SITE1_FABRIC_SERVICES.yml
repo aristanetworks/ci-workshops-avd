@@ -17,7 +17,7 @@ tenants:
                 ip_address: 10.10.10.3/24
           - id: 20
             name: 'Twenty'
-            tags: [ "Web", "App" ]
+            tags: [ "App" ]
             enabled: true
             ip_virtual_router_addresses:
               - 10.20.20.1
