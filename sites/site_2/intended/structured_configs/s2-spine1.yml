@@ -28,7 +28,7 @@ management_interfaces:
   description: oob_management
   shutdown: false
   vrf: default
-  ip_address: 192.168.0.10/24
+  ip_address: 192.168.0.20/24
   gateway: 192.168.0.1
   type: oob
 management_api_http:
@@ -46,47 +46,47 @@ vlans:
   name: MLAG_PEER
   trunk_groups:
   - MLAG
-- id: 10
-  name: Ten
+- id: 30
+  name: Thirty
   tenant: MY_FABRIC
-- id: 20
-  name: Twenty
+- id: 40
+  name: Forty
   tenant: MY_FABRIC
 vlan_interfaces:
 - name: Vlan4093
   description: MLAG_PEER_L3_PEERING
   shutdown: false
   mtu: 1500
-  ip_address: 10.1.254.0/31
+  ip_address: 10.2.254.0/31
   ospf_network_point_to_point: true
   ospf_area: 0.0.0.0
 - name: Vlan4094
   description: MLAG_PEER
   shutdown: false
-  ip_address: 10.1.253.0/31
+  ip_address: 10.2.253.0/31
   no_autostate: true
   mtu: 1500
-- name: Vlan10
+- name: Vlan30
   tenant: MY_FABRIC
   tags:
-  - Web
-  description: Ten
+  - DB
+  description: Thirty
   shutdown: false
-  ip_address: 10.10.10.2/24
+  ip_address: 10.30.30.2/24
   ip_virtual_router_addresses:
-  - 10.10.10.1
-- name: Vlan20
+  - 10.30.30.1
+- name: Vlan40
   tenant: MY_FABRIC
   tags:
-  - App
-  description: Twenty
+  - DMZ
+  description: Forty
   shutdown: false
-  ip_address: 10.20.20.2/24
+  ip_address: 10.40.40.2/24
   ip_virtual_router_addresses:
-  - 10.20.20.1
+  - 10.40.40.1
 port_channel_interfaces:
 - name: Port-Channel1
-  description: MLAG_PEER_s1-spine2_Po1
+  description: MLAG_PEER_s2-spine2_Po1
   type: switched
   shutdown: false
   mode: trunk
@@ -98,71 +98,71 @@ port_channel_interfaces:
   type: switched
   shutdown: false
   mode: trunk
-  vlans: '10'
+  vlans: '30'
   mlag: 2
 - name: Port-Channel4
   description: RACK2_Po2
   type: switched
   shutdown: false
   mode: trunk
-  vlans: '20'
+  vlans: '40'
   mlag: 4
 ethernet_interfaces:
 - name: Ethernet1
-  peer: s1-spine2
+  peer: s2-spine2
   peer_interface: Ethernet1
   peer_type: mlag_peer
-  description: MLAG_PEER_s1-spine2_Ethernet1
+  description: MLAG_PEER_s2-spine2_Ethernet1
   type: port-channel-member
   shutdown: false
   channel_group:
     id: 1
     mode: active
 - name: Ethernet6
-  peer: s1-spine2
+  peer: s2-spine2
   peer_interface: Ethernet6
   peer_type: mlag_peer
-  description: MLAG_PEER_s1-spine2_Ethernet6
+  description: MLAG_PEER_s2-spine2_Ethernet6
   type: port-channel-member
   shutdown: false
   channel_group:
     id: 1
     mode: active
 - name: Ethernet2
-  peer: s1-leaf1
+  peer: s2-leaf1
   peer_interface: Ethernet2
   peer_type: leaf
-  description: S1-LEAF1_Ethernet2
+  description: S2-LEAF1_Ethernet2
   shutdown: false
   type: port-channel-member
   channel_group:
     id: 2
     mode: active
 - name: Ethernet3
-  peer: s1-leaf2
+  peer: s2-leaf2
   peer_interface: Ethernet2
   peer_type: leaf
-  description: S1-LEAF2_Ethernet2
+  description: S2-LEAF2_Ethernet2
   shutdown: false
   type: port-channel-member
   channel_group:
     id: 2
     mode: active
 - name: Ethernet4
-  peer: s1-leaf3
+  peer: s2-leaf3
   peer_interface: Ethernet2
   peer_type: leaf
-  description: S1-LEAF3_Ethernet2
+  description: S2-LEAF3_Ethernet2
   shutdown: false
   type: port-channel-member
   channel_group:
     id: 4
     mode: active
 - name: Ethernet5
-  peer: s1-leaf4
+  peer: s2-leaf4
   peer_interface: Ethernet2
   peer_type: leaf
-  description: S1-LEAF4_Ethernet2
+  description: S2-LEAF4_Ethernet2
   shutdown: false
   type: port-channel-member
   channel_group:
@@ -176,7 +176,7 @@ ethernet_interfaces:
   type: routed
   shutdown: false
   mtu: 1500
-  ip_address: 10.0.0.29/31
+  ip_address: 10.0.0.37/31
   ospf_network_point_to_point: true
   ospf_area: 0.0.0.0
 - name: Ethernet8
@@ -187,13 +187,13 @@ ethernet_interfaces:
   type: routed
   shutdown: false
   mtu: 1500
-  ip_address: 10.0.0.33/31
+  ip_address: 10.0.0.41/31
   ospf_network_point_to_point: true
   ospf_area: 0.0.0.0
 mlag_configuration:
   domain_id: SPINES
   local_interface: Vlan4094
-  peer_address: 10.1.253.1
+  peer_address: 10.2.253.1
   peer_link: Port-Channel1
   reload_delay_mlag: '300'
   reload_delay_non_mlag: '330'
@@ -201,13 +201,13 @@ loopback_interfaces:
 - name: Loopback0
   description: Router_ID
   shutdown: false
-  ip_address: 10.1.252.1/32
+  ip_address: 10.2.252.1/32
   ospf_area: 0.0.0.0
 router_ospf:
   process_ids:
   - id: 100
     passive_interface_default: true
-    router_id: 10.1.252.1
+    router_id: 10.2.252.1
     max_lsa: 12000
     no_passive_interfaces:
     - Vlan4093
