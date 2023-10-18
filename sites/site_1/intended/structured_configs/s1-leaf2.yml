@@ -43,9 +43,6 @@ vlans:
 - id: 10
   name: Ten
   tenant: MY_FABRIC
-- id: 20
-  name: Twenty
-  tenant: MY_FABRIC
 vlan_interfaces:
 - name: Vlan4094
   description: MLAG_PEER
@@ -66,7 +63,7 @@ port_channel_interfaces:
   type: switched
   shutdown: false
   mode: trunk
-  vlans: 10,20
+  vlans: '10'
   mlag: 2
 - name: Port-Channel4
   description: s1-host1

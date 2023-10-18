@@ -78,7 +78,6 @@ vlan_interfaces:
 - name: Vlan20
   tenant: MY_FABRIC
   tags:
-  - Web
   - App
   description: Twenty
   shutdown: false
@@ -99,7 +98,7 @@ port_channel_interfaces:
   type: switched
   shutdown: false
   mode: trunk
-  vlans: 10,20
+  vlans: '10'
   mlag: 2
 - name: Port-Channel4
   description: RACK2_Po2
