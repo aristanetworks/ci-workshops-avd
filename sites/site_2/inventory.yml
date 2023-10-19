@@ -4,6 +4,7 @@ SITE2:
     CVP:
       hosts:
         cvp:
+          ansible_host: cicdworkshop-13-21fd4552-eos.topo.testdrive.arista.com
     SITE2_FABRIC:
       children:
         SITE2_SPINES:
