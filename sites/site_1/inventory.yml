@@ -4,6 +4,7 @@ SITE1:
     CVP:
       hosts:
         cvp:
+          ansible_host: brevan-howard-demo-1-3f51fe20-eos.topo.testdrive.arista.com
     SITE1_FABRIC:
       children:
         SITE1_SPINES:
