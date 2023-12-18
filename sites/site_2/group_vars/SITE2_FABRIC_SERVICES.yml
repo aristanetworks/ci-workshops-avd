@@ -37,3 +37,14 @@ tenants:
                 ip_address: 10.45.45.2/24
               - node: s2-spine2
                 ip_address: 10.45.45.3/24
+          - id: 50
+            name: 'Fifty'
+            tags: [ "Guest" ]
+            enabled: true
+            ip_virtual_router_addresses:
+              - 10.50.50.1
+            nodes:
+              - node: s2-spine1
+                ip_address: 10.50.50.2/24
+              - node: s2-spine2
+                ip_address: 10.50.50.3/24
