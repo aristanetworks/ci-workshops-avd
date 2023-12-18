@@ -44,7 +44,7 @@ jobs:
               - 'sites/site_2/**'
 
       - name: Install collections
-        run: ansible-galaxy --ignore-certs collection install -r requirements.yml
+        run: ansible-galaxy collection install --ignore-certs -r requirements.yml
         if: steps.filter-site1.outputs.workflows == 'true' || steps.filter-site2.outputs.workflows == 'true'
 
       - name: Test configuration for site1
