@@ -246,12 +246,20 @@ vlan internal order ascending range 1006 1199
 
 | VLAN ID | Name | Trunk Groups |
 | ------- | ---- | ------------ |
+| 30 | Thirty | - |
+| 40 | Forty | - |
 | 4093 | LEAF_PEER_L3 | LEAF_PEER_L3 |
 | 4094 | MLAG_PEER | MLAG |
 
 ### VLANs Device Configuration
 
 ```eos
+!
+vlan 30
+   name Thirty
+!
+vlan 40
+   name Forty
 !
 vlan 4093
    name LEAF_PEER_L3
@@ -273,10 +281,10 @@ vlan 4094
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | Channel-Group |
 | --------- | ----------- | ---- | ----- | ----------- | ----------- | ------------- |
 | Ethernet1 | MLAG_PEER_s2-spine2_Ethernet1 | *trunk | *- | *- | *['LEAF_PEER_L3', 'MLAG'] | 1 |
-| Ethernet2 | S2-LEAF1_Ethernet2 | *trunk | *none | *- | *- | 2 |
-| Ethernet3 | S2-LEAF2_Ethernet2 | *trunk | *none | *- | *- | 2 |
-| Ethernet4 | S2-LEAF3_Ethernet2 | *trunk | *none | *- | *- | 4 |
-| Ethernet5 | S2-LEAF4_Ethernet2 | *trunk | *none | *- | *- | 4 |
+| Ethernet2 | S2-LEAF1_Ethernet2 | *trunk | *30 | *- | *- | 2 |
+| Ethernet3 | S2-LEAF2_Ethernet2 | *trunk | *30 | *- | *- | 2 |
+| Ethernet4 | S2-LEAF3_Ethernet2 | *trunk | *40 | *- | *- | 4 |
+| Ethernet5 | S2-LEAF4_Ethernet2 | *trunk | *40 | *- | *- | 4 |
 | Ethernet6 | MLAG_PEER_s2-spine2_Ethernet6 | *trunk | *- | *- | *['LEAF_PEER_L3', 'MLAG'] | 1 |
 
 *Inherited from Port-Channel Interface
@@ -325,8 +333,8 @@ interface Ethernet6
 | Interface | Description | Type | Mode | VLANs | Native VLAN | Trunk Group | LACP Fallback Timeout | LACP Fallback Mode | MLAG ID | EVPN ESI |
 | --------- | ----------- | ---- | ---- | ----- | ----------- | ------------| --------------------- | ------------------ | ------- | -------- |
 | Port-Channel1 | MLAG_PEER_s2-spine2_Po1 | switched | trunk | - | - | ['LEAF_PEER_L3', 'MLAG'] | - | - | - | - |
-| Port-Channel2 | RACK1_Po2 | switched | trunk | none | - | - | - | - | 2 | - |
-| Port-Channel4 | RACK2_Po2 | switched | trunk | none | - | - | - | - | 4 | - |
+| Port-Channel2 | RACK1_Po2 | switched | trunk | 30 | - | - | - | - | 2 | - |
+| Port-Channel4 | RACK2_Po2 | switched | trunk | 40 | - | - | - | - | 4 | - |
 
 #### Port-Channel Interfaces Device Configuration
 
@@ -344,7 +352,7 @@ interface Port-Channel2
    description RACK1_Po2
    no shutdown
    switchport
-   switchport trunk allowed vlan none
+   switchport trunk allowed vlan 30
    switchport mode trunk
    mlag 2
 !
@@ -352,7 +360,7 @@ interface Port-Channel4
    description RACK2_Po2
    no shutdown
    switchport
-   switchport trunk allowed vlan none
+   switchport trunk allowed vlan 40
    switchport mode trunk
    mlag 4
 ```
@@ -390,6 +398,8 @@ interface Loopback0
 
 | Interface | Description | VRF |  MTU | Shutdown |
 | --------- | ----------- | --- | ---- | -------- |
+| Vlan30 | Thirty | default | - | False |
+| Vlan40 | Forty | default | - | False |
 | Vlan4093 | MLAG_PEER_L3_PEERING | default | 1500 | False |
 | Vlan4094 | MLAG_PEER | default | 1500 | False |
 
@@ -397,12 +407,26 @@ interface Loopback0
 
 | Interface | VRF | IP Address | IP Address Virtual | IP Router Virtual Address | VRRP | ACL In | ACL Out |
 | --------- | --- | ---------- | ------------------ | ------------------------- | ---- | ------ | ------- |
+| Vlan30 |  default  |  10.30.30.2/24  |  -  |  10.30.30.1  |  -  |  -  |  -  |
+| Vlan40 |  default  |  10.40.40.2/24  |  -  |  10.40.40.1  |  -  |  -  |  -  |
 | Vlan4093 |  default  |  10.2.254.0/31  |  -  |  -  |  -  |  -  |  -  |
 | Vlan4094 |  default  |  10.2.253.0/31  |  -  |  -  |  -  |  -  |  -  |
 
 #### VLAN Interfaces Device Configuration
 
 ```eos
+!
+interface Vlan30
+   description Thirty
+   no shutdown
+   ip address 10.30.30.2/24
+   ip virtual-router address 10.30.30.1
+!
+interface Vlan40
+   description Forty
+   no shutdown
+   ip address 10.40.40.2/24
+   ip virtual-router address 10.40.40.1
 !
 interface Vlan4093
    description MLAG_PEER_L3_PEERING
