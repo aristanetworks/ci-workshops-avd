@@ -172,6 +172,28 @@ ethernet_interfaces:
   channel_group:
     id: 4
     mode: active
+- name: Ethernet7
+  peer: WANCORE
+  peer_interface: Ethernet2
+  peer_type: other
+  description: P2P_LINK_TO_WANCORE_Ethernet2
+  type: routed
+  shutdown: false
+  mtu: 1500
+  ip_address: 10.0.0.39/31
+  ospf_network_point_to_point: true
+  ospf_area: 0.0.0.0
+- name: Ethernet8
+  peer: WANCORE
+  peer_interface: Ethernet2
+  peer_type: other
+  description: P2P_LINK_TO_WANCORE_Ethernet2
+  type: routed
+  shutdown: false
+  mtu: 1500
+  ip_address: 10.0.0.43/31
+  ospf_network_point_to_point: true
+  ospf_area: 0.0.0.0
 mlag_configuration:
   domain_id: SPINES
   local_interface: Vlan4094
@@ -193,6 +215,8 @@ router_ospf:
     max_lsa: 12000
     no_passive_interfaces:
     - Vlan4093
+    - Ethernet7
+    - Ethernet8
     bfd_enable: false
     redistribute:
       connected: {}
