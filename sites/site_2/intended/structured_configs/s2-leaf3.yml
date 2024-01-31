@@ -44,6 +44,9 @@ vlans:
   name: MLAG_PEER
   trunk_groups:
   - MLAG
+- id: 40
+  name: Forty
+  tenant: MY_FABRIC
 vlan_interfaces:
 - name: Vlan4094
   description: MLAG_PEER
@@ -64,7 +67,7 @@ port_channel_interfaces:
   type: switched
   shutdown: false
   mode: trunk
-  vlans: none
+  vlans: '40'
   mlag: 2
 - name: Port-Channel4
   description: s2-host2
