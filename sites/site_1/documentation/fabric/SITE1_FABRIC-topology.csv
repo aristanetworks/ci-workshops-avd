@@ -25,9 +25,13 @@ l3spine,s1-spine1,Ethernet3,leaf,s1-leaf2,Ethernet2,True
 l3spine,s1-spine1,Ethernet4,leaf,s1-leaf3,Ethernet2,True
 l3spine,s1-spine1,Ethernet5,leaf,s1-leaf4,Ethernet2,True
 l3spine,s1-spine1,Ethernet6,mlag_peer,s1-spine2,Ethernet6,True
+l3spine,s1-spine1,Ethernet7,other,WANCORE,Ethernet2,True
+l3spine,s1-spine1,Ethernet8,other,WANCORE,Ethernet2,True
 l3spine,s1-spine2,Ethernet1,mlag_peer,s1-spine1,Ethernet1,True
 l3spine,s1-spine2,Ethernet2,leaf,s1-leaf1,Ethernet3,True
 l3spine,s1-spine2,Ethernet3,leaf,s1-leaf2,Ethernet3,True
 l3spine,s1-spine2,Ethernet4,leaf,s1-leaf3,Ethernet3,True
 l3spine,s1-spine2,Ethernet5,leaf,s1-leaf4,Ethernet3,True
 l3spine,s1-spine2,Ethernet6,mlag_peer,s1-spine1,Ethernet6,True
+l3spine,s1-spine2,Ethernet7,other,WANCORE,Ethernet2,True
+l3spine,s1-spine2,Ethernet8,other,WANCORE,Ethernet2,True
