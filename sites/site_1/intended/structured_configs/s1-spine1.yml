@@ -1,3 +1,4 @@
+hostname: s1-spine1
 static_routes:
 - vrf: default
   destination_address_prefix: 0.0.0.0/0
@@ -19,7 +20,7 @@ local_users:
 - name: arista
   privilege: 15
   role: network-admin
-  sha512_password: $6$workshop$5Llb6kE2/P4Zx.1yLwkd9QfMtazdVEPYmJG3pfgrhT2dhka.5odGw6xS19uMSerZIhi.q2krArh9Dl8qMi2B60
+  sha512_password: $6$workshop$q0DTjNWTaQBtWIJfOJUl/5U/pKxKLRPD7aEaawNVul1UaCdAAfi4yqQFgAGqUDX9MyrNElqNMvMUHU6thbAR10
 vrfs:
 - name: default
   ip_routing: false
@@ -51,6 +52,9 @@ vlans:
   tenant: MY_FABRIC
 - id: 20
   name: Twenty
+  tenant: MY_FABRIC
+- id: 25
+  name: Twenty-five
   tenant: MY_FABRIC
 vlan_interfaces:
 - name: Vlan4093
@@ -84,6 +88,15 @@ vlan_interfaces:
   ip_address: 10.20.20.2/24
   ip_virtual_router_addresses:
   - 10.20.20.1
+- name: Vlan25
+  tenant: MY_FABRIC
+  tags:
+  - Wifi
+  description: Twenty-five
+  shutdown: false
+  ip_address: 10.25.25.2/24
+  ip_virtual_router_addresses:
+  - 10.25.25.1
 port_channel_interfaces:
 - name: Port-Channel1
   description: MLAG_PEER_s1-spine2_Po1
