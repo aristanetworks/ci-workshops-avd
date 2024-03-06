@@ -1,4 +1,4 @@
- ---
+---
 tenants:
   - name: MY_FABRIC
     vrfs:
