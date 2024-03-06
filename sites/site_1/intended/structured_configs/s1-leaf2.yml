@@ -69,6 +69,14 @@ port_channel_interfaces:
   mode: trunk
   vlans: '10'
   mlag: 2
+- name: Port-Channel4
+  description: s1-host1
+  type: switched
+  shutdown: false
+  mode: access
+  vlans: '10'
+  spanning_tree_portfast: edge
+  mlag: 4
 ethernet_interfaces:
 - name: Ethernet1
   peer: s1-leaf1
@@ -109,6 +117,17 @@ ethernet_interfaces:
   type: port-channel-member
   channel_group:
     id: 2
+    mode: active
+- name: Ethernet4
+  peer: s1-host1
+  peer_interface: eth2
+  peer_type: server
+  port_profile: PP-VLAN10
+  description: s1-host1_eth2
+  shutdown: false
+  type: port-channel-member
+  channel_group:
+    id: 4
     mode: active
 mlag_configuration:
   domain_id: RACK1
