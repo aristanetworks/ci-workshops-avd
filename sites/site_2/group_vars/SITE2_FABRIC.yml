@@ -42,11 +42,11 @@ leaf:
         tags: [ "DB" ]
       nodes:
         - name: s2-leaf1
-          id: 3
+          id: 1
           mgmt_ip: 192.168.0.22/24
           uplink_switch_interfaces: [ Ethernet2, Ethernet2 ]
         - name: s2-leaf2
-          id: 4
+          id: 2
           mgmt_ip: 192.168.0.23/24
           uplink_switch_interfaces: [ Ethernet3, Ethernet3 ]
     - group: RACK2
@@ -54,11 +54,11 @@ leaf:
         tags: [ "DMZ" ]
       nodes:
         - name: s2-leaf3
-          id: 5
+          id: 3
           mgmt_ip: 192.168.0.24/24
           uplink_switch_interfaces: [ Ethernet4, Ethernet4 ]
         - name: s2-leaf4
-          id: 6
+          id: 4
           mgmt_ip: 192.168.0.25/24
           uplink_switch_interfaces: [ Ethernet5, Ethernet5 ]
 
