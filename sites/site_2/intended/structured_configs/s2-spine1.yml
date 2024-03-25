@@ -1,3 +1,7 @@
+hostname: s2-spine1
+metadata:
+  platform: cEOS
+is_deployed: true
 static_routes:
 - vrf: default
   destination_address_prefix: 0.0.0.0/0
@@ -19,7 +23,7 @@ local_users:
 - name: arista
   privilege: 15
   role: network-admin
-  sha512_password: $6$workshop$5Llb6kE2/P4Zx.1yLwkd9QfMtazdVEPYmJG3pfgrhT2dhka.5odGw6xS19uMSerZIhi.q2krArh9Dl8qMi2B60
+  sha512_password: $6$workshop$560OX8TVLIU0B1n6lYfaaraUL037ac5V.ZaI4MyFUa4KrWuMw2a0P/PhnZDgvsk6JHWA7cQa4RijXD685x0pD0
 vrfs:
 - name: default
   ip_routing: false
@@ -52,12 +56,15 @@ vlans:
 - id: 40
   name: Forty
   tenant: MY_FABRIC
+- id: 45
+  name: Forty-five
+  tenant: MY_FABRIC
 vlan_interfaces:
 - name: Vlan4093
   description: MLAG_PEER_L3_PEERING
   shutdown: false
   mtu: 1500
-  ip_address: 10.2.254.0/31
+  ip_address: 10.2.253.2/31
   ospf_network_point_to_point: true
   ospf_area: 0.0.0.0
 - name: Vlan4094
@@ -84,6 +91,15 @@ vlan_interfaces:
   ip_address: 10.40.40.2/24
   ip_virtual_router_addresses:
   - 10.40.40.1
+- name: Vlan45
+  tenant: MY_FABRIC
+  tags:
+  - Guest
+  description: Forty-five
+  shutdown: false
+  ip_address: 10.45.45.2/24
+  ip_virtual_router_addresses:
+  - 10.45.45.1
 port_channel_interfaces:
 - name: Port-Channel1
   description: MLAG_PEER_s2-spine2_Po1
