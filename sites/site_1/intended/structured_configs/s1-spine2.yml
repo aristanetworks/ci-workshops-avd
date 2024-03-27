@@ -20,7 +20,7 @@ local_users:
 - name: arista
   privilege: 15
   role: network-admin
-  sha512_password: $6$workshop$9QPOjUGj23aNyYCjkbWXLtfK78Kc9gA0OVsGZF9EpZyZy.LQZzB8hWgH4S4wVyEc4HBJywnLJzUbpxzLT3fEW0
+  sha512_password: $6$workshop$q0DTjNWTaQBtWIJfOJUl/5U/pKxKLRPD7aEaawNVul1UaCdAAfi4yqQFgAGqUDX9MyrNElqNMvMUHU6thbAR10
 vrfs:
 - name: default
   ip_routing: false
@@ -71,7 +71,6 @@ vlan_interfaces:
   tenant: MY_FABRIC
   tags:
   - Web
-  - App
   description: Ten
   shutdown: false
   ip_address: 10.10.10.3/24
@@ -107,7 +106,7 @@ port_channel_interfaces:
   type: switched
   shutdown: false
   mode: trunk
-  vlans: 10,20
+  vlans: '20'
   mlag: 4
 ethernet_interfaces:
 - name: Ethernet1

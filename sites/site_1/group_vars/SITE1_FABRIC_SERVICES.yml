@@ -6,7 +6,7 @@ tenants:
         svis:
           - id: 10
             name: 'Ten'
-            tags: [ "Web", "App"]
+            tags: [ "Web"]
             enabled: true
             ip_virtual_router_addresses:
               - 10.10.10.1
