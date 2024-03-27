@@ -20,7 +20,7 @@
   - [Spanning Tree Device Configuration](#spanning-tree-device-configuration)
 - [Internal VLAN Allocation Policy](#internal-vlan-allocation-policy)
   - [Internal VLAN Allocation Policy Summary](#internal-vlan-allocation-policy-summary)
-  - [Internal VLAN Allocation Policy Device Configuration](#internal-vlan-allocation-policy-device-configuration)
+  - [Internal VLAN Allocation Policy Configuration](#internal-vlan-allocation-policy-configuration)
 - [VLANs](#vlans)
   - [VLANs Summary](#vlans-summary)
   - [VLANs Device Configuration](#vlans-device-configuration)
@@ -72,7 +72,7 @@ interface Management0
 
 ### DNS Domain
 
-DNS domain: atd.lab
+#### DNS domain: atd.lab
 
 #### DNS Domain Device Configuration
 
@@ -112,7 +112,7 @@ ntp server 192.168.0.1 iburst local-interface Management0
 | -------- | -------- | -------- |
 | default | - | - |
 
-#### Management API HTTP Device Configuration
+#### Management API HTTP Configuration
 
 ```eos
 !
@@ -233,7 +233,7 @@ spanning-tree mst 0 priority 4096
 | ------------------| --------------- | ------------ |
 | ascending | 1006 | 1199 |
 
-### Internal VLAN Allocation Policy Device Configuration
+### Internal VLAN Allocation Policy Configuration
 
 ```eos
 !
@@ -289,6 +289,13 @@ vlan 4094
 
 *Inherited from Port-Channel Interface
 
+##### IPv4
+
+| Interface | Description | Type | Channel Group | IP Address | VRF |  MTU | Shutdown | ACL In | ACL Out |
+| --------- | ----------- | -----| ------------- | ---------- | ----| ---- | -------- | ------ | ------- |
+| Ethernet7 | P2P_LINK_TO_WANCORE_Ethernet2 | routed | - | 10.0.0.29/31 | default | 1500 | False | - | - |
+| Ethernet8 | P2P_LINK_TO_WANCORE_Ethernet2 | routed | - | 10.0.0.33/31 | default | 1500 | False | - | - |
+
 #### Ethernet Interfaces Device Configuration
 
 ```eos
@@ -322,6 +329,24 @@ interface Ethernet6
    description MLAG_PEER_s1-spine2_Ethernet6
    no shutdown
    channel-group 1 mode active
+!
+interface Ethernet7
+   description P2P_LINK_TO_WANCORE_Ethernet2
+   no shutdown
+   mtu 1500
+   no switchport
+   ip address 10.0.0.29/31
+   ip ospf network point-to-point
+   ip ospf area 0.0.0.0
+!
+interface Ethernet8
+   description P2P_LINK_TO_WANCORE_Ethernet2
+   no shutdown
+   mtu 1500
+   no switchport
+   ip address 10.0.0.33/31
+   ip ospf network point-to-point
+   ip ospf area 0.0.0.0
 ```
 
 ### Port-Channel Interfaces
@@ -380,6 +405,7 @@ interface Port-Channel4
 | Interface | Description | VRF | IPv6 Address |
 | --------- | ----------- | --- | ------------ |
 | Loopback0 | Router_ID | default | - |
+
 
 #### Loopback Interfaces Device Configuration
 
@@ -459,9 +485,9 @@ service routing protocols model multi-agent
 
 #### Virtual Router MAC Address Summary
 
-Virtual Router MAC Address: 00:1c:73:00:dc:01
+##### Virtual Router MAC Address: 00:1c:73:00:dc:01
 
-#### Virtual Router MAC Address Device Configuration
+#### Virtual Router MAC Address Configuration
 
 ```eos
 !
@@ -496,8 +522,8 @@ ip routing
 
 #### Static Routes Summary
 
-| VRF | Destination Prefix | Next Hop IP | Exit interface | Administrative Distance | Tag | Route Name | Metric |
-| --- | ------------------ | ----------- | -------------- | ----------------------- | --- | ---------- | ------ |
+| VRF | Destination Prefix | Next Hop IP             | Exit interface      | Administrative Distance       | Tag               | Route Name                    | Metric         |
+| --- | ------------------ | ----------------------- | ------------------- | ----------------------------- | ----------------- | ----------------------------- | -------------- |
 | default | 0.0.0.0/0 | 192.168.0.1 | - | 1 | - | - | - |
 
 #### Static Routes Device Configuration
@@ -513,7 +539,7 @@ ip route 0.0.0.0/0 192.168.0.1
 
 | Process ID | Router ID | Default Passive Interface | No Passive Interface | BFD | Max LSA | Default Information Originate | Log Adjacency Changes Detail | Auto Cost Reference Bandwidth | Maximum Paths | MPLS LDP Sync Default | Distribute List In |
 | ---------- | --------- | ------------------------- | -------------------- | --- | ------- | ----------------------------- | ---------------------------- | ----------------------------- | ------------- | --------------------- | ------------------ |
-| 100 | 10.1.252.1 | enabled | Vlan4093 <br> | disabled | 12000 | disabled | disabled | - | - | - | - |
+| 100 | 10.1.252.1 | enabled | Vlan4093 <br> Ethernet7 <br> Ethernet8 <br> | disabled | 12000 | disabled | disabled | - | - | - | - |
 
 #### Router OSPF Router Redistribution
 
@@ -525,6 +551,8 @@ ip route 0.0.0.0/0 192.168.0.1
 
 | Interface | Area | Cost | Point To Point |
 | -------- | -------- | -------- | -------- |
+| Ethernet7 | 0.0.0.0 | - | True |
+| Ethernet8 | 0.0.0.0 | - | True |
 | Vlan4093 | 0.0.0.0 | - | True |
 | Loopback0 | 0.0.0.0 | - | - |
 
@@ -536,6 +564,8 @@ router ospf 100
    router-id 10.1.252.1
    passive-interface default
    no passive-interface Vlan4093
+   no passive-interface Ethernet7
+   no passive-interface Ethernet8
    max-lsa 12000
    redistribute connected
 ```
