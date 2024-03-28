@@ -98,4 +98,4 @@ core_interfaces:
     - ip: [ 10.0.0.43/31, 10.0.0.42/31 ]
       nodes: [ s2-spine2, WANCORE ]
       interfaces: [ Ethernet8, Ethernet2 ]
-      include_in_underlay_protocol: true
+
