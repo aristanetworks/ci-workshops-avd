@@ -312,6 +312,8 @@ vlan 4094
 | Ethernet4 | S1-LEAF3_Ethernet3 | *trunk | *20 | *- | *- | 4 |
 | Ethernet5 | S1-LEAF4_Ethernet3 | *trunk | *20 | *- | *- | 4 |
 | Ethernet6 | MLAG_PEER_s1-spine1_Ethernet6 | *trunk | *- | *- | *['LEAF_PEER_L3', 'MLAG'] | 1 |
+| Ethernet9 | S1-LEAF5_Ethernet3 | *trunk | *10,20 | *- | *- | 9 |
+| Ethernet10 | S1-LEAF6_Ethernet3 | *trunk | *10,20 | *- | *- | 9 |
 
 *Inherited from Port-Channel Interface
 
@@ -373,6 +375,16 @@ interface Ethernet8
    ip address 10.0.0.35/31
    ip ospf network point-to-point
    ip ospf area 0.0.0.0
+!
+interface Ethernet9
+   description S1-LEAF5_Ethernet3
+   no shutdown
+   channel-group 9 mode active
+!
+interface Ethernet10
+   description S1-LEAF6_Ethernet3
+   no shutdown
+   channel-group 9 mode active
 ```
 
 ### Port-Channel Interfaces
@@ -386,6 +398,7 @@ interface Ethernet8
 | Port-Channel1 | MLAG_PEER_s1-spine1_Po1 | switched | trunk | - | - | ['LEAF_PEER_L3', 'MLAG'] | - | - | - | - |
 | Port-Channel2 | RACK1_Po2 | switched | trunk | 10 | - | - | - | - | 2 | - |
 | Port-Channel4 | RACK2_Po2 | switched | trunk | 20 | - | - | - | - | 4 | - |
+| Port-Channel9 | RACK3_Po2 | switched | trunk | 10,20 | - | - | - | - | 9 | - |
 
 #### Port-Channel Interfaces Device Configuration
 
@@ -414,6 +427,14 @@ interface Port-Channel4
    switchport trunk allowed vlan 20
    switchport mode trunk
    mlag 4
+!
+interface Port-Channel9
+   description RACK3_Po2
+   no shutdown
+   switchport
+   switchport trunk allowed vlan 10,20
+   switchport mode trunk
+   mlag 9
 ```
 
 ### Loopback Interfaces

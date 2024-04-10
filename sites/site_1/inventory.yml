@@ -16,6 +16,8 @@ SITE1:
             s1-leaf2:
             s1-leaf3:
             s1-leaf4:
+            s1-leaf5:
+            s1-leaf6:
     SITE1_FABRIC_SERVICES:
       children:
         SITE1_SPINES:

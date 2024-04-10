@@ -66,7 +66,17 @@ leaf:
           id: 4
           mgmt_ip: 192.168.0.15/24
           uplink_switch_interfaces: [ Ethernet5, Ethernet5 ]
-
+    - group: RACK3
+      nodes:
+        - name: s1-leaf5
+          id: 5
+          mgmt_ip: 192.168.0.28/24
+          uplink_switch_interfaces: [ Ethernet9, Ethernet9 ]
+        - name: s1-leaf6
+          id: 6
+          mgmt_ip: 192.168.0.29/24
+          uplink_switch_interfaces: [ Ethernet10, Ethernet10 ]
+          
 ##################################################################
 # Underlay Routing Protocol - ran on Spines
 ##################################################################
