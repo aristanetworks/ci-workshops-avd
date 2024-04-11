@@ -44,7 +44,7 @@ leaf:
   node_groups:
     - group: RACK1
       filter:
-        tags: [ "Web" ]
+        tags: [ "Web", "App" ]
       nodes:
         - name: s1-leaf1
           id: 1
