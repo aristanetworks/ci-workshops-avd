@@ -1,3 +1,7 @@
+hostname: s2-spine2
+metadata:
+  platform: cEOS
+is_deployed: true
 static_routes:
 - vrf: default
   destination_address_prefix: 0.0.0.0/0
@@ -19,7 +23,7 @@ local_users:
 - name: arista
   privilege: 15
   role: network-admin
-  sha512_password: $6$workshop$5Llb6kE2/P4Zx.1yLwkd9QfMtazdVEPYmJG3pfgrhT2dhka.5odGw6xS19uMSerZIhi.q2krArh9Dl8qMi2B60
+  sha512_password: $6$workshop$WPcVh/PUM/QRdfJuUfUhCZzW6e1aVysmaFKrgYRsYa1HPYQh0kW1imtlOTAQSxsQZLYTgJICaVnl2Zf4pTVyc0
 vrfs:
 - name: default
   ip_routing: false
@@ -57,7 +61,7 @@ vlan_interfaces:
   description: MLAG_PEER_L3_PEERING
   shutdown: false
   mtu: 1500
-  ip_address: 10.2.254.1/31
+  ip_address: 10.2.253.3/31
   ospf_network_point_to_point: true
   ospf_area: 0.0.0.0
 - name: Vlan4094
