@@ -34,12 +34,12 @@ servers:
 # Site1 RACK2 Endpoints
 # --------------------------------------------------------#
 
-  - name: s1-host2                                      # Server name
-    rack: RACK2                                         # Informational RACK (optional)
-    adapters:
-      - endpoint_ports: [ eth1, eth2 ]                  # Server port to connect (optional)
-        switch_ports: [ Ethernet4, Ethernet4 ]          # Switch port to connect server (required)
-        switches: [ s1-leaf3, s1-leaf4 ]                # Switch to connect server (required)
-        profile: PP-VLAN20                              # Port profile to apply (required)
-        port_channel:
-          mode: active
+  # - name: s1-host2                                      # Server name
+  #   rack: RACK2                                         # Informational RACK (optional)
+  #   adapters:
+  #     - endpoint_ports: [ eth1, eth2 ]                  # Server port to connect (optional)
+  #       switch_ports: [ Ethernet4, Ethernet4 ]          # Switch port to connect server (required)
+  #       switches: [ s1-leaf3, s1-leaf4 ]                # Switch to connect server (required)
+  #       profile: PP-VLAN20                              # Port profile to apply (required)
+  #       port_channel:
+  #         mode: active
