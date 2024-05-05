@@ -1,3 +1,5 @@
+hostname: s1-spine2
+is_deployed: true
 static_routes:
 - vrf: default
   destination_address_prefix: 0.0.0.0/0
@@ -19,7 +21,7 @@ local_users:
 - name: arista
   privilege: 15
   role: network-admin
-  sha512_password: $6$workshop$5Llb6kE2/P4Zx.1yLwkd9QfMtazdVEPYmJG3pfgrhT2dhka.5odGw6xS19uMSerZIhi.q2krArh9Dl8qMi2B60
+  sha512_password: $6$rounds=656000$workshop$pQczZwCAYraqBwxuQFrROCG/Ebr7tT46F.wtodAdGCgVdRBeSiZ3ch92yIeCthP5S9.QNC/Fu.2LxU3qx1JUz1
 vrfs:
 - name: default
   ip_routing: false
@@ -57,7 +59,7 @@ vlan_interfaces:
   description: MLAG_PEER_L3_PEERING
   shutdown: false
   mtu: 1500
-  ip_address: 10.1.254.1/31
+  ip_address: 10.1.253.3/31
   ospf_network_point_to_point: true
   ospf_area: 0.0.0.0
 - name: Vlan4094
@@ -219,3 +221,5 @@ router_ospf:
 ip_igmp_snooping:
   globally_enabled: true
 ip_virtual_router_mac_address: 00:1c:73:00:dc:01
+metadata:
+  platform: cEOS
