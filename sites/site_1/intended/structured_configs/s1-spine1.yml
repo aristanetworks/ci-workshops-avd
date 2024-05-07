@@ -54,6 +54,9 @@ vlans:
 - id: 20
   name: Twenty
   tenant: MY_FABRIC
+- id: 30
+  name: '30'
+  tenant: MY_FABRIC
 vlan_interfaces:
 - name: Vlan4093
   description: MLAG_PEER_L3_PEERING
@@ -83,9 +86,15 @@ vlan_interfaces:
   - App
   description: Twenty
   shutdown: false
+- name: Vlan30
+  tenant: MY_FABRIC
+  tags:
+  - App
+  description: '30'
+  shutdown: false
   ip_address: 10.20.20.2/24
   ip_virtual_router_addresses:
-  - 10.20.20.1
+  - 10.30.30.1
 port_channel_interfaces:
 - name: Port-Channel1
   description: MLAG_PEER_s1-spine2_Po1
@@ -107,7 +116,7 @@ port_channel_interfaces:
   type: switched
   shutdown: false
   mode: trunk
-  vlans: '20'
+  vlans: 20,30
   mlag: 4
 ethernet_interfaces:
 - name: Ethernet1

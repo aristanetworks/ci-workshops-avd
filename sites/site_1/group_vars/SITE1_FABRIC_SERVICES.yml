@@ -21,6 +21,12 @@ tenants:
             enabled: true
             ip_virtual_router_addresses:
               - 10.20.20.1
+          - id: 30
+            name: '30'
+            tags: [ "App" ]
+            enabled: true
+            ip_virtual_router_addresses:
+              - 10.30.30.1
             nodes:
               - node: s1-spine1
                 ip_address: 10.20.20.2/24
