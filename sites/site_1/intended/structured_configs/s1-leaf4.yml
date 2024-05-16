@@ -44,6 +44,9 @@ vlans:
   name: MLAG_PEER
   trunk_groups:
   - MLAG
+- id: 20
+  name: Twenty
+  tenant: MY_FABRIC
 vlan_interfaces:
 - name: Vlan4094
   description: MLAG_PEER
@@ -64,7 +67,7 @@ port_channel_interfaces:
   type: switched
   shutdown: false
   mode: trunk
-  vlans: none
+  vlans: '20'
   mlag: 2
 ethernet_interfaces:
 - name: Ethernet1
