@@ -44,6 +44,12 @@ vlans:
   name: MLAG_PEER
   trunk_groups:
   - MLAG
+<<<<<<< HEAD
+=======
+- id: 10
+  name: Ten
+  tenant: MY_FABRIC
+>>>>>>> 41bdb322f38d26f23ca901dd71355b538e69adb0
 vlan_interfaces:
 - name: Vlan4094
   description: MLAG_PEER
@@ -64,8 +70,21 @@ port_channel_interfaces:
   type: switched
   shutdown: false
   mode: trunk
+<<<<<<< HEAD
   vlans: none
   mlag: 2
+=======
+  vlans: '10'
+  mlag: 2
+- name: Port-Channel4
+  description: s1-host1
+  type: switched
+  shutdown: false
+  mode: access
+  vlans: '10'
+  spanning_tree_portfast: edge
+  mlag: 4
+>>>>>>> 41bdb322f38d26f23ca901dd71355b538e69adb0
 ethernet_interfaces:
 - name: Ethernet1
   peer: s1-leaf2
@@ -107,6 +126,20 @@ ethernet_interfaces:
   channel_group:
     id: 2
     mode: active
+<<<<<<< HEAD
+=======
+- name: Ethernet4
+  peer: s1-host1
+  peer_interface: eth1
+  peer_type: server
+  port_profile: PP-VLAN10
+  description: s1-host1_eth1
+  shutdown: false
+  type: port-channel-member
+  channel_group:
+    id: 4
+    mode: active
+>>>>>>> 41bdb322f38d26f23ca901dd71355b538e69adb0
 mlag_configuration:
   domain_id: RACK1
   local_interface: Vlan4094

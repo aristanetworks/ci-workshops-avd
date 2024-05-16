@@ -50,6 +50,15 @@ vlans:
   name: MLAG_PEER
   trunk_groups:
   - MLAG
+<<<<<<< HEAD
+=======
+- id: 10
+  name: Ten
+  tenant: MY_FABRIC
+- id: 20
+  name: Twenty
+  tenant: MY_FABRIC
+>>>>>>> 41bdb322f38d26f23ca901dd71355b538e69adb0
 vlan_interfaces:
 - name: Vlan4093
   description: MLAG_PEER_L3_PEERING
@@ -64,6 +73,27 @@ vlan_interfaces:
   ip_address: 10.1.253.0/31
   no_autostate: true
   mtu: 1500
+<<<<<<< HEAD
+=======
+- name: Vlan10
+  tenant: MY_FABRIC
+  tags:
+  - Web
+  description: Ten
+  shutdown: false
+  ip_address: 10.10.10.2/24
+  ip_virtual_router_addresses:
+  - 10.10.10.1
+- name: Vlan20
+  tenant: MY_FABRIC
+  tags:
+  - App
+  description: Twenty
+  shutdown: false
+  ip_address: 10.20.20.2/24
+  ip_virtual_router_addresses:
+  - 10.20.20.1
+>>>>>>> 41bdb322f38d26f23ca901dd71355b538e69adb0
 port_channel_interfaces:
 - name: Port-Channel1
   description: MLAG_PEER_s1-spine2_Po1
@@ -78,14 +108,22 @@ port_channel_interfaces:
   type: switched
   shutdown: false
   mode: trunk
+<<<<<<< HEAD
   vlans: none
+=======
+  vlans: '10'
+>>>>>>> 41bdb322f38d26f23ca901dd71355b538e69adb0
   mlag: 2
 - name: Port-Channel4
   description: RACK2_Po2
   type: switched
   shutdown: false
   mode: trunk
+<<<<<<< HEAD
   vlans: none
+=======
+  vlans: '20'
+>>>>>>> 41bdb322f38d26f23ca901dd71355b538e69adb0
   mlag: 4
 ethernet_interfaces:
 - name: Ethernet1
@@ -148,6 +186,31 @@ ethernet_interfaces:
   channel_group:
     id: 4
     mode: active
+<<<<<<< HEAD
+=======
+- name: Ethernet7
+  peer: WANCORE
+  peer_interface: Ethernet2
+  peer_type: other
+  description: P2P_LINK_TO_WANCORE_Ethernet2
+  type: routed
+  shutdown: false
+  mtu: 1500
+  ip_address: 10.0.0.29/31
+  ospf_network_point_to_point: true
+  ospf_area: 0.0.0.0
+- name: Ethernet8
+  peer: WANCORE
+  peer_interface: Ethernet2
+  peer_type: other
+  description: P2P_LINK_TO_WANCORE_Ethernet2
+  type: routed
+  shutdown: false
+  mtu: 1500
+  ip_address: 10.0.0.33/31
+  ospf_network_point_to_point: true
+  ospf_area: 0.0.0.0
+>>>>>>> 41bdb322f38d26f23ca901dd71355b538e69adb0
 mlag_configuration:
   domain_id: SPINES
   local_interface: Vlan4094
@@ -169,6 +232,11 @@ router_ospf:
     max_lsa: 12000
     no_passive_interfaces:
     - Vlan4093
+<<<<<<< HEAD
+=======
+    - Ethernet7
+    - Ethernet8
+>>>>>>> 41bdb322f38d26f23ca901dd71355b538e69adb0
     bfd_enable: false
     redistribute:
       connected: {}

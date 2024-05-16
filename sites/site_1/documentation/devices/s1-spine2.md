@@ -246,6 +246,11 @@ vlan internal order ascending range 1006 1199
 
 | VLAN ID | Name | Trunk Groups |
 | ------- | ---- | ------------ |
+<<<<<<< HEAD
+=======
+| 10 | Ten | - |
+| 20 | Twenty | - |
+>>>>>>> 41bdb322f38d26f23ca901dd71355b538e69adb0
 | 4093 | LEAF_PEER_L3 | LEAF_PEER_L3 |
 | 4094 | MLAG_PEER | MLAG |
 
@@ -253,6 +258,15 @@ vlan internal order ascending range 1006 1199
 
 ```eos
 !
+<<<<<<< HEAD
+=======
+vlan 10
+   name Ten
+!
+vlan 20
+   name Twenty
+!
+>>>>>>> 41bdb322f38d26f23ca901dd71355b538e69adb0
 vlan 4093
    name LEAF_PEER_L3
    trunk group LEAF_PEER_L3
@@ -273,14 +287,31 @@ vlan 4094
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | Channel-Group |
 | --------- | ----------- | ---- | ----- | ----------- | ----------- | ------------- |
 | Ethernet1 | MLAG_PEER_s1-spine1_Ethernet1 | *trunk | *- | *- | *['LEAF_PEER_L3', 'MLAG'] | 1 |
+<<<<<<< HEAD
 | Ethernet2 | S1-LEAF1_Ethernet3 | *trunk | *none | *- | *- | 2 |
 | Ethernet3 | S1-LEAF2_Ethernet3 | *trunk | *none | *- | *- | 2 |
 | Ethernet4 | S1-LEAF3_Ethernet3 | *trunk | *none | *- | *- | 4 |
 | Ethernet5 | S1-LEAF4_Ethernet3 | *trunk | *none | *- | *- | 4 |
+=======
+| Ethernet2 | S1-LEAF1_Ethernet3 | *trunk | *10 | *- | *- | 2 |
+| Ethernet3 | S1-LEAF2_Ethernet3 | *trunk | *10 | *- | *- | 2 |
+| Ethernet4 | S1-LEAF3_Ethernet3 | *trunk | *20 | *- | *- | 4 |
+| Ethernet5 | S1-LEAF4_Ethernet3 | *trunk | *20 | *- | *- | 4 |
+>>>>>>> 41bdb322f38d26f23ca901dd71355b538e69adb0
 | Ethernet6 | MLAG_PEER_s1-spine1_Ethernet6 | *trunk | *- | *- | *['LEAF_PEER_L3', 'MLAG'] | 1 |
 
 *Inherited from Port-Channel Interface
 
+<<<<<<< HEAD
+=======
+##### IPv4
+
+| Interface | Description | Type | Channel Group | IP Address | VRF |  MTU | Shutdown | ACL In | ACL Out |
+| --------- | ----------- | -----| ------------- | ---------- | ----| ---- | -------- | ------ | ------- |
+| Ethernet7 | P2P_LINK_TO_WANCORE_Ethernet2 | routed | - | 10.0.0.31/31 | default | 1500 | False | - | - |
+| Ethernet8 | P2P_LINK_TO_WANCORE_Ethernet2 | routed | - | 10.0.0.35/31 | default | 1500 | False | - | - |
+
+>>>>>>> 41bdb322f38d26f23ca901dd71355b538e69adb0
 #### Ethernet Interfaces Device Configuration
 
 ```eos
@@ -314,6 +345,27 @@ interface Ethernet6
    description MLAG_PEER_s1-spine1_Ethernet6
    no shutdown
    channel-group 1 mode active
+<<<<<<< HEAD
+=======
+!
+interface Ethernet7
+   description P2P_LINK_TO_WANCORE_Ethernet2
+   no shutdown
+   mtu 1500
+   no switchport
+   ip address 10.0.0.31/31
+   ip ospf network point-to-point
+   ip ospf area 0.0.0.0
+!
+interface Ethernet8
+   description P2P_LINK_TO_WANCORE_Ethernet2
+   no shutdown
+   mtu 1500
+   no switchport
+   ip address 10.0.0.35/31
+   ip ospf network point-to-point
+   ip ospf area 0.0.0.0
+>>>>>>> 41bdb322f38d26f23ca901dd71355b538e69adb0
 ```
 
 ### Port-Channel Interfaces
@@ -325,8 +377,13 @@ interface Ethernet6
 | Interface | Description | Type | Mode | VLANs | Native VLAN | Trunk Group | LACP Fallback Timeout | LACP Fallback Mode | MLAG ID | EVPN ESI |
 | --------- | ----------- | ---- | ---- | ----- | ----------- | ------------| --------------------- | ------------------ | ------- | -------- |
 | Port-Channel1 | MLAG_PEER_s1-spine1_Po1 | switched | trunk | - | - | ['LEAF_PEER_L3', 'MLAG'] | - | - | - | - |
+<<<<<<< HEAD
 | Port-Channel2 | RACK1_Po2 | switched | trunk | none | - | - | - | - | 2 | - |
 | Port-Channel4 | RACK2_Po2 | switched | trunk | none | - | - | - | - | 4 | - |
+=======
+| Port-Channel2 | RACK1_Po2 | switched | trunk | 10 | - | - | - | - | 2 | - |
+| Port-Channel4 | RACK2_Po2 | switched | trunk | 20 | - | - | - | - | 4 | - |
+>>>>>>> 41bdb322f38d26f23ca901dd71355b538e69adb0
 
 #### Port-Channel Interfaces Device Configuration
 
@@ -344,7 +401,11 @@ interface Port-Channel2
    description RACK1_Po2
    no shutdown
    switchport
+<<<<<<< HEAD
    switchport trunk allowed vlan none
+=======
+   switchport trunk allowed vlan 10
+>>>>>>> 41bdb322f38d26f23ca901dd71355b538e69adb0
    switchport mode trunk
    mlag 2
 !
@@ -352,7 +413,11 @@ interface Port-Channel4
    description RACK2_Po2
    no shutdown
    switchport
+<<<<<<< HEAD
    switchport trunk allowed vlan none
+=======
+   switchport trunk allowed vlan 20
+>>>>>>> 41bdb322f38d26f23ca901dd71355b538e69adb0
    switchport mode trunk
    mlag 4
 ```
@@ -390,6 +455,11 @@ interface Loopback0
 
 | Interface | Description | VRF |  MTU | Shutdown |
 | --------- | ----------- | --- | ---- | -------- |
+<<<<<<< HEAD
+=======
+| Vlan10 | Ten | default | - | False |
+| Vlan20 | Twenty | default | - | False |
+>>>>>>> 41bdb322f38d26f23ca901dd71355b538e69adb0
 | Vlan4093 | MLAG_PEER_L3_PEERING | default | 1500 | False |
 | Vlan4094 | MLAG_PEER | default | 1500 | False |
 
@@ -397,6 +467,11 @@ interface Loopback0
 
 | Interface | VRF | IP Address | IP Address Virtual | IP Router Virtual Address | VRRP | ACL In | ACL Out |
 | --------- | --- | ---------- | ------------------ | ------------------------- | ---- | ------ | ------- |
+<<<<<<< HEAD
+=======
+| Vlan10 |  default  |  10.10.10.3/24  |  -  |  10.10.10.1  |  -  |  -  |  -  |
+| Vlan20 |  default  |  10.20.20.3/24  |  -  |  10.20.20.1  |  -  |  -  |  -  |
+>>>>>>> 41bdb322f38d26f23ca901dd71355b538e69adb0
 | Vlan4093 |  default  |  10.1.253.3/31  |  -  |  -  |  -  |  -  |  -  |
 | Vlan4094 |  default  |  10.1.253.1/31  |  -  |  -  |  -  |  -  |  -  |
 
@@ -404,6 +479,21 @@ interface Loopback0
 
 ```eos
 !
+<<<<<<< HEAD
+=======
+interface Vlan10
+   description Ten
+   no shutdown
+   ip address 10.10.10.3/24
+   ip virtual-router address 10.10.10.1
+!
+interface Vlan20
+   description Twenty
+   no shutdown
+   ip address 10.20.20.3/24
+   ip virtual-router address 10.20.20.1
+!
+>>>>>>> 41bdb322f38d26f23ca901dd71355b538e69adb0
 interface Vlan4093
    description MLAG_PEER_L3_PEERING
    no shutdown
@@ -489,7 +579,11 @@ ip route 0.0.0.0/0 192.168.0.1
 
 | Process ID | Router ID | Default Passive Interface | No Passive Interface | BFD | Max LSA | Default Information Originate | Log Adjacency Changes Detail | Auto Cost Reference Bandwidth | Maximum Paths | MPLS LDP Sync Default | Distribute List In |
 | ---------- | --------- | ------------------------- | -------------------- | --- | ------- | ----------------------------- | ---------------------------- | ----------------------------- | ------------- | --------------------- | ------------------ |
+<<<<<<< HEAD
 | 100 | 10.1.252.2 | enabled | Vlan4093 <br> | disabled | 12000 | disabled | disabled | - | - | - | - |
+=======
+| 100 | 10.1.252.2 | enabled | Vlan4093 <br> Ethernet7 <br> Ethernet8 <br> | disabled | 12000 | disabled | disabled | - | - | - | - |
+>>>>>>> 41bdb322f38d26f23ca901dd71355b538e69adb0
 
 #### Router OSPF Router Redistribution
 
@@ -501,6 +595,11 @@ ip route 0.0.0.0/0 192.168.0.1
 
 | Interface | Area | Cost | Point To Point |
 | -------- | -------- | -------- | -------- |
+<<<<<<< HEAD
+=======
+| Ethernet7 | 0.0.0.0 | - | True |
+| Ethernet8 | 0.0.0.0 | - | True |
+>>>>>>> 41bdb322f38d26f23ca901dd71355b538e69adb0
 | Vlan4093 | 0.0.0.0 | - | True |
 | Loopback0 | 0.0.0.0 | - | - |
 
@@ -512,6 +611,11 @@ router ospf 100
    router-id 10.1.252.2
    passive-interface default
    no passive-interface Vlan4093
+<<<<<<< HEAD
+=======
+   no passive-interface Ethernet7
+   no passive-interface Ethernet8
+>>>>>>> 41bdb322f38d26f23ca901dd71355b538e69adb0
    max-lsa 12000
    redistribute connected
 ```
