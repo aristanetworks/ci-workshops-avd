@@ -22,7 +22,7 @@ local_users:
 - name: arista
   privilege: 15
   role: network-admin
-  sha512_password: $6$workshop$q0DTjNWTaQBtWIJfOJUl/5U/pKxKLRPD7aEaawNVul1UaCdAAfi4yqQFgAGqUDX9MyrNElqNMvMUHU6thbAR10
+  sha512_password: $6$workshop$KGwh8BLGE/hzBnu5FNrcgrc9dHEdWk.unSPej/kESMdxBMbpN8oSh8Rd2m5jhtxbet5o0l4yOshLY1tFaK3/i0
 vrfs:
 - name: default
   ip_routing: false
@@ -44,6 +44,9 @@ vlans:
   name: MLAG_PEER
   trunk_groups:
   - MLAG
+- id: 20
+  name: Twenty
+  tenant: MY_FABRIC
 vlan_interfaces:
 - name: Vlan4094
   description: MLAG_PEER
@@ -64,7 +67,7 @@ port_channel_interfaces:
   type: switched
   shutdown: false
   mode: trunk
-  vlans: none
+  vlans: '20'
   mlag: 2
 ethernet_interfaces:
 - name: Ethernet1
