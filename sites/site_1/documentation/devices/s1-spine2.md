@@ -248,6 +248,7 @@ vlan internal order ascending range 1006 1199
 | ------- | ---- | ------------ |
 | 10 | Ten | - |
 | 20 | Twenty | - |
+| 30 | Thirty | - |
 | 4093 | LEAF_PEER_L3 | LEAF_PEER_L3 |
 | 4094 | MLAG_PEER | MLAG |
 
@@ -260,6 +261,9 @@ vlan 10
 !
 vlan 20
    name Twenty
+!
+vlan 30
+   name Thirty
 !
 vlan 4093
    name LEAF_PEER_L3
@@ -400,6 +404,7 @@ interface Loopback0
 | --------- | ----------- | --- | ---- | -------- |
 | Vlan10 | Ten | default | - | False |
 | Vlan20 | Twenty | default | - | False |
+| Vlan30 | Thirty | default | - | False |
 | Vlan4093 | MLAG_PEER_L3_PEERING | default | 1500 | False |
 | Vlan4094 | MLAG_PEER | default | 1500 | False |
 
@@ -409,6 +414,7 @@ interface Loopback0
 | --------- | --- | ---------- | ------------------ | ------------------------- | ---- | ------ | ------- |
 | Vlan10 |  default  |  10.10.10.3/24  |  -  |  10.10.10.1  |  -  |  -  |  -  |
 | Vlan20 |  default  |  10.20.20.3/24  |  -  |  10.20.20.1  |  -  |  -  |  -  |
+| Vlan30 |  default  |  10.30.30.3/24  |  -  |  10.30.30.1  |  -  |  -  |  -  |
 | Vlan4093 |  default  |  10.1.253.3/31  |  -  |  -  |  -  |  -  |  -  |
 | Vlan4094 |  default  |  10.1.253.1/31  |  -  |  -  |  -  |  -  |  -  |
 
@@ -427,6 +433,12 @@ interface Vlan20
    no shutdown
    ip address 10.20.20.3/24
    ip virtual-router address 10.20.20.1
+!
+interface Vlan30
+   description Thirty
+   no shutdown
+   ip address 10.30.30.3/24
+   ip virtual-router address 10.30.30.1
 !
 interface Vlan4093
    description MLAG_PEER_L3_PEERING
