@@ -4,6 +4,7 @@ SITE2:
     CVP:
       hosts:
         cvp:
+          ansible_host: ott-ci-workshop-1-e09fb1f5-eos.topo.testdrive.arista.com
     SITE2_FABRIC:
       children:
         SITE2_SPINES:
