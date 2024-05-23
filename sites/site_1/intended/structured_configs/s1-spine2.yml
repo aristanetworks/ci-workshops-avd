@@ -111,6 +111,13 @@ port_channel_interfaces:
   mode: trunk
   vlans: '20'
   mlag: 4
+- name: Port-Channel9
+  description: RACK3_Po2
+  type: switched
+  shutdown: false
+  mode: trunk
+  vlans: 10,20
+  mlag: 9
 ethernet_interfaces:
 - name: Ethernet1
   peer: s1-spine1
@@ -171,6 +178,26 @@ ethernet_interfaces:
   type: port-channel-member
   channel_group:
     id: 4
+    mode: active
+- name: Ethernet9
+  peer: s1-leaf5
+  peer_interface: Ethernet3
+  peer_type: leaf
+  description: S1-LEAF5_Ethernet3
+  shutdown: false
+  type: port-channel-member
+  channel_group:
+    id: 9
+    mode: active
+- name: Ethernet10
+  peer: s1-leaf6
+  peer_interface: Ethernet3
+  peer_type: leaf
+  description: S1-LEAF6_Ethernet3
+  shutdown: false
+  type: port-channel-member
+  channel_group:
+    id: 9
     mode: active
 - name: Ethernet7
   peer: WANCORE
