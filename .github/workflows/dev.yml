@@ -22,7 +22,7 @@ jobs:
       #   uses: actions/setup-python@v5
 
       # - name: Install Python requirements
-      #   run: pip3 install -r requirements.txt
+      #   run: pip3 install "pyavd[ansible]==4.10.0"
 
       # - name: Run pre-commit on files
       #   uses: pre-commit/action@v3.0.0
