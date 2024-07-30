@@ -16,10 +16,10 @@ jobs:
         run: echo "Hello World!"
 
       # - name: Checkout
-      #   uses: actions/checkout@v3
+      #   uses: actions/checkout@v4
 
       # - name: Setup Python
-      #   uses: actions/setup-python@v3
+      #   uses: actions/setup-python@v5
 
       # - name: Install Python requirements
       #   run: pip3 install -r requirements.txt
@@ -28,7 +28,7 @@ jobs:
       #   uses: pre-commit/action@v3.0.0
 
       # - name: Check paths for sites/site_1
-      #   uses: dorny/paths-filter@v2
+      #   uses: dorny/paths-filter@v3
       #   id: filter-site1
       #   with:
       #     filters: |
@@ -36,7 +36,7 @@ jobs:
       #         - 'sites/site_1/**'
 
       # - name: Check paths for sites/site_2
-      #   uses: dorny/paths-filter@v2
+      #   uses: dorny/paths-filter@v3
       #   id: filter-site2
       #   with:
       #     filters: |
