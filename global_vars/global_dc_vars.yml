@@ -22,6 +22,7 @@ local_users:
     privilege: 15
     role: network-admin
     sha512_password: "{{ ansible_password | password_hash('sha512', salt='arista') }}"
+    ssh_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDEqb3QbWw7pYlbWD8clmXFy6RkxXUFhKmwUrmpiUcZRdzLQQwEH81wtldbvduiQB3nGOZR3UhfYWW2gg1pXvmi7i4NX0tUgj51TzEj9N6ggrYs8nrA2KHGXmlgRL0N6HuSOxKX20WAWiRyRp9BillNDjLAt7cD9sHnJWmnO3e1bph8BIE9eWec9Tdrm5OY7QjrqtK8qo8XN0iBHVYfbXrX+UBPmwhNOpwSE8y8OyebZS4UTI/mqzODYchSH79un0zhtlnd+y45YKITAW/DQeKogdTa7HncD98ODtCTSLjQPUfqD7lWVTdOwkj14mmRz6xYmzN5eq98+N929KQ/C6Fn arista@ti-apac-workshop-attendees-8-5731b353-eos.c.atds-280712.internal
 
 # AAA
 aaa_authorization:
