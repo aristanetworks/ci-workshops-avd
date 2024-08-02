@@ -1,0 +1,11 @@
+---
+LAB:
+  hosts:
+    s1-core1:
+    s1-core2:
+    s1-host1:
+    s1-host2:
+    s2-core1:
+    s2-core2:
+    s2-host1:
+    s2-host2:

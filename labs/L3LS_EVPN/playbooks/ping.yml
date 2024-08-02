@@ -1,0 +1,15 @@
+---
+- name: Test Connectivity to Lab Nodes
+  hosts: "{{ target_hosts }}"
+  connection: local
+  gather_facts: false
+
+  tasks:
+
+    - name: Import Global Vars
+      ansible.builtin.include_vars: "{{ item }}"
+      with_items:
+        - "../global_vars/global_dc_vars.yml"
+
+    - name: Ping Hosts
+      ping:
