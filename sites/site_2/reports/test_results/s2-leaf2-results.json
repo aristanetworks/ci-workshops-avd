@@ -1,0 +1,193 @@
+[
+  {
+    "name": "s2-leaf2",
+    "test": "VerifyLLDPNeighbors",
+    "categories": [
+      "connectivity"
+    ],
+    "description": "Verifies that the provided LLDP neighbors are connected properly.",
+    "result": "success",
+    "custom_field": "Local: Ethernet1 - Remote: s2-leaf1 Ethernet1"
+  },
+  {
+    "name": "s2-leaf2",
+    "test": "VerifyLLDPNeighbors",
+    "categories": [
+      "connectivity"
+    ],
+    "description": "Verifies that the provided LLDP neighbors are connected properly.",
+    "result": "success",
+    "custom_field": "Local: Ethernet2 - Remote: s2-spine1 Ethernet3"
+  },
+  {
+    "name": "s2-leaf2",
+    "test": "VerifyLLDPNeighbors",
+    "categories": [
+      "connectivity"
+    ],
+    "description": "Verifies that the provided LLDP neighbors are connected properly.",
+    "result": "success",
+    "custom_field": "Local: Ethernet3 - Remote: s2-spine2 Ethernet3"
+  },
+  {
+    "name": "s2-leaf2",
+    "test": "VerifyLLDPNeighbors",
+    "categories": [
+      "connectivity"
+    ],
+    "description": "Verifies that the provided LLDP neighbors are connected properly.",
+    "result": "success",
+    "custom_field": "Local: Ethernet6 - Remote: s2-leaf1 Ethernet6"
+  },
+  {
+    "name": "s2-leaf2",
+    "test": "VerifyEnvironmentCooling",
+    "categories": [
+      "hardware"
+    ],
+    "description": "Verifies the status of power supply fans and all fan trays.",
+    "result": "skipped",
+    "messages": [
+      "VerifyEnvironmentCooling test is not supported on cEOSLab."
+    ],
+    "custom_field": "Accepted States: 'ok'"
+  },
+  {
+    "name": "s2-leaf2",
+    "test": "VerifyEnvironmentPower",
+    "categories": [
+      "hardware"
+    ],
+    "description": "Verifies the power supplies status.",
+    "result": "skipped",
+    "messages": [
+      "VerifyEnvironmentPower test is not supported on cEOSLab."
+    ],
+    "custom_field": "Accepted States: 'ok'"
+  },
+  {
+    "name": "s2-leaf2",
+    "test": "VerifyTemperature",
+    "categories": [
+      "hardware"
+    ],
+    "description": "Verifies the device temperature.",
+    "result": "skipped",
+    "messages": [
+      "VerifyTemperature test is not supported on cEOSLab."
+    ]
+  },
+  {
+    "name": "s2-leaf2",
+    "test": "VerifyTransceiversManufacturers",
+    "categories": [
+      "hardware"
+    ],
+    "description": "Verifies if all transceivers come from approved manufacturers.",
+    "result": "skipped",
+    "messages": [
+      "VerifyTransceiversManufacturers test is not supported on cEOSLab."
+    ],
+    "custom_field": "Accepted Manufacturers: 'Arista Networks', 'Arastra, Inc.', 'Not Present'"
+  },
+  {
+    "name": "s2-leaf2",
+    "test": "VerifyInterfacesStatus",
+    "categories": [
+      "interfaces"
+    ],
+    "description": "Verifies the status of the provided interfaces.",
+    "result": "success",
+    "custom_field": "Interface Ethernet1 - MLAG_PEER_s2-leaf1_Ethernet1 = 'up'"
+  },
+  {
+    "name": "s2-leaf2",
+    "test": "VerifyInterfacesStatus",
+    "categories": [
+      "interfaces"
+    ],
+    "description": "Verifies the status of the provided interfaces.",
+    "result": "success",
+    "custom_field": "Interface Ethernet2 - S2-SPINE1_Ethernet3 = 'up'"
+  },
+  {
+    "name": "s2-leaf2",
+    "test": "VerifyInterfacesStatus",
+    "categories": [
+      "interfaces"
+    ],
+    "description": "Verifies the status of the provided interfaces.",
+    "result": "success",
+    "custom_field": "Interface Ethernet3 - S2-SPINE2_Ethernet3 = 'up'"
+  },
+  {
+    "name": "s2-leaf2",
+    "test": "VerifyInterfacesStatus",
+    "categories": [
+      "interfaces"
+    ],
+    "description": "Verifies the status of the provided interfaces.",
+    "result": "success",
+    "custom_field": "Interface Ethernet6 - MLAG_PEER_s2-leaf1_Ethernet6 = 'up'"
+  },
+  {
+    "name": "s2-leaf2",
+    "test": "VerifyInterfacesStatus",
+    "categories": [
+      "interfaces"
+    ],
+    "description": "Verifies the status of the provided interfaces.",
+    "result": "failure",
+    "messages": [
+      "The following interface(s) are not configured: ['Port-Channel1']"
+    ],
+    "custom_field": "Interface Port-Channel1 - MLAG_PEER_s2-leaf1_Po1 = 'up'"
+  },
+  {
+    "name": "s2-leaf2",
+    "test": "VerifyInterfacesStatus",
+    "categories": [
+      "interfaces"
+    ],
+    "description": "Verifies the status of the provided interfaces.",
+    "result": "failure",
+    "messages": [
+      "The following interface(s) are not configured: ['Port-Channel2']"
+    ],
+    "custom_field": "Interface Port-Channel2 - SPINES_Po2 = 'up'"
+  },
+  {
+    "name": "s2-leaf2",
+    "test": "VerifyInterfacesStatus",
+    "categories": [
+      "interfaces"
+    ],
+    "description": "Verifies the status of the provided interfaces.",
+    "result": "failure",
+    "messages": [
+      "The following interface(s) are not configured: ['Vlan4094']"
+    ],
+    "custom_field": "Interface Vlan4094 - MLAG_PEER = 'up'"
+  },
+  {
+    "name": "s2-leaf2",
+    "test": "VerifyMlagStatus",
+    "categories": [
+      "mlag"
+    ],
+    "description": "Verifies the health status of the MLAG configuration.",
+    "result": "skipped",
+    "messages": [
+      "MLAG is disabled"
+    ]
+  },
+  {
+    "name": "s2-leaf2",
+    "test": "VerifyNTP",
+    "categories": [
+      "system"
+    ],
+    "description": "Verifies if NTP is synchronised.",
+    "result": "success"
+  }
+]
