@@ -72,3 +72,30 @@ leaf:
 ##################################################################
 
 underlay_routing_protocol: OSPF
+
+##################################################################
+# WAN/Core Edge Links
+##################################################################
+
+core_interfaces:
+  p2p_links:
+
+    - ip: [ 10.0.0.37/31, 10.0.0.36/31 ]
+      nodes: [ s2-spine1, WANCORE ]
+      interfaces: [ Ethernet7, Ethernet2 ]
+      include_in_underlay_protocol: true
+
+    - ip: [ 10.0.0.41/31, 10.0.0.40/31 ]
+      nodes: [ s2-spine1, WANCORE ]
+      interfaces: [ Ethernet8, Ethernet2 ]
+      include_in_underlay_protocol: true
+
+    - ip: [ 10.0.0.39/31, 10.0.0.38/31 ]
+      nodes: [ s2-spine2, WANCORE ]
+      interfaces: [ Ethernet7, Ethernet2 ]
+      include_in_underlay_protocol: true
+
+    - ip: [ 10.0.0.43/31, 10.0.0.42/31 ]
+      nodes: [ s2-spine2, WANCORE ]
+      interfaces: [ Ethernet8, Ethernet2 ]
+      include_in_underlay_protocol: true
