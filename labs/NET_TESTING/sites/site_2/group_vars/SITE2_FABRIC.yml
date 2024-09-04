@@ -83,5 +83,5 @@ l3leaf:
           evpn_gateway:
             remote_peers: 
               - hostname: s1-brdr2
-                bgp_as: 65103
+                bgp_as: 65203
                 ip_address: 10.250.1.8
