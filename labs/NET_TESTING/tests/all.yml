@@ -1,6 +1,6 @@
 anta.tests.system:
-  # Verifies whether the CPU utilization is below 75%.
-  - VerifyCPUUtilization:
+  - VerifyUptime:
+      minimum: 600
 
 anta.tests.hardware:
   # Verifies the status of power supply fans and all fan trays.
@@ -14,3 +14,4 @@ anta.tests.software:
     - VerifyTerminAttrVersion:
         versions:
         - v1.32.0
+
