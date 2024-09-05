@@ -1,8 +1,0 @@
-# # Verifies the device has certain route in routing table
-# anta.tests.routing:
-#   generic:
-#     - VerifyRoutingTableEntry:
-#         vrf: default
-#         routes:
-#           - 0.0.0.0
-#           - 9.9.9.9
