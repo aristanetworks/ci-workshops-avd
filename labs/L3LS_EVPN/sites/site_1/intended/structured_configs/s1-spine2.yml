@@ -1,0 +1,214 @@
+hostname: s1-spine2
+is_deployed: true
+router_bgp:
+  as: '65100'
+  router_id: 10.250.1.2
+  bgp:
+    default:
+      ipv4_unicast: false
+  maximum_paths:
+    paths: 4
+    ecmp: 4
+  peer_groups:
+  - name: IPv4-UNDERLAY-PEERS
+    type: ipv4
+    password: 7x4B4rnJhZB438m9+BrBfQ==
+    maximum_routes: 12000
+    send_community: all
+  - name: EVPN-OVERLAY-PEERS
+    type: evpn
+    update_source: Loopback0
+    bfd: true
+    password: Q4fqtbqcZ7oQuKfuWtNGRQ==
+    send_community: all
+    maximum_routes: 0
+    ebgp_multihop: 3
+    next_hop_unchanged: true
+  address_family_ipv4:
+    peer_groups:
+    - name: IPv4-UNDERLAY-PEERS
+      activate: true
+    - name: EVPN-OVERLAY-PEERS
+      activate: false
+  redistribute_routes:
+  - source_protocol: connected
+    route_map: RM-CONN-2-BGP
+  neighbors:
+  - ip_address: 172.16.1.3
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65101'
+    peer: s1-leaf1
+    description: s1-leaf1_Ethernet3
+  - ip_address: 172.16.1.7
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65101'
+    peer: s1-leaf2
+    description: s1-leaf2_Ethernet3
+  - ip_address: 172.16.1.11
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65102'
+    peer: s1-leaf3
+    description: s1-leaf3_Ethernet3
+  - ip_address: 172.16.1.15
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65102'
+    peer: s1-leaf4
+    description: s1-leaf4_Ethernet3
+  - ip_address: 172.16.1.19
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65103'
+    peer: s1-brdr1
+    description: s1-brdr1_Ethernet3
+  - ip_address: 172.16.1.23
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65103'
+    peer: s1-brdr2
+    description: s1-brdr2_Ethernet3
+  - ip_address: 10.250.1.7
+    peer_group: EVPN-OVERLAY-PEERS
+    peer: s1-brdr1
+    description: s1-brdr1
+    remote_as: '65103'
+  - ip_address: 10.250.1.8
+    peer_group: EVPN-OVERLAY-PEERS
+    peer: s1-brdr2
+    description: s1-brdr2
+    remote_as: '65103'
+  - ip_address: 10.250.1.3
+    peer_group: EVPN-OVERLAY-PEERS
+    peer: s1-leaf1
+    description: s1-leaf1
+    remote_as: '65101'
+  - ip_address: 10.250.1.4
+    peer_group: EVPN-OVERLAY-PEERS
+    peer: s1-leaf2
+    description: s1-leaf2
+    remote_as: '65101'
+  - ip_address: 10.250.1.5
+    peer_group: EVPN-OVERLAY-PEERS
+    peer: s1-leaf3
+    description: s1-leaf3
+    remote_as: '65102'
+  - ip_address: 10.250.1.6
+    peer_group: EVPN-OVERLAY-PEERS
+    peer: s1-leaf4
+    description: s1-leaf4
+    remote_as: '65102'
+  address_family_evpn:
+    peer_groups:
+    - name: EVPN-OVERLAY-PEERS
+      activate: true
+static_routes:
+- vrf: default
+  destination_address_prefix: 0.0.0.0/0
+  gateway: 192.168.0.1
+service_routing_protocols_model: multi-agent
+ip_routing: true
+vlan_internal_order:
+  allocation: ascending
+  range:
+    beginning: 1006
+    ending: 1199
+spanning_tree:
+  mode: none
+local_users:
+- name: arista
+  privilege: 15
+  role: network-admin
+  sha512_password: $6$arista$bnpN8sDhoWBtkBBYdU/GVOX4E6k43rJ70Vthd9rNrwSkW1LSo1vyANP/IOE7l56SkCS20PqwfWTuM5/N3.kGn0
+  ssh_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC+KtN0VMvBH0eWXuy+IuCWDRIsC1x1k7P8KMIRQ9mIajYjMdx4YODqEVJiXoc6i9970cTX+5SQJxAQZP8G7ahw4fkCRQis/xfVW8kg7EBVJXOOfGOiyo53mkAbc10qAcEzOsE0bSJNHPHTnNaIOtk9wGM46N22yOuHNHgOIa0N3L4SypBLK0kaOQbt+y85mq0KYRYm8hWzIEPhLK70AIaQzvbM92zMrvahGka2eF/qUDFyuFfiIYGs/3cdt9KuO9+IwpwuokUbNU4Ply59ipiicJCssldpvBoy+7W07iUTC0cwoI5ZGu0bTzojfGZUvhCsrqBVxEtLMo3dM+jYvCG7
+    arista@ase-nbatman-1-a55c9949-eos.c.atds-280712.internal
+vrfs:
+- name: default
+  ip_routing: false
+management_interfaces:
+- name: Management0
+  description: oob_management
+  shutdown: false
+  vrf: default
+  ip_address: 192.168.0.11/24
+  gateway: 192.168.0.1
+  type: oob
+management_api_http:
+  enable_vrfs:
+  - name: default
+  enable_https: true
+ethernet_interfaces:
+- name: Ethernet2
+  peer: s1-leaf1
+  peer_interface: Ethernet3
+  peer_type: l3leaf
+  description: P2P_LINK_TO_S1-LEAF1_Ethernet3
+  shutdown: false
+  mtu: 1500
+  type: routed
+  ip_address: 172.16.1.2/31
+- name: Ethernet3
+  peer: s1-leaf2
+  peer_interface: Ethernet3
+  peer_type: l3leaf
+  description: P2P_LINK_TO_S1-LEAF2_Ethernet3
+  shutdown: false
+  mtu: 1500
+  type: routed
+  ip_address: 172.16.1.6/31
+- name: Ethernet4
+  peer: s1-leaf3
+  peer_interface: Ethernet3
+  peer_type: l3leaf
+  description: P2P_LINK_TO_S1-LEAF3_Ethernet3
+  shutdown: false
+  mtu: 1500
+  type: routed
+  ip_address: 172.16.1.10/31
+- name: Ethernet5
+  peer: s1-leaf4
+  peer_interface: Ethernet3
+  peer_type: l3leaf
+  description: P2P_LINK_TO_S1-LEAF4_Ethernet3
+  shutdown: false
+  mtu: 1500
+  type: routed
+  ip_address: 172.16.1.14/31
+- name: Ethernet7
+  peer: s1-brdr1
+  peer_interface: Ethernet3
+  peer_type: l3leaf
+  description: P2P_LINK_TO_S1-BRDR1_Ethernet3
+  shutdown: false
+  mtu: 1500
+  type: routed
+  ip_address: 172.16.1.18/31
+- name: Ethernet8
+  peer: s1-brdr2
+  peer_interface: Ethernet3
+  peer_type: l3leaf
+  description: P2P_LINK_TO_S1-BRDR2_Ethernet3
+  shutdown: false
+  mtu: 1500
+  type: routed
+  ip_address: 172.16.1.22/31
+loopback_interfaces:
+- name: Loopback0
+  description: EVPN_Overlay_Peering
+  shutdown: false
+  ip_address: 10.250.1.2/32
+prefix_lists:
+- name: PL-LOOPBACKS-EVPN-OVERLAY
+  sequence_numbers:
+  - sequence: 10
+    action: permit 10.250.1.0/24 eq 32
+route_maps:
+- name: RM-CONN-2-BGP
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    match:
+    - ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY
+router_bfd:
+  multihop:
+    interval: 300
+    min_rx: 300
+    multiplier: 3
+metadata:
+  platform: cEOS
