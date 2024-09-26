@@ -1,0 +1,17 @@
+anta.tests.system:
+  - VerifyUptime:
+      minimum: 600
+
+anta.tests.hardware:
+  # Verifies the status of power supply fans and all fan trays.
+  - VerifyEnvironmentCooling:
+      states:
+        - ok
+  
+anta.tests.software:
+
+    # Verifies the device is running one of the allowed TerminAttr version.
+    - VerifyTerminAttrVersion:
+        versions:
+        - v1.32.0
+
