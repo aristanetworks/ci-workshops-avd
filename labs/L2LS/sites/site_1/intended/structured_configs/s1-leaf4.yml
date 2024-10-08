@@ -1,0 +1,120 @@
+hostname: s1-leaf4
+is_deployed: true
+static_routes:
+- vrf: default
+  destination_address_prefix: 0.0.0.0/0
+  gateway: 192.168.0.1
+service_routing_protocols_model: multi-agent
+vlan_internal_order:
+  allocation: ascending
+  range:
+    beginning: 1006
+    ending: 1199
+spanning_tree:
+  mode: mstp
+  mst_instances:
+  - id: '0'
+    priority: 16384
+  no_spanning_tree_vlan: '4094'
+local_users:
+- name: arista
+  privilege: 15
+  role: network-admin
+  sha512_password: $6$arista$Saxoguofdop7t5qynYoGAnEjADHATdy4qI.MCHMg9BSrNLJWjhxXFi9WBYfTzh0C7LSY/lH/T8L10o2fNk/yp/
+  ssh_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6K7YuByLCnUB0nejhNTf+PiKouXhrFDbD8wrt7w09Y3/GYGSHw60Sat8e99hg6uqLfMR7Vjaqgv+DhSSomVVZzvo0545i+PgKXHYIDvfURxlC0xE+otNF7UQaVjDokc6lsPPYXMRApySsqxDhnS1SkCNXQU6rftZxd6b+OHMzAsCLGwS91L0n3UVcyrHh6+lafhNea2LlXCn7qUXqaawOJs7oXxzpokOOvnFsMyGlJUewNU2z1CZnKC5P/LY5zTwv216VSqFIFMuO++sK1X0FgMmQLmD/4kuuYJRmiJm0B4O+dsme14X21vvTjwXWJf5vSOZqpGRRHcHnFg8QMC4v
+    arista@vaughan-avd-workshop-18-33c6a38d-eos.c.atds-280712.internal
+vrfs:
+- name: default
+  ip_routing: false
+management_interfaces:
+- name: Management0
+  description: oob_management
+  shutdown: false
+  vrf: default
+  ip_address: 192.168.0.15/24
+  gateway: 192.168.0.1
+  type: oob
+management_api_http:
+  enable_vrfs:
+  - name: default
+  enable_https: true
+vlans:
+- id: 4094
+  tenant: system
+  name: MLAG_PEER
+  trunk_groups:
+  - MLAG
+vlan_interfaces:
+- name: Vlan4094
+  description: MLAG_PEER
+  shutdown: false
+  no_autostate: true
+  mtu: 1500
+  ip_address: 10.1.253.1/31
+port_channel_interfaces:
+- name: Port-Channel1
+  description: MLAG_PEER_s1-leaf3_Po1
+  type: switched
+  shutdown: false
+  mode: trunk
+  trunk_groups:
+  - MLAG
+- name: Port-Channel2
+  description: SPINES_Po4
+  type: switched
+  shutdown: false
+  mode: trunk
+  vlans: none
+  mlag: 2
+ethernet_interfaces:
+- name: Ethernet1
+  peer: s1-leaf3
+  peer_interface: Ethernet1
+  peer_type: mlag_peer
+  description: MLAG_PEER_s1-leaf3_Ethernet1
+  type: port-channel-member
+  shutdown: false
+  channel_group:
+    id: 1
+    mode: active
+- name: Ethernet6
+  peer: s1-leaf3
+  peer_interface: Ethernet6
+  peer_type: mlag_peer
+  description: MLAG_PEER_s1-leaf3_Ethernet6
+  type: port-channel-member
+  shutdown: false
+  channel_group:
+    id: 1
+    mode: active
+- name: Ethernet2
+  peer: s1-spine1
+  peer_interface: Ethernet5
+  peer_type: l3spine
+  description: S1-SPINE1_Ethernet5
+  shutdown: false
+  type: port-channel-member
+  channel_group:
+    id: 2
+    mode: active
+- name: Ethernet3
+  peer: s1-spine2
+  peer_interface: Ethernet5
+  peer_type: l3spine
+  description: S1-SPINE2_Ethernet5
+  shutdown: false
+  type: port-channel-member
+  channel_group:
+    id: 2
+    mode: active
+mlag_configuration:
+  domain_id: RACK2
+  local_interface: Vlan4094
+  peer_address: 10.1.253.0
+  peer_link: Port-Channel1
+  reload_delay_mlag: '300'
+  reload_delay_non_mlag: '330'
+ip_igmp_snooping:
+  globally_enabled: true
+metadata:
+  platform: cEOS
