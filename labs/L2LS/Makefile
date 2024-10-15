@@ -55,5 +55,7 @@ preplab: ## Deploy Configs via eAPI
 ########################################################
 
 .PHONY: cicd-ff
-cicd-ff: ## Deploy Configs via eAPI
-	cp -a complete/site_1/group_vars/. sites/site_1/group_vars/ && cp -a complete/site_2/group_vars/. sites/site_2/group_vars/
+cicd-ff: ## Copy complete files for CICD
+	cp -a complete/site_1/group_vars/. sites/site_1/group_vars/ && \
+	cp -a complete/site_2/group_vars/. sites/site_2/group_vars/ && \
+	cp -a complete/global_vars/. global_vars/

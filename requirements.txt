@@ -1,0 +1,2 @@
+pyavd[ansible]==4.10.0
+passlib
