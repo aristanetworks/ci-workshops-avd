@@ -12,11 +12,11 @@ ping-site-1: ## Ping Nodes
 
 .PHONY: build-site-1
 build-site-1: ## Build Configs
-	ansible-playbook playbooks/build.yml -i sites/site_1/inventory.yml -e "target_hosts=SITE1_FABRIC"
+	ansible-playbook playbooks/build.yml -i sites/site_1/inventory.yml -e "target_hosts=SITE1_FABRIC" --diff
 
 .PHONY: deploy-site-1
 deploy-site-1: ## Deploy Configs via eAPI
-	ansible-playbook playbooks/deploy.yml -i sites/site_1/inventory.yml -e "target_hosts=SITE1_FABRIC"
+	ansible-playbook playbooks/deploy.yml -i sites/site_1/inventory.yml -e "target_hosts=SITE1_FABRIC" --diff
 
 .PHONY: cvp-site-1
 cvp-site-1: ## Deploy Configs via eAPI
@@ -32,11 +32,11 @@ ping-site-2: ## Ping Nodes
 
 .PHONY: build-site-2
 build-site-2: ## Build Configs
-	ansible-playbook playbooks/build.yml -i sites/site_2/inventory.yml -e "target_hosts=SITE2_FABRIC"
+	ansible-playbook playbooks/build.yml -i sites/site_2/inventory.yml -e "target_hosts=SITE2_FABRIC" --diff
 
 .PHONY: deploy-site-2
 deploy-site-2: ## Deploy Configs via eAPI
-	ansible-playbook playbooks/deploy.yml -i sites/site_2/inventory.yml -e "target_hosts=SITE2_FABRIC"
+	ansible-playbook playbooks/deploy.yml -i sites/site_2/inventory.yml -e "target_hosts=SITE2_FABRIC" --diff
 
 .PHONY: cvp-site-2
 cvp-site-2: ## Deploy Configs via eAPI
