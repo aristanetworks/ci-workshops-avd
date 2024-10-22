@@ -69,7 +69,7 @@ execute_tasks: true
 # Login Banner
 banners:
   motd: |
-    You shall not pass. Unless you are authorized. Then you shall pass.
+    You shall not pass. Unless you are authorized. Then you shall pass. Egg
     EOF
 
 # Syslog
