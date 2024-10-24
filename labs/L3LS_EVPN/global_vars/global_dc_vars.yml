@@ -103,3 +103,8 @@ l3_edge:
       profile: S1_to_S2_profile
 
 
+# Login Banner
+banners:
+  motd: |
+    Get to Gettin.
+    EOF
