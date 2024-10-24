@@ -65,3 +65,10 @@ p2p_uplinks_mtu: 1500
 # CVP node variables
 cv_collection: v3
 execute_tasks: true
+
+
+# Login Banner
+banners:
+  motd: |
+    You shall not pass. Unless you are authorized. Then you shall pass.
+    EOF
