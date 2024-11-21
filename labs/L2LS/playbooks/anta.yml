@@ -1,6 +1,6 @@
 ---
 - name: validate states on EOS devices using ANTA
-  hosts: {{ target_hosts }}
+  hosts: "{{ target_hosts }}"
   gather_facts: false
   tasks:
     - name: validate states on EOS devices
