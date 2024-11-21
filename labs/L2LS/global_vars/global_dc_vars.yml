@@ -16,6 +16,19 @@ ansible_python_interpreter: $(which python3)
 avd_data_conversion_mode: error
 avd_data_validation_mode: error
 
+banners:
+  motd: |
+    You shall not pass. Unless you are authorized. Then you shall pass.
+    EOF
+
+logging:
+  vrfs:
+    - name: default
+      source_interface: Management0
+      hosts:
+        - name: 10.200.0.108
+        - name: 10.200.1.108
+
 # Local Users
 local_users:
   - name: arista
@@ -64,4 +77,4 @@ p2p_uplinks_mtu: 1500
 
 # CVP node variables
 cv_collection: v3
-execute_tasks: true
+execute_tasks: false
