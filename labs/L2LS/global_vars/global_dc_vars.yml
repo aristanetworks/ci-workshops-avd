@@ -16,6 +16,11 @@ ansible_python_interpreter: $(which python3)
 avd_data_conversion_mode: error
 avd_data_validation_mode: error
 
+banners:
+  motd: |
+    You shall not pass. Unless you are authorized. Then you shall pass.
+    EOF
+
 # Local Users
 local_users:
   - name: arista
