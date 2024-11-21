@@ -42,6 +42,14 @@ deploy-site-2: ## Deploy Configs via eAPI
 cvp-site-2: ## Deploy Configs via eAPI
 	ansible-playbook playbooks/cvp2.yml -i sites/site_2/inventory.yml
 
+.PHONY: anta-site-1
+anta-site-1: ## Run ANTA on site 1
+	ansible-playbook playbooks/anta.yml -i sites/site_1/inventory.yml -e "target_hosts=SITE1_FABRIC"
+
+.PHONY: anta-site-1
+anta-site-2: ## Run ANTA on site 2
+	ansible-playbook playbooks/anta.yml -i sites/site_2/inventory.yml -e "target_hosts=SITE2_FABRIC"
+
 ########################################################
 # WAN & Hosts - Lab Prep
 ########################################################
