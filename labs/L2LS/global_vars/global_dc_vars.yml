@@ -43,6 +43,15 @@ ntp:
 # Domain/DNS
 dns_domain: atd.lab
 
+# Syslog
+logging:
+  vrfs:
+    - name: default
+      source_interface: Management0
+      hosts:
+        - name: 10.200.0.108
+        - name: 10.200.1.108
+
 # TerminAttr
 daemon_terminattr:
   # Address of the gRPC server on CloudVision
