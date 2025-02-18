@@ -49,3 +49,13 @@ cvp-site-2: ## Deploy Configs via eAPI
 .PHONY: preplab
 preplab: ## Deploy Configs via eAPI
 	ansible-playbook playbooks/preplab.yml -i extra_configs/inventory.yml -e "target_hosts=LAB"
+
+########################################################
+# Fast forward CICD
+########################################################
+
+.PHONY: cicd-ff
+cicd-ff: ## Copy complete files for CICD
+	cp -a complete/site_1/group_vars/. sites/site_1/group_vars/ && \
+	cp -a complete/site_2/group_vars/. sites/site_2/group_vars/ && \
+	cp -a complete/global_vars/. global_vars/

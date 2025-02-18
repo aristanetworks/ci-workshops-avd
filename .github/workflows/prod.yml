@@ -22,7 +22,7 @@ jobs:
       #   uses: actions/setup-python@v5
 
       # - name: Install Python requirements
-      #   run: pip3 install "pyavd[ansible]==4.10.0"
+      #   run: pip3 install -r requirements.txt
 
       # - name: Run pre-commit on files
       #   uses: pre-commit/action@v3.0.0
@@ -33,7 +33,7 @@ jobs:
       #   with:
       #     filters: |
       #       workflows:
-      #         - 'sites/site_1/**'
+      #         - 'labs/L2LS/sites/site_1/**'
 
       # - name: Check paths for sites/site_2
       #   uses: dorny/paths-filter@v3
@@ -41,7 +41,7 @@ jobs:
       #   with:
       #     filters: |
       #       workflows:
-      #         - 'sites/site_2/**'
+      #         - 'labs/L2LS/sites/site_2/**'
 
       # - name: Install collections
       #   run: ansible-galaxy collection install -r requirements.yml
@@ -49,8 +49,10 @@ jobs:
 
       # - name: Build and deploy site1
       #   run: make build-site-1 cvp-site-1
+      #   working-directory: labs/L2LS/
       #   if: steps.filter-site1.outputs.workflows == 'true'
 
       # - name: Build and deploy site2
       #   run: make build-site-2 cvp-site-2
+      #   working-directory: labs/L2LS/
       #   if: steps.filter-site2.outputs.workflows == 'true'
