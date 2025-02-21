@@ -1,2 +1,2 @@
-pyavd[ansible]==4.10.0
+pyavd[ansible]==5.1.0
 passlib
