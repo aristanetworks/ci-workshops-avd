@@ -2,10 +2,10 @@
 collections:
 
   - name: arista.avd
-    version: 4.10.0
+    version: 5.2.2
 
   - name: arista.cvp
-    version: 3.10.1
+    version: 3.12.1
 
   - name: community.general
     version: 6.5.0
