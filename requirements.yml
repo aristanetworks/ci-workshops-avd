@@ -5,7 +5,7 @@ collections:
     version: 5.2.2
 
   - name: arista.cvp
-    version: 3.12.1
+    version: 3.12.0
 
   - name: community.general
     version: 6.5.0
