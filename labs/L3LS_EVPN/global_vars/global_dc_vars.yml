@@ -1,6 +1,6 @@
 ---
 
-# Credentials for CVP and EOS Switches
+# Credentials for CVP (legacy arista.avd.eos_config_deploy_cvp role) and EOS Switches
 ansible_user: arista
 ansible_password: "{{ lookup('env', 'LABPASSPHRASE') }}"
 ansible_network_os: arista.eos.eos
@@ -15,7 +15,12 @@ ansible_httpapi_validate_certs: false
 ansible_python_interpreter: $(which python3)
 avd_data_validation_mode: error
 
-# CVP node variables
+# arista.avd.cv_deploy role parameters
+cv_token: # Fill in here with a CloudVision Service Account Token
+cv_server: cvp
+cv_verify_certs: false
+
+# arista.avd.eos_config_deploy_cvp role parameters
 cv_collection: v3
 execute_tasks: true
 
