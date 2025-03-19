@@ -44,7 +44,7 @@ deploy-site-2: ## Deploy Configs via eAPI
 
 .PHONY: cvp-legacy-site-2
 cvp-legacy-site-2: ## Deploy Configs via CloudVision Legacy Network Provisioning
-	ansible-playbook playbooks/cvp.yml -i sites/site_2/inventory.yml -e "target_hosts=SITE2_FABRIC"
+	ansible-playbook playbooks/cvp-legacy.yml -i sites/site_2/inventory.yml -e "target_hosts=SITE2_FABRIC"
 
 .PHONY: cvp-site-2
 cvp-site-2: ## Deploy Configs via CloudVision Static Configuration Studio
