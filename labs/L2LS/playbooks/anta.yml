@@ -7,12 +7,15 @@
       ansible.builtin.import_role:
         name: arista.avd.eos_validate_state
       vars:
-        # To enable ANTA
-        use_anta: true
+        # To enable ANTA this is no longer needed as it's not the default behavior since AVD 5.0.0
+        # use_anta: true
         # To save catalogs
         save_catalog: true
         skip_tests:
-          - category:
+          - category: AvdTestNTP
+            tests: 
+              - VerifyNTP
+          - category: AvdTestHardware
             tests:
               - VerifyEnvironmentPower
               - VerifyTemperature
