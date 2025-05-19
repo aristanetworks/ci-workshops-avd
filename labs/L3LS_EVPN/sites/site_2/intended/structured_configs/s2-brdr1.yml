@@ -1,0 +1,247 @@
+aaa_root:
+  disabled: true
+config_end: true
+enable_password:
+  disabled: true
+ethernet_interfaces:
+- name: Ethernet1
+  description: MLAG_s2-brdr2_Ethernet1
+  shutdown: false
+  channel_group:
+    id: 1
+    mode: active
+  peer: s2-brdr2
+  peer_interface: Ethernet1
+  peer_type: mlag_peer
+- name: Ethernet6
+  description: MLAG_s2-brdr2_Ethernet6
+  shutdown: false
+  channel_group:
+    id: 1
+    mode: active
+  peer: s2-brdr2
+  peer_interface: Ethernet6
+  peer_type: mlag_peer
+- name: Ethernet2
+  description: P2P_s2-spine1_Ethernet7
+  shutdown: false
+  mtu: 1500
+  ip_address: 172.16.2.17/31
+  peer: s2-spine1
+  peer_interface: Ethernet7
+  peer_type: spine
+  switchport:
+    enabled: false
+- name: Ethernet3
+  description: P2P_s2-spine2_Ethernet7
+  shutdown: false
+  mtu: 1500
+  ip_address: 172.16.2.19/31
+  peer: s2-spine2
+  peer_interface: Ethernet7
+  peer_type: spine
+  switchport:
+    enabled: false
+hostname: s2-brdr1
+ip_igmp_snooping:
+  globally_enabled: true
+ip_routing: true
+ip_virtual_router_mac_address: 00:1c:73:00:00:99
+is_deployed: true
+local_users:
+- name: arista
+  privilege: 15
+  role: network-admin
+  sha512_password: $6$arista$Dsvittebp7nfMFkAR35IzaX8GfY6QaMVaCt3AqQGavGpsKsOMNmLvXWYOo1v3Rs5WQ00dwDrzQni8MBoV6mi2/
+  ssh_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDj8Vc3Lgzv+KuWc/cZ5cIgzK9ahNyEr0H3lexa5OHfW+VGHo6uYGuk3e8zaczikBT5qjiEaxgscyeBzEC8UjYjYMUdOveDpgt29ObfuPx4gUKDCP75vBv2vEJP2Q2PvryyvRrcTzN1h1X5gPDnqP/ovyLQ+BIbZe9R9IBrLc61s0CGmWUbzcjQAwlzD3DV2YxwhPRWxBeBcT78qDSBJrSL2WGClSHBSwHBJfdZL7KsWgXKPd2iBrz0TlSPMRwHu1T5ZIpKCRgZBWSt9Axg/M4b2gOm+4u6cWvQqQ2pSlkmVPDYclkkB33XVyEYXqKYEb4n57FEiBGlask8gDRH4R/R
+    arista@pa-test-1-1447602b-eos
+loopback_interfaces:
+- name: Loopback0
+  description: ROUTER_ID
+  shutdown: false
+  ip_address: 10.250.2.7/32
+- name: Loopback1
+  description: VXLAN_TUNNEL_SOURCE
+  shutdown: false
+  ip_address: 10.255.2.7/32
+management_api_http:
+  enable_https: true
+  enable_vrfs:
+  - name: default
+management_interfaces:
+- name: Management0
+  description: OOB_MANAGEMENT
+  shutdown: false
+  vrf: default
+  ip_address: 192.168.0.200/24
+  type: oob
+  gateway: 192.168.0.1
+metadata:
+  platform: cEOS
+  fabric_name: SITE2_FABRIC
+mlag_configuration:
+  domain_id: S2_BRDR
+  local_interface: Vlan4094
+  peer_address: 10.251.2.9
+  peer_link: Port-Channel1
+  reload_delay_mlag: '300'
+  reload_delay_non_mlag: '330'
+port_channel_interfaces:
+- name: Port-Channel1
+  description: MLAG_s2-brdr2_Port-Channel1
+  shutdown: false
+  switchport:
+    enabled: true
+    mode: trunk
+    trunk:
+      groups:
+      - MLAG
+prefix_lists:
+- name: PL-LOOPBACKS-EVPN-OVERLAY
+  sequence_numbers:
+  - sequence: 10
+    action: permit 10.250.2.0/24 eq 32
+  - sequence: 20
+    action: permit 10.255.2.0/24 eq 32
+route_maps:
+- name: RM-MLAG-PEER-IN
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    description: Make routes learned over MLAG Peer-link less preferred on spines to ensure optimal routing
+    set:
+    - origin incomplete
+- name: RM-CONN-2-BGP
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    match:
+    - ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY
+router_bfd:
+  multihop:
+    interval: 300
+    min_rx: 300
+    multiplier: 3
+router_bgp:
+  as: '65203'
+  router_id: 10.250.2.7
+  maximum_paths:
+    paths: 4
+    ecmp: 4
+  bgp:
+    default:
+      ipv4_unicast: false
+  peer_groups:
+  - name: MLAG-IPv4-UNDERLAY-PEER
+    type: ipv4
+    remote_as: '65203'
+    description: s2-brdr2
+    next_hop_self: true
+    password: 4b21pAdCvWeAqpcKDFMdWw==
+    send_community: all
+    maximum_routes: 12000
+    route_map_in: RM-MLAG-PEER-IN
+  - name: IPv4-UNDERLAY-PEERS
+    type: ipv4
+    password: 7x4B4rnJhZB438m9+BrBfQ==
+    send_community: all
+    maximum_routes: 12000
+  - name: EVPN-OVERLAY-PEERS
+    type: evpn
+    update_source: Loopback0
+    bfd: true
+    ebgp_multihop: 3
+    password: Q4fqtbqcZ7oQuKfuWtNGRQ==
+    send_community: all
+    maximum_routes: 0
+  neighbors:
+  - ip_address: 10.252.2.9
+    peer_group: MLAG-IPv4-UNDERLAY-PEER
+    peer: s2-brdr2
+    description: s2-brdr2_Vlan4093
+  - ip_address: 172.16.2.16
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65200'
+    peer: s2-spine1
+    description: s2-spine1_Ethernet7
+  - ip_address: 172.16.2.18
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65200'
+    peer: s2-spine2
+    description: s2-spine2_Ethernet7
+  - ip_address: 10.250.2.1
+    peer_group: EVPN-OVERLAY-PEERS
+    remote_as: '65200'
+    peer: s2-spine1
+    description: s2-spine1_Loopback0
+  - ip_address: 10.250.2.2
+    peer_group: EVPN-OVERLAY-PEERS
+    remote_as: '65200'
+    peer: s2-spine2
+    description: s2-spine2_Loopback0
+  redistribute:
+    connected:
+      enabled: true
+      route_map: RM-CONN-2-BGP
+  address_family_evpn:
+    peer_groups:
+    - name: EVPN-OVERLAY-PEERS
+      activate: true
+  address_family_ipv4:
+    peer_groups:
+    - name: MLAG-IPv4-UNDERLAY-PEER
+      activate: true
+    - name: IPv4-UNDERLAY-PEERS
+      activate: true
+    - name: EVPN-OVERLAY-PEERS
+      activate: false
+service_routing_protocols_model: multi-agent
+spanning_tree:
+  mode: mstp
+  mst_instances:
+  - id: '0'
+    priority: 4096
+  no_spanning_tree_vlan: 4093-4094
+static_routes:
+- vrf: default
+  destination_address_prefix: 0.0.0.0/0
+  gateway: 192.168.0.1
+transceiver_qsfp_default_mode_4x10: true
+vlan_interfaces:
+- name: Vlan4093
+  description: MLAG_L3
+  shutdown: false
+  ip_address: 10.252.2.8/31
+  mtu: 1500
+- name: Vlan4094
+  description: MLAG
+  shutdown: false
+  ip_address: 10.251.2.8/31
+  mtu: 1500
+  no_autostate: true
+vlan_internal_order:
+  allocation: ascending
+  range:
+    beginning: 1006
+    ending: 1199
+vlans:
+- id: 4093
+  name: MLAG_L3
+  trunk_groups:
+  - MLAG
+  tenant: system
+- id: 4094
+  name: MLAG
+  trunk_groups:
+  - MLAG
+  tenant: system
+vrfs:
+- name: default
+  ip_routing: false
+vxlan_interface:
+  vxlan1:
+    description: s2-brdr1_VTEP
+    vxlan:
+      source_interface: Loopback1
+      udp_port: 4789
+      virtual_router_encapsulation_mac_address: mlag-system-id
