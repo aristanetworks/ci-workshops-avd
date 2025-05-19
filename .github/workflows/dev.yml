@@ -33,7 +33,7 @@ jobs:
         with:
           filters: |
             workflows:
-              - 'labs/L2LS/sites/site_1/**'
+              - 'labs/L3LS_EVPN/sites/site_1/**'
 
       - name: Check paths for sites/site_2
         uses: dorny/paths-filter@v3
@@ -41,7 +41,7 @@ jobs:
         with:
           filters: |
             workflows:
-              - 'labs/L2LS/sites/site_2/**'
+              - 'labs/L3LS_EVPN/sites/site_2/**'
 
       - name: Install collections
         run: ansible-galaxy collection install -r requirements.yml
