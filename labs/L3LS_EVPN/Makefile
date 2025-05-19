@@ -57,3 +57,6 @@ cvp-site-2: ## Deploy Configs via CloudVision Static Configuration Studio
 .PHONY: preplab
 preplab: ## Deploy Configs via eAPI
 	ansible-playbook playbooks/preplab.yml -i extra_configs/inventory.yml -e "target_hosts=LAB"
+
+.PHONY: all
+all: build-site-1 build-site-2 deploy-site-1 deploy-site-2
