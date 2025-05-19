@@ -105,4 +105,17 @@ l3_edge:
       interfaces: [ Ethernet5, Ethernet5 ]
       profile: S1_to_S2_profile
 
+# Login Banner
+banners:
+  motd: |
+    You shall not pass. Unless you are authorized. Then you shall pass.
+    EOF
 
+# Syslog
+logging:
+  vrfs:
+    - name: default
+      source_interface: Management0
+      hosts:
+        - name: 10.200.0.108
+        - name: 10.200.1.108
