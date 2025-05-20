@@ -13,7 +13,7 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Hi
-        run: echo "Hello World!"
+        run: echo "$USER, $HOME"
 
       - name: Checkout
         uses: actions/checkout@v4
