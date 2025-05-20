@@ -13,7 +13,9 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Hi
-        run: echo "$USER, $HOME"
+        run: |
+          echo "$USER, $HOME"
+          curl --user arista:aristaiar9 --data "show version" --insecure https://192.168.0.100:443/command-api --verbose
 
       - name: Checkout
         uses: actions/checkout@v4
