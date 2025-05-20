@@ -5,11 +5,11 @@ repos:
     rev: v4.4.0
     hooks:
       - id: trailing-whitespace
-        files: labs/L2LS/sites/site_1/group_vars/|labs/L2LS/sites/site_2/group_vars/
+        files: labs/L3LS_EVPN/sites/site_1/group_vars/|labs/L2LS/sites/site_2/group_vars/
 
       - id: end-of-file-fixer
         exclude_types: [svg, json]
-        files: labs/L2LS/sites/site_1/group_vars/|labs/L2LS/sites/site_2/group_vars/
+        files: labs/L3LS_EVPN/sites/site_1/group_vars/|labs/L2LS/sites/site_2/group_vars/
 
       - id: check-yaml
-        files: labs/L2LS/sites/site_1/group_vars/|labs/L2LS/sites/site_2/group_vars/
+        files: labs/L3LS_EVPN/sites/site_1/group_vars/|labs/L2LS/sites/site_2/group_vars/

@@ -22,8 +22,8 @@ spine:
 # Leaf Switches
 l3leaf:
   defaults:
-    platform: cEOS 
-    spanning_tree_priority: 4096 
+    platform: cEOS
+    spanning_tree_priority: 4096
     spanning_tree_mode: mstp
     loopback_ipv4_pool: 10.250.1.0/24
     loopback_ipv4_offset: 2
@@ -72,7 +72,7 @@ l3leaf:
           mgmt_ip: 192.168.0.100/24
           uplink_switch_interfaces: [ Ethernet7, Ethernet7 ]
           evpn_gateway:
-            remote_peers: 
+            remote_peers:
               - hostname: s2-brdr1
                 bgp_as: 65203
                 ip_address: 10.250.2.7
@@ -81,7 +81,7 @@ l3leaf:
           mgmt_ip: 192.168.0.101/24
           uplink_switch_interfaces: [ Ethernet8, Ethernet8 ]
           evpn_gateway:
-            remote_peers: 
+            remote_peers:
               - hostname: s2-brdr2
                 bgp_as: 65203
                 ip_address: 10.250.2.8
