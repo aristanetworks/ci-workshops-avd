@@ -21,7 +21,6 @@ local_users:
     privilege: 15
     role: network-admin
     sha512_password: "{{ ansible_password | password_hash('sha512', salt='arista', rounds=5000) }}"
-    ssh_key: "{{ lookup('ansible.builtin.file', '/home/coder/.ssh/id_rsa.pub') }}"
 
 # AAA
 aaa_authorization:

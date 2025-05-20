@@ -145,7 +145,6 @@ management api http-commands
 ```eos
 !
 username arista privilege 15 role network-admin secret sha512 <removed>
-username arista ssh-key ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDj8Vc3Lgzv+KuWc/cZ5cIgzK9ahNyEr0H3lexa5OHfW+VGHo6uYGuk3e8zaczikBT5qjiEaxgscyeBzEC8UjYjYMUdOveDpgt29ObfuPx4gUKDCP75vBv2vEJP2Q2PvryyvRrcTzN1h1X5gPDnqP/ovyLQ+BIbZe9R9IBrLc61s0CGmWUbzcjQAwlzD3DV2YxwhPRWxBeBcT78qDSBJrSL2WGClSHBSwHBJfdZL7KsWgXKPd2iBrz0TlSPMRwHu1T5ZIpKCRgZBWSt9Axg/M4b2gOm+4u6cWvQqQ2pSlkmVPDYclkkB33XVyEYXqKYEb4n57FEiBGlask8gDRH4R/R arista@pa-test-1-1447602b-eos
 ```
 
 ### Enable Password

@@ -63,8 +63,6 @@ local_users:
   privilege: 15
   role: network-admin
   sha512_password: $6$arista$RArU/OEQzi81GpjRc8tQz6nDYbOoQGCq02vnj4AeNZrW6wSGSN6dyDw1/DzCDi5HvsTWHXFmASMPSy7iJED.T/
-  ssh_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDj8Vc3Lgzv+KuWc/cZ5cIgzK9ahNyEr0H3lexa5OHfW+VGHo6uYGuk3e8zaczikBT5qjiEaxgscyeBzEC8UjYjYMUdOveDpgt29ObfuPx4gUKDCP75vBv2vEJP2Q2PvryyvRrcTzN1h1X5gPDnqP/ovyLQ+BIbZe9R9IBrLc61s0CGmWUbzcjQAwlzD3DV2YxwhPRWxBeBcT78qDSBJrSL2WGClSHBSwHBJfdZL7KsWgXKPd2iBrz0TlSPMRwHu1T5ZIpKCRgZBWSt9Axg/M4b2gOm+4u6cWvQqQ2pSlkmVPDYclkkB33XVyEYXqKYEb4n57FEiBGlask8gDRH4R/R
-    arista@pa-test-1-1447602b-eos
 loopback_interfaces:
 - name: Loopback0
   description: ROUTER_ID
@@ -265,20 +263,6 @@ router_bgp:
         route_target: 10030:10030
     redistribute_routes:
     - learned
-  - id: 40
-    tenant: S1_FABRIC
-    rd: 10.250.1.7:10040
-    rd_evpn_domain:
-      domain: remote
-      rd: 10.250.1.7:10040
-    route_targets:
-      both:
-      - 10040:10040
-      import_export_evpn_domains:
-      - domain: remote
-        route_target: 10040:10040
-    redistribute_routes:
-    - learned
   address_family_evpn:
     neighbor_default:
       next_hop_self_received_evpn_routes:
@@ -363,12 +347,6 @@ vlan_interfaces:
   vrf: OVERLAY
   ip_address_virtual: 10.30.30.1/24
   tenant: S1_FABRIC
-- name: Vlan40
-  description: '40'
-  shutdown: false
-  vrf: OVERLAY
-  ip_address_virtual: 10.40.40.1/24
-  tenant: S1_FABRIC
 - name: Vlan3009
   description: MLAG_L3_VRF_OVERLAY
   shutdown: false
@@ -402,9 +380,6 @@ vlans:
 - id: 30
   name: '30'
   tenant: S1_FABRIC
-- id: 40
-  name: '40'
-  tenant: S1_FABRIC
 - id: 3009
   name: MLAG_L3_VRF_OVERLAY
   trunk_groups:
@@ -430,8 +405,6 @@ vxlan_interface:
         vni: 10020
       - id: 30
         vni: 10030
-      - id: 40
-        vni: 10040
       vrfs:
       - name: OVERLAY
         vni: 10
