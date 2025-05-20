@@ -10,7 +10,7 @@ jobs:
     env:
       LABPASSPHRASE: ${{ secrets.LABPASSPHRASE }}
     timeout-minutes: 15
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Hi
         run: echo "Hello World!"
