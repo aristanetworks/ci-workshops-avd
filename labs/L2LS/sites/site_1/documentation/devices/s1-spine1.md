@@ -253,7 +253,6 @@ vlan internal order ascending range 1006 1199
 | ------- | ---- | ------------ |
 | 10 | Ten | - |
 | 20 | Twenty | - |
-| 25 | Twenty-five | - |
 | 4093 | MLAG_L3 | MLAG |
 | 4094 | MLAG | MLAG |
 
@@ -266,9 +265,6 @@ vlan 10
 !
 vlan 20
    name Twenty
-!
-vlan 25
-   name Twenty-five
 !
 vlan 4093
    name MLAG_L3
@@ -433,7 +429,6 @@ interface Loopback0
 | --------- | ----------- | --- | ---- | -------- |
 | Vlan10 | Ten | default | - | False |
 | Vlan20 | Twenty | default | - | False |
-| Vlan25 | Twenty-five | default | - | False |
 | Vlan4093 | MLAG_L3 | default | 1500 | False |
 | Vlan4094 | MLAG | default | 1500 | False |
 
@@ -443,7 +438,6 @@ interface Loopback0
 | --------- | --- | ---------- | ------------------ | ------------------------- | ------ | ------- |
 | Vlan10 |  default  |  10.10.10.2/24  |  -  |  10.10.10.1  |  -  |  -  |
 | Vlan20 |  default  |  10.20.20.2/24  |  -  |  10.20.20.1  |  -  |  -  |
-| Vlan25 |  default  |  10.25.25.2/24  |  -  |  10.25.25.1  |  -  |  -  |
 | Vlan4093 |  default  |  10.1.253.2/31  |  -  |  -  |  -  |  -  |
 | Vlan4094 |  default  |  10.1.253.0/31  |  -  |  -  |  -  |  -  |
 
@@ -462,12 +456,6 @@ interface Vlan20
    no shutdown
    ip address 10.20.20.2/24
    ip virtual-router address 10.20.20.1
-!
-interface Vlan25
-   description Twenty-five
-   no shutdown
-   ip address 10.25.25.2/24
-   ip virtual-router address 10.25.25.1
 !
 interface Vlan4093
    description MLAG_L3

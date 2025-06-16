@@ -207,15 +207,6 @@ vlan_interfaces:
   tenant: MY_FABRIC
   tags:
   - DMZ
-- name: Vlan45
-  description: Forty-five
-  shutdown: false
-  ip_address: 10.45.45.3/24
-  ip_virtual_router_addresses:
-  - 10.45.45.1
-  tenant: MY_FABRIC
-  tags:
-  - Guest
 vlan_internal_order:
   allocation: ascending
   range:
@@ -237,9 +228,6 @@ vlans:
   tenant: MY_FABRIC
 - id: 40
   name: Forty
-  tenant: MY_FABRIC
-- id: 45
-  name: Forty-five
   tenant: MY_FABRIC
 vrfs:
 - name: default
