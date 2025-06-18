@@ -117,26 +117,6 @@ anta.tests.connectivity:
     result_overwrite:
       custom_field: 'Source: Loopback0 (IP: 10.250.1.8) - Destination: s1-brdr2 Loopback0
         (IP: 10.250.1.8)'
-anta.tests.hardware:
-- VerifyEnvironmentPower:
-    result_overwrite:
-      custom_field: 'Accepted States: ''ok'''
-    states:
-    - ok
-- VerifyEnvironmentCooling:
-    result_overwrite:
-      custom_field: 'Accepted States: ''ok'''
-    states:
-    - ok
-- VerifyTemperature: null
-- VerifyTransceiversManufacturers:
-    manufacturers:
-    - Arista Networks
-    - Arastra, Inc.
-    - Not Present
-    result_overwrite:
-      custom_field: 'Accepted Manufacturers: ''Arista Networks'', ''Arastra, Inc.'',
-        ''Not Present'''
 anta.tests.interfaces:
 - VerifyInterfacesStatus:
     interfaces:

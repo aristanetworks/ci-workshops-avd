@@ -191,57 +191,6 @@
   },
   {
     "name": "s1-leaf4",
-    "test": "VerifyEnvironmentCooling",
-    "categories": [
-      "hardware"
-    ],
-    "description": "Verifies the status of power supply fans and all fan trays.",
-    "result": "skipped",
-    "messages": [
-      "VerifyEnvironmentCooling test is not supported on cEOSLab."
-    ],
-    "custom_field": "Accepted States: 'ok'"
-  },
-  {
-    "name": "s1-leaf4",
-    "test": "VerifyEnvironmentPower",
-    "categories": [
-      "hardware"
-    ],
-    "description": "Verifies the power supplies status.",
-    "result": "skipped",
-    "messages": [
-      "VerifyEnvironmentPower test is not supported on cEOSLab."
-    ],
-    "custom_field": "Accepted States: 'ok'"
-  },
-  {
-    "name": "s1-leaf4",
-    "test": "VerifyTemperature",
-    "categories": [
-      "hardware"
-    ],
-    "description": "Verifies if the device temperature is within acceptable limits.",
-    "result": "skipped",
-    "messages": [
-      "VerifyTemperature test is not supported on cEOSLab."
-    ]
-  },
-  {
-    "name": "s1-leaf4",
-    "test": "VerifyTransceiversManufacturers",
-    "categories": [
-      "hardware"
-    ],
-    "description": "Verifies if all the transceivers come from approved manufacturers.",
-    "result": "skipped",
-    "messages": [
-      "VerifyTransceiversManufacturers test is not supported on cEOSLab."
-    ],
-    "custom_field": "Accepted Manufacturers: 'Arista Networks', 'Arastra, Inc.', 'Not Present'"
-  },
-  {
-    "name": "s1-leaf4",
     "test": "VerifyInterfacesStatus",
     "categories": [
       "interfaces"

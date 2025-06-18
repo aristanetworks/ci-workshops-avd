@@ -95,26 +95,6 @@ anta.tests.connectivity:
     result_overwrite:
       custom_field: 'Source: P2P Interface Ethernet8 (IP: 172.16.1.20) - Destination:
         s1-brdr2 Ethernet2 (IP: 172.16.1.21)'
-anta.tests.hardware:
-- VerifyEnvironmentPower:
-    result_overwrite:
-      custom_field: 'Accepted States: ''ok'''
-    states:
-    - ok
-- VerifyEnvironmentCooling:
-    result_overwrite:
-      custom_field: 'Accepted States: ''ok'''
-    states:
-    - ok
-- VerifyTemperature: null
-- VerifyTransceiversManufacturers:
-    manufacturers:
-    - Arista Networks
-    - Arastra, Inc.
-    - Not Present
-    result_overwrite:
-      custom_field: 'Accepted Manufacturers: ''Arista Networks'', ''Arastra, Inc.'',
-        ''Not Present'''
 anta.tests.interfaces:
 - VerifyInterfacesStatus:
     interfaces:
