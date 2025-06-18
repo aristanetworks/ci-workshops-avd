@@ -14,4 +14,48 @@ anta.tests.software:
     - VerifyTerminAttrVersion:
         versions:
         - v1.32.0
+        - v1.35.0
 
+anta.tests.routing:
+  generic: 
+    - VerifyRoutingProtocolModel:
+        model: multi-agent
+  bgp:
+    - VerifyBGPPeerCount: 
+        address_families:
+        - afi: "evpn" 
+          num_peers: 2 
+        - afi: "ipv4"
+          safi: "unicast"
+          vrf: "OVERLAY"
+          num_peers: 1 
+        - afi: "ipv4"
+          safi: "unicast"
+          vrf: "default"
+          num_peers: 3
+        filters:
+          tags: ['leaf']
+    - VerifyBGPPeerCount:
+        address_families:
+        - afi: "evpn"
+          num_peers: 6
+        - afi: "ipv4"
+          safi: "unicast"
+          vrf: "default"
+          num_peers: 6
+        filters:
+          tags: ['spine']
+    - VerifyBGPPeerCount:
+        address_families:
+        - afi: "evpn"
+          num_peers: 2
+        - afi: "ipv4"
+          safi: "unicast"
+          vrf: "OVERLAY"
+          num_peers: 1
+        - afi: "ipv4"
+          safi: "unicast"
+          vrf: "default"
+          num_peers: 3
+        filters:
+          tags: ['border']
