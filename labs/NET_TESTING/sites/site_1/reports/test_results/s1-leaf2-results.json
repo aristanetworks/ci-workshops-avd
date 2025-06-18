@@ -358,6 +358,16 @@
     ],
     "description": "Verifies the operational states of specified interfaces to ensure they match expected configurations.",
     "result": "success",
+    "custom_field": "Interface Vlan30 - Thiry = 'up'"
+  },
+  {
+    "name": "s1-leaf2",
+    "test": "VerifyInterfacesStatus",
+    "categories": [
+      "interfaces"
+    ],
+    "description": "Verifies the operational states of specified interfaces to ensure they match expected configurations.",
+    "result": "success",
     "custom_field": "Interface Vlan3009 - MLAG_L3_VRF_OVERLAY = 'up'"
   },
   {

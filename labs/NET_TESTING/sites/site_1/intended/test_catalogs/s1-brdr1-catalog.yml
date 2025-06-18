@@ -200,6 +200,12 @@ anta.tests.interfaces:
       custom_field: Interface Vlan20 - Twenty = 'up'
 - VerifyInterfacesStatus:
     interfaces:
+    - name: Vlan30
+      status: up
+    result_overwrite:
+      custom_field: Interface Vlan30 - Thiry = 'up'
+- VerifyInterfacesStatus:
+    interfaces:
     - name: Vlan3009
       status: up
     result_overwrite:
