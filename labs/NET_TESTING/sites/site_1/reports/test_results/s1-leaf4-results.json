@@ -402,6 +402,24 @@
   },
   {
     "name": "s1-leaf4",
+    "test": "VerifyLoggingHosts",
+    "categories": [
+      "logging"
+    ],
+    "description": "Verifies logging hosts (syslog servers) for a specified VRF.",
+    "result": "success"
+  },
+  {
+    "name": "s1-leaf4",
+    "test": "VerifyLoggingSourceIntf",
+    "categories": [
+      "logging"
+    ],
+    "description": "Verifies logging source-interface for a specified VRF.",
+    "result": "success"
+  },
+  {
+    "name": "s1-leaf4",
     "test": "VerifyMlagStatus",
     "categories": [
       "mlag"

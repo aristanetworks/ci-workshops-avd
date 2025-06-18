@@ -1,12 +1,12 @@
 ###########################################################
 # ------------------- Logging Tests --------------------- #
 ###########################################################
-# anta.tests.logging:
-#   - VerifyLoggingHosts:
-#       hosts:
-#         - 10.100.100.100
-#       vrf: default
+anta.tests.logging:
+  - VerifyLoggingHosts:
+      hosts:
+        - 10.100.100.100
+      vrf: default
 
-#   - VerifyLoggingSourceIntf:
-#       interface: Management0
-#       vrf: default
+  - VerifyLoggingSourceIntf:
+      interface: Management0
+      vrf: default

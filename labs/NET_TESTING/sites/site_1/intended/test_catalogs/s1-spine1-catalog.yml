@@ -158,6 +158,14 @@ anta.tests.interfaces:
       status: up
     result_overwrite:
       custom_field: Interface Loopback0 - ROUTER_ID = 'up'
+anta.tests.logging:
+- VerifyLoggingHosts:
+    hosts:
+    - 10.100.100.100
+    vrf: default
+- VerifyLoggingSourceIntf:
+    interface: Management0
+    vrf: default
 anta.tests.routing.bgp:
 - VerifyBGPSpecificPeers:
     address_families:
