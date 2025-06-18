@@ -362,6 +362,24 @@
   },
   {
     "name": "s1-spine2",
+    "test": "VerifyLoggingHosts",
+    "categories": [
+      "logging"
+    ],
+    "description": "Verifies logging hosts (syslog servers) for a specified VRF.",
+    "result": "success"
+  },
+  {
+    "name": "s1-spine2",
+    "test": "VerifyLoggingSourceIntf",
+    "categories": [
+      "logging"
+    ],
+    "description": "Verifies logging source-interface for a specified VRF.",
+    "result": "success"
+  },
+  {
+    "name": "s1-spine2",
     "test": "VerifyRoutingProtocolModel",
     "categories": [
       "routing"

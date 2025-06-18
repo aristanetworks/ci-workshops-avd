@@ -357,10 +357,7 @@
       "interfaces"
     ],
     "description": "Verifies the operational states of specified interfaces to ensure they match expected configurations.",
-    "result": "failure",
-    "messages": [
-      "Vlan30 - Not configured"
-    ],
+    "result": "success",
     "custom_field": "Interface Vlan30 - Thiry = 'up'"
   },
   {
@@ -402,6 +399,24 @@
     "description": "Verifies the operational states of specified interfaces to ensure they match expected configurations.",
     "result": "success",
     "custom_field": "Interface Vxlan1 = 'up'"
+  },
+  {
+    "name": "s1-leaf1",
+    "test": "VerifyLoggingHosts",
+    "categories": [
+      "logging"
+    ],
+    "description": "Verifies logging hosts (syslog servers) for a specified VRF.",
+    "result": "success"
+  },
+  {
+    "name": "s1-leaf1",
+    "test": "VerifyLoggingSourceIntf",
+    "categories": [
+      "logging"
+    ],
+    "description": "Verifies logging source-interface for a specified VRF.",
+    "result": "success"
   },
   {
     "name": "s1-leaf1",
