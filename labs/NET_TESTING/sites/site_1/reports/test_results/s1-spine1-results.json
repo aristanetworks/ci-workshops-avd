@@ -66,10 +66,7 @@
       "bgp"
     ],
     "description": "Verifies the health of specific BGP peer(s) for given address families.",
-    "result": "failure",
-    "messages": [
-      "AFI: ipv4 SAFI: unicast VRF: default Peer: 172.16.1.17 - Session state is not established - State: Active"
-    ],
+    "result": "success",
     "custom_field": "BGP IPv4 Unicast Peer: s1-brdr1 (IP: 172.16.1.17)"
   },
   {
@@ -169,11 +166,8 @@
       "connectivity"
     ],
     "description": "Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.",
-    "result": "failure",
-    "messages": [
-      "Port Ethernet6 (Neighbor: s1-brdr1.atd.lab, Neighbor Port: Ethernet2) - Wrong LLDP neighbors: s1-spine2.atd.lab/Ethernet6"
-    ],
-    "custom_field": "Local: Ethernet6 - Remote: s1-brdr1 Ethernet2"
+    "result": "success",
+    "custom_field": "Local: Ethernet7 - Remote: s1-brdr1 Ethernet2"
   },
   {
     "name": "s1-spine1",
@@ -232,11 +226,8 @@
       "connectivity"
     ],
     "description": "Test network reachability to one or many destination IP(s).",
-    "result": "failure",
-    "messages": [
-      "Host 172.16.1.17 (src: 172.16.1.16, vrf: default, size: 100B, repeat: 1) - Unreachable"
-    ],
-    "custom_field": "Source: P2P Interface Ethernet6 (IP: 172.16.1.16) - Destination: s1-brdr1 Ethernet2 (IP: 172.16.1.17)"
+    "result": "success",
+    "custom_field": "Source: P2P Interface Ethernet7 (IP: 172.16.1.16) - Destination: s1-brdr1 Ethernet2 (IP: 172.16.1.17)"
   },
   {
     "name": "s1-spine1",
@@ -347,7 +338,7 @@
     ],
     "description": "Verifies the operational states of specified interfaces to ensure they match expected configurations.",
     "result": "success",
-    "custom_field": "Interface Ethernet6 - P2P_s1-brdr1_Ethernet2 = 'up'"
+    "custom_field": "Interface Ethernet7 - P2P_s1-brdr1_Ethernet2 = 'up'"
   },
   {
     "name": "s1-spine1",

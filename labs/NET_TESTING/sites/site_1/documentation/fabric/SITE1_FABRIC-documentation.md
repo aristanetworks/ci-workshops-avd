@@ -38,8 +38,8 @@
 | Type | Node | Node Interface | Peer Type | Peer Node | Peer Interface |
 | ---- | ---- | -------------- | --------- | ----------| -------------- |
 | l3leaf | s1-brdr1 | Ethernet1 | mlag_peer | s1-brdr2 | Ethernet1 |
-| l3leaf | s1-brdr1 | Ethernet2 | spine | s1-spine1 | Ethernet6 |
-| l3leaf | s1-brdr1 | Ethernet3 | spine | s1-spine2 | Ethernet6 |
+| l3leaf | s1-brdr1 | Ethernet2 | spine | s1-spine1 | Ethernet7 |
+| l3leaf | s1-brdr1 | Ethernet3 | spine | s1-spine2 | Ethernet7 |
 | l3leaf | s1-brdr1 | Ethernet6 | mlag_peer | s1-brdr2 | Ethernet6 |
 | l3leaf | s1-brdr2 | Ethernet2 | spine | s1-spine1 | Ethernet8 |
 | l3leaf | s1-brdr2 | Ethernet3 | spine | s1-spine2 | Ethernet8 |
@@ -68,8 +68,8 @@
 
 | Node | Node Interface | Node IP Address | Peer Node | Peer Interface | Peer IP Address |
 | ---- | -------------- | --------------- | --------- | -------------- | --------------- |
-| s1-brdr1 | Ethernet2 | 172.16.1.17/31 | s1-spine1 | Ethernet6 | 172.16.1.16/31 |
-| s1-brdr1 | Ethernet3 | 172.16.1.19/31 | s1-spine2 | Ethernet6 | 172.16.1.18/31 |
+| s1-brdr1 | Ethernet2 | 172.16.1.17/31 | s1-spine1 | Ethernet7 | 172.16.1.16/31 |
+| s1-brdr1 | Ethernet3 | 172.16.1.19/31 | s1-spine2 | Ethernet7 | 172.16.1.18/31 |
 | s1-brdr2 | Ethernet2 | 172.16.1.21/31 | s1-spine1 | Ethernet8 | 172.16.1.20/31 |
 | s1-brdr2 | Ethernet3 | 172.16.1.23/31 | s1-spine2 | Ethernet8 | 172.16.1.22/31 |
 | s1-leaf1 | Ethernet2 | 172.16.1.1/31 | s1-spine1 | Ethernet2 | 172.16.1.0/31 |

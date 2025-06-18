@@ -226,7 +226,7 @@ vlan internal order ascending range 1006 1199
 | Ethernet3 | P2P_s1-leaf2_Ethernet3 | - | 172.16.1.6/31 | default | 1500 | False | - | - |
 | Ethernet4 | P2P_s1-leaf3_Ethernet3 | - | 172.16.1.10/31 | default | 1500 | False | - | - |
 | Ethernet5 | P2P_s1-leaf4_Ethernet3 | - | 172.16.1.14/31 | default | 1500 | False | - | - |
-| Ethernet6 | P2P_s1-brdr1_Ethernet3 | - | 172.16.1.18/31 | default | 1500 | False | - | - |
+| Ethernet7 | P2P_s1-brdr1_Ethernet3 | - | 172.16.1.18/31 | default | 1500 | False | - | - |
 | Ethernet8 | P2P_s1-brdr2_Ethernet3 | - | 172.16.1.22/31 | default | 1500 | False | - | - |
 
 #### Ethernet Interfaces Device Configuration
@@ -261,7 +261,7 @@ interface Ethernet5
    no switchport
    ip address 172.16.1.14/31
 !
-interface Ethernet6
+interface Ethernet7
    description P2P_s1-brdr1_Ethernet3
    no shutdown
    mtu 1500

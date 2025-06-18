@@ -44,7 +44,7 @@ ethernet_interfaces:
   peer_type: l3leaf
   switchport:
     enabled: false
-- name: Ethernet6
+- name: Ethernet7
   description: P2P_s1-brdr1_Ethernet2
   shutdown: false
   mtu: 1500
