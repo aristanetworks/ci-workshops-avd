@@ -390,6 +390,39 @@
   },
   {
     "name": "s1-spine2",
+    "test": "VerifyCPUUtilization",
+    "categories": [
+      "system"
+    ],
+    "description": "Verifies whether the CPU utilization is below 75%.",
+    "result": "failure",
+    "messages": [
+      "Device has reported a high CPU utilization: 99.7%"
+    ]
+  },
+  {
+    "name": "s1-spine2",
+    "test": "VerifyFileSystemUtilization",
+    "categories": [
+      "system"
+    ],
+    "description": "Verifies that no partition is utilizing more than 75% of its disk space.",
+    "result": "success"
+  },
+  {
+    "name": "s1-spine2",
+    "test": "VerifyMemoryUtilization",
+    "categories": [
+      "system"
+    ],
+    "description": "Verifies whether the memory utilization is below 75%.",
+    "result": "failure",
+    "messages": [
+      "Device has reported a high memory usage: 93.11%"
+    ]
+  },
+  {
+    "name": "s1-spine2",
     "test": "VerifyNTP",
     "categories": [
       "system"
