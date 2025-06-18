@@ -1,0 +1,551 @@
+[
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyBGPSpecificPeers",
+    "categories": [
+      "bgp"
+    ],
+    "description": "Verifies the health of specific BGP peer(s) for given address families.",
+    "result": "success",
+    "custom_field": "BGP EVPN Peer: s1-spine1 (IP: 10.250.1.1)"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyBGPSpecificPeers",
+    "categories": [
+      "bgp"
+    ],
+    "description": "Verifies the health of specific BGP peer(s) for given address families.",
+    "result": "success",
+    "custom_field": "BGP EVPN Peer: s1-spine2 (IP: 10.250.1.2)"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyBGPSpecificPeers",
+    "categories": [
+      "bgp"
+    ],
+    "description": "Verifies the health of specific BGP peer(s) for given address families.",
+    "result": "success",
+    "custom_field": "BGP IPv4 Unicast Peer: s1-brdr2 (IP: 10.252.1.9)"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyBGPSpecificPeers",
+    "categories": [
+      "bgp"
+    ],
+    "description": "Verifies the health of specific BGP peer(s) for given address families.",
+    "result": "failure",
+    "messages": [
+      "AFI: ipv4 SAFI: unicast VRF: default Peer: 172.16.1.16 - Session state is not established - State: Active"
+    ],
+    "custom_field": "BGP IPv4 Unicast Peer: s1-spine1 (IP: 172.16.1.16)"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyBGPSpecificPeers",
+    "categories": [
+      "bgp"
+    ],
+    "description": "Verifies the health of specific BGP peer(s) for given address families.",
+    "result": "failure",
+    "messages": [
+      "AFI: ipv4 SAFI: unicast VRF: default Peer: 172.16.1.18 - Session state is not established - State: Active"
+    ],
+    "custom_field": "BGP IPv4 Unicast Peer: s1-spine2 (IP: 172.16.1.18)"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyLLDPNeighbors",
+    "categories": [
+      "connectivity"
+    ],
+    "description": "Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.",
+    "result": "success",
+    "custom_field": "Local: Ethernet1 - Remote: s1-brdr2 Ethernet1"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyLLDPNeighbors",
+    "categories": [
+      "connectivity"
+    ],
+    "description": "Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.",
+    "result": "failure",
+    "messages": [
+      "Port Ethernet2 (Neighbor: s1-spine1.atd.lab, Neighbor Port: Ethernet6) - Wrong LLDP neighbors: s1-spine1.atd.lab/Ethernet7"
+    ],
+    "custom_field": "Local: Ethernet2 - Remote: s1-spine1 Ethernet6"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyLLDPNeighbors",
+    "categories": [
+      "connectivity"
+    ],
+    "description": "Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.",
+    "result": "failure",
+    "messages": [
+      "Port Ethernet3 (Neighbor: s1-spine2.atd.lab, Neighbor Port: Ethernet6) - Wrong LLDP neighbors: s1-spine2.atd.lab/Ethernet7"
+    ],
+    "custom_field": "Local: Ethernet3 - Remote: s1-spine2 Ethernet6"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyLLDPNeighbors",
+    "categories": [
+      "connectivity"
+    ],
+    "description": "Verifies the connection status of the specified LLDP (Link Layer Discovery Protocol) neighbors.",
+    "result": "success",
+    "custom_field": "Local: Ethernet6 - Remote: s1-brdr2 Ethernet6"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyReachability",
+    "categories": [
+      "connectivity"
+    ],
+    "description": "Test network reachability to one or many destination IP(s).",
+    "result": "success",
+    "custom_field": "Source: Loopback0 (IP: 10.250.1.7) - Destination: s1-brdr1 Loopback0 (IP: 10.250.1.7)"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyReachability",
+    "categories": [
+      "connectivity"
+    ],
+    "description": "Test network reachability to one or many destination IP(s).",
+    "result": "success",
+    "custom_field": "Source: Loopback0 (IP: 10.250.1.7) - Destination: s1-brdr2 Loopback0 (IP: 10.250.1.8)"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyReachability",
+    "categories": [
+      "connectivity"
+    ],
+    "description": "Test network reachability to one or many destination IP(s).",
+    "result": "success",
+    "custom_field": "Source: Loopback0 (IP: 10.250.1.7) - Destination: s1-leaf1 Loopback0 (IP: 10.250.1.3)"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyReachability",
+    "categories": [
+      "connectivity"
+    ],
+    "description": "Test network reachability to one or many destination IP(s).",
+    "result": "success",
+    "custom_field": "Source: Loopback0 (IP: 10.250.1.7) - Destination: s1-leaf2 Loopback0 (IP: 10.250.1.4)"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyReachability",
+    "categories": [
+      "connectivity"
+    ],
+    "description": "Test network reachability to one or many destination IP(s).",
+    "result": "success",
+    "custom_field": "Source: Loopback0 (IP: 10.250.1.7) - Destination: s1-leaf3 Loopback0 (IP: 10.250.1.5)"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyReachability",
+    "categories": [
+      "connectivity"
+    ],
+    "description": "Test network reachability to one or many destination IP(s).",
+    "result": "success",
+    "custom_field": "Source: Loopback0 (IP: 10.250.1.7) - Destination: s1-leaf4 Loopback0 (IP: 10.250.1.6)"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyReachability",
+    "categories": [
+      "connectivity"
+    ],
+    "description": "Test network reachability to one or many destination IP(s).",
+    "result": "success",
+    "custom_field": "Source: Loopback0 (IP: 10.250.1.7) - Destination: s1-spine1 Loopback0 (IP: 10.250.1.1)"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyReachability",
+    "categories": [
+      "connectivity"
+    ],
+    "description": "Test network reachability to one or many destination IP(s).",
+    "result": "success",
+    "custom_field": "Source: Loopback0 (IP: 10.250.1.7) - Destination: s1-spine2 Loopback0 (IP: 10.250.1.2)"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyReachability",
+    "categories": [
+      "connectivity"
+    ],
+    "description": "Test network reachability to one or many destination IP(s).",
+    "result": "failure",
+    "messages": [
+      "Host 172.16.1.16 (src: 172.16.1.17, vrf: default, size: 100B, repeat: 1) - Unreachable"
+    ],
+    "custom_field": "Source: P2P Interface Ethernet2 (IP: 172.16.1.17) - Destination: s1-spine1 Ethernet6 (IP: 172.16.1.16)"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyReachability",
+    "categories": [
+      "connectivity"
+    ],
+    "description": "Test network reachability to one or many destination IP(s).",
+    "result": "failure",
+    "messages": [
+      "Host 172.16.1.18 (src: 172.16.1.19, vrf: default, size: 100B, repeat: 1) - Unreachable"
+    ],
+    "custom_field": "Source: P2P Interface Ethernet3 (IP: 172.16.1.19) - Destination: s1-spine2 Ethernet6 (IP: 172.16.1.18)"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyEnvironmentCooling",
+    "categories": [
+      "hardware"
+    ],
+    "description": "Verifies the status of power supply fans and all fan trays.",
+    "result": "skipped",
+    "messages": [
+      "VerifyEnvironmentCooling test is not supported on cEOSLab."
+    ],
+    "custom_field": "Accepted States: 'ok'"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyEnvironmentPower",
+    "categories": [
+      "hardware"
+    ],
+    "description": "Verifies the power supplies status.",
+    "result": "skipped",
+    "messages": [
+      "VerifyEnvironmentPower test is not supported on cEOSLab."
+    ],
+    "custom_field": "Accepted States: 'ok'"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyTemperature",
+    "categories": [
+      "hardware"
+    ],
+    "description": "Verifies if the device temperature is within acceptable limits.",
+    "result": "skipped",
+    "messages": [
+      "VerifyTemperature test is not supported on cEOSLab."
+    ]
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyTransceiversManufacturers",
+    "categories": [
+      "hardware"
+    ],
+    "description": "Verifies if all the transceivers come from approved manufacturers.",
+    "result": "skipped",
+    "messages": [
+      "VerifyTransceiversManufacturers test is not supported on cEOSLab."
+    ],
+    "custom_field": "Accepted Manufacturers: 'Arista Networks', 'Arastra, Inc.', 'Not Present'"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyInterfacesStatus",
+    "categories": [
+      "interfaces"
+    ],
+    "description": "Verifies the operational states of specified interfaces to ensure they match expected configurations.",
+    "result": "success",
+    "custom_field": "Interface Ethernet1 - MLAG_s1-brdr2_Ethernet1 = 'up'"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyInterfacesStatus",
+    "categories": [
+      "interfaces"
+    ],
+    "description": "Verifies the operational states of specified interfaces to ensure they match expected configurations.",
+    "result": "success",
+    "custom_field": "Interface Ethernet2 - P2P_s1-spine1_Ethernet6 = 'up'"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyInterfacesStatus",
+    "categories": [
+      "interfaces"
+    ],
+    "description": "Verifies the operational states of specified interfaces to ensure they match expected configurations.",
+    "result": "success",
+    "custom_field": "Interface Ethernet3 - P2P_s1-spine2_Ethernet6 = 'up'"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyInterfacesStatus",
+    "categories": [
+      "interfaces"
+    ],
+    "description": "Verifies the operational states of specified interfaces to ensure they match expected configurations.",
+    "result": "success",
+    "custom_field": "Interface Ethernet4 - P2P_s2-brdr1_Ethernet4 = 'up'"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyInterfacesStatus",
+    "categories": [
+      "interfaces"
+    ],
+    "description": "Verifies the operational states of specified interfaces to ensure they match expected configurations.",
+    "result": "success",
+    "custom_field": "Interface Ethernet6 - MLAG_s1-brdr2_Ethernet6 = 'up'"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyInterfacesStatus",
+    "categories": [
+      "interfaces"
+    ],
+    "description": "Verifies the operational states of specified interfaces to ensure they match expected configurations.",
+    "result": "success",
+    "custom_field": "Interface Loopback0 - ROUTER_ID = 'up'"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyInterfacesStatus",
+    "categories": [
+      "interfaces"
+    ],
+    "description": "Verifies the operational states of specified interfaces to ensure they match expected configurations.",
+    "result": "success",
+    "custom_field": "Interface Loopback1 - VXLAN_TUNNEL_SOURCE = 'up'"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyInterfacesStatus",
+    "categories": [
+      "interfaces"
+    ],
+    "description": "Verifies the operational states of specified interfaces to ensure they match expected configurations.",
+    "result": "success",
+    "custom_field": "Interface Port-Channel1 - MLAG_s1-brdr2_Port-Channel1 = 'up'"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyInterfacesStatus",
+    "categories": [
+      "interfaces"
+    ],
+    "description": "Verifies the operational states of specified interfaces to ensure they match expected configurations.",
+    "result": "success",
+    "custom_field": "Interface Vlan10 - Ten = 'up'"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyInterfacesStatus",
+    "categories": [
+      "interfaces"
+    ],
+    "description": "Verifies the operational states of specified interfaces to ensure they match expected configurations.",
+    "result": "success",
+    "custom_field": "Interface Vlan20 - Twenty = 'up'"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyInterfacesStatus",
+    "categories": [
+      "interfaces"
+    ],
+    "description": "Verifies the operational states of specified interfaces to ensure they match expected configurations.",
+    "result": "success",
+    "custom_field": "Interface Vlan3009 - MLAG_L3_VRF_OVERLAY = 'up'"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyInterfacesStatus",
+    "categories": [
+      "interfaces"
+    ],
+    "description": "Verifies the operational states of specified interfaces to ensure they match expected configurations.",
+    "result": "success",
+    "custom_field": "Interface Vlan4093 - MLAG_L3 = 'up'"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyInterfacesStatus",
+    "categories": [
+      "interfaces"
+    ],
+    "description": "Verifies the operational states of specified interfaces to ensure they match expected configurations.",
+    "result": "success",
+    "custom_field": "Interface Vlan4094 - MLAG = 'up'"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyInterfacesStatus",
+    "categories": [
+      "interfaces"
+    ],
+    "description": "Verifies the operational states of specified interfaces to ensure they match expected configurations.",
+    "result": "success",
+    "custom_field": "Interface Vxlan1 = 'up'"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyMlagStatus",
+    "categories": [
+      "mlag"
+    ],
+    "description": "Verifies the health status of the MLAG configuration.",
+    "result": "success"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyRoutingProtocolModel",
+    "categories": [
+      "routing"
+    ],
+    "description": "Verifies the configured routing protocol model.",
+    "result": "success",
+    "custom_field": "Routing protocol model: multi-agent"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyRoutingTableEntry",
+    "categories": [
+      "routing"
+    ],
+    "description": "Verifies that the provided routes are present in the routing table of a specified VRF.",
+    "result": "success",
+    "custom_field": "Route: 10.250.1.1 - Peer: s1-spine1"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyRoutingTableEntry",
+    "categories": [
+      "routing"
+    ],
+    "description": "Verifies that the provided routes are present in the routing table of a specified VRF.",
+    "result": "success",
+    "custom_field": "Route: 10.250.1.2 - Peer: s1-spine2"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyRoutingTableEntry",
+    "categories": [
+      "routing"
+    ],
+    "description": "Verifies that the provided routes are present in the routing table of a specified VRF.",
+    "result": "success",
+    "custom_field": "Route: 10.250.1.3 - Peer: s1-leaf1"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyRoutingTableEntry",
+    "categories": [
+      "routing"
+    ],
+    "description": "Verifies that the provided routes are present in the routing table of a specified VRF.",
+    "result": "success",
+    "custom_field": "Route: 10.250.1.4 - Peer: s1-leaf2"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyRoutingTableEntry",
+    "categories": [
+      "routing"
+    ],
+    "description": "Verifies that the provided routes are present in the routing table of a specified VRF.",
+    "result": "success",
+    "custom_field": "Route: 10.250.1.5 - Peer: s1-leaf3"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyRoutingTableEntry",
+    "categories": [
+      "routing"
+    ],
+    "description": "Verifies that the provided routes are present in the routing table of a specified VRF.",
+    "result": "success",
+    "custom_field": "Route: 10.250.1.6 - Peer: s1-leaf4"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyRoutingTableEntry",
+    "categories": [
+      "routing"
+    ],
+    "description": "Verifies that the provided routes are present in the routing table of a specified VRF.",
+    "result": "success",
+    "custom_field": "Route: 10.250.1.7 - Peer: s1-brdr1"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyRoutingTableEntry",
+    "categories": [
+      "routing"
+    ],
+    "description": "Verifies that the provided routes are present in the routing table of a specified VRF.",
+    "result": "success",
+    "custom_field": "Route: 10.250.1.8 - Peer: s1-brdr2"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyRoutingTableEntry",
+    "categories": [
+      "routing"
+    ],
+    "description": "Verifies that the provided routes are present in the routing table of a specified VRF.",
+    "result": "success",
+    "custom_field": "Route: 10.255.1.3 - Peer: s1-leaf1"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyRoutingTableEntry",
+    "categories": [
+      "routing"
+    ],
+    "description": "Verifies that the provided routes are present in the routing table of a specified VRF.",
+    "result": "success",
+    "custom_field": "Route: 10.255.1.5 - Peer: s1-leaf3"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyRoutingTableEntry",
+    "categories": [
+      "routing"
+    ],
+    "description": "Verifies that the provided routes are present in the routing table of a specified VRF.",
+    "result": "success",
+    "custom_field": "Route: 10.255.1.7 - Peer: s1-brdr1"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyNTP",
+    "categories": [
+      "system"
+    ],
+    "description": "Verifies if NTP is synchronised.",
+    "result": "success"
+  },
+  {
+    "name": "s1-brdr1",
+    "test": "VerifyReloadCause",
+    "categories": [
+      "system"
+    ],
+    "description": "Verifies the last reload cause of the device.",
+    "result": "failure",
+    "messages": [
+      "Reload cause is: 'System reloaded due to Zero Touch Provisioning'"
+    ]
+  }
+]
