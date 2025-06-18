@@ -4,6 +4,7 @@ SITE1:
     CVP:
       hosts:
         cvp:
+          ansible_host: <atd-topo12345.topo.testdrive.arista.com>
     SITE1_FABRIC:
       children:
         SITE1_SPINES:

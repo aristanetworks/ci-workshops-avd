@@ -23,22 +23,22 @@ ethernet_interfaces:
   peer_interface: Ethernet6
   peer_type: mlag_peer
 - name: Ethernet2
-  description: P2P_s1-spine1_Ethernet6
+  description: P2P_s1-spine1_Ethernet7
   shutdown: false
   mtu: 1500
   ip_address: 172.16.1.17/31
   peer: s1-spine1
-  peer_interface: Ethernet6
+  peer_interface: Ethernet7
   peer_type: spine
   switchport:
     enabled: false
 - name: Ethernet3
-  description: P2P_s1-spine2_Ethernet6
+  description: P2P_s1-spine2_Ethernet7
   shutdown: false
   mtu: 1500
   ip_address: 172.16.1.19/31
   peer: s1-spine2
-  peer_interface: Ethernet6
+  peer_interface: Ethernet7
   peer_type: spine
   switchport:
     enabled: false
@@ -192,12 +192,12 @@ router_bgp:
     peer_group: IPv4-UNDERLAY-PEERS
     remote_as: '65100'
     peer: s1-spine1
-    description: s1-spine1_Ethernet6
+    description: s1-spine1_Ethernet7
   - ip_address: 172.16.1.18
     peer_group: IPv4-UNDERLAY-PEERS
     remote_as: '65100'
     peer: s1-spine2
-    description: s1-spine2_Ethernet6
+    description: s1-spine2_Ethernet7
   - ip_address: 10.250.1.1
     peer_group: EVPN-OVERLAY-PEERS
     remote_as: '65100'

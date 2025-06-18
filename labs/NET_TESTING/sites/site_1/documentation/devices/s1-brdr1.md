@@ -306,8 +306,8 @@ vlan 4094
 
 | Interface | Description | Channel Group | IP Address | VRF |  MTU | Shutdown | ACL In | ACL Out |
 | --------- | ----------- | ------------- | ---------- | ----| ---- | -------- | ------ | ------- |
-| Ethernet2 | P2P_s1-spine1_Ethernet6 | - | 172.16.1.17/31 | default | 1500 | False | - | - |
-| Ethernet3 | P2P_s1-spine2_Ethernet6 | - | 172.16.1.19/31 | default | 1500 | False | - | - |
+| Ethernet2 | P2P_s1-spine1_Ethernet7 | - | 172.16.1.17/31 | default | 1500 | False | - | - |
+| Ethernet3 | P2P_s1-spine2_Ethernet7 | - | 172.16.1.19/31 | default | 1500 | False | - | - |
 | Ethernet4 | P2P_s2-brdr1_Ethernet4 | - | 172.16.255.0/31 | default | 1500 | False | - | - |
 
 #### Ethernet Interfaces Device Configuration
@@ -320,14 +320,14 @@ interface Ethernet1
    channel-group 1 mode active
 !
 interface Ethernet2
-   description P2P_s1-spine1_Ethernet6
+   description P2P_s1-spine1_Ethernet7
    no shutdown
    mtu 1500
    no switchport
    ip address 172.16.1.17/31
 !
 interface Ethernet3
-   description P2P_s1-spine2_Ethernet6
+   description P2P_s1-spine2_Ethernet7
    no shutdown
    mtu 1500
    no switchport
@@ -709,10 +709,10 @@ router bgp 65103
    neighbor 10.252.1.9 description s1-brdr2_Vlan4093
    neighbor 172.16.1.16 peer group IPv4-UNDERLAY-PEERS
    neighbor 172.16.1.16 remote-as 65100
-   neighbor 172.16.1.16 description s1-spine1_Ethernet6
+   neighbor 172.16.1.16 description s1-spine1_Ethernet7
    neighbor 172.16.1.18 peer group IPv4-UNDERLAY-PEERS
    neighbor 172.16.1.18 remote-as 65100
-   neighbor 172.16.1.18 description s1-spine2_Ethernet6
+   neighbor 172.16.1.18 description s1-spine2_Ethernet7
    neighbor 172.16.255.1 peer group IPv4-UNDERLAY-PEERS
    neighbor 172.16.255.1 remote-as 65203
    neighbor 172.16.255.1 description s2-brdr1

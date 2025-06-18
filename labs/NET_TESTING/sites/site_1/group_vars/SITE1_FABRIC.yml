@@ -70,7 +70,7 @@ l3leaf:
         - name: s1-brdr1
           id: 5
           mgmt_ip: 192.168.0.100/24
-          uplink_switch_interfaces: [ Ethernet6, Ethernet6 ]
+          uplink_switch_interfaces: [ Ethernet7, Ethernet7 ]
           evpn_gateway:
             remote_peers: 
               - hostname: s2-brdr1

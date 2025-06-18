@@ -1,4 +1,5 @@
 ---
+
 # Credentials for CVP and EOS Switches
 ansible_user: arista
 ansible_password: "{{ lookup('env', 'LABPASSPHRASE') }}"
@@ -14,18 +15,12 @@ ansible_httpapi_validate_certs: false
 ansible_python_interpreter: $(which python3)
 avd_data_validation_mode: error
 
-# arista.avd.cv_deploy role parameters
-cv_token: # Fill in here with a CloudVision Service Account Token
-cv_server: cvp
-cv_verify_certs: false
-
 # Local Users
 local_users:
   - name: arista
     privilege: 15
     role: network-admin
     sha512_password: "{{ ansible_password | password_hash('sha512', salt='arista', rounds=5000) }}"
-    ssh_key: "{{ lookup('ansible.builtin.file', '~/.ssh/id_rsa.pub') }}"
 
 # AAA
 aaa_authorization:
@@ -68,18 +63,3 @@ p2p_uplinks_mtu: 1500
 # CVP node variables
 cv_collection: v3
 execute_tasks: true
-
-# Login Banner
-banners:
-  motd: |
-    You shall not pass. Unless you are authorized. Then you shall pass.
-    EOF
-
-# Syslog
-logging:
-  vrfs:
-    - name: default
-      source_interface: Management0
-      hosts:
-        - name: 10.200.0.108
-        - name: 10.200.1.108

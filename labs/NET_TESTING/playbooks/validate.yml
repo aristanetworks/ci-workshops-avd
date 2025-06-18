@@ -9,7 +9,7 @@
     - name: validate states on EOS devices
       ansible.builtin.import_role:
         name: arista.avd.eos_validate_state
-      # vars:
+      vars:
         # use_anta: true
-        # save_catalog: true
+        save_catalog: true
         # eos_validate_state_md_report_path: "{{ eos_validate_state_dir }}/{{ fabric_name }}-state-anta.md"
