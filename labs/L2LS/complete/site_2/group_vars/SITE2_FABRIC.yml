@@ -1,0 +1,101 @@
+---
+fabric_name: SITE2_FABRIC
+
+# Set Design Type to L2ls
+design:
+  type: l2ls
+
+# Repeat MLAG addressing between pairs
+fabric_ip_addressing:
+  mlag:
+    algorithm: same_subnet
+
+# Spine Switches
+l3spine:
+  defaults:
+    platform: cEOS
+    spanning_tree_mode: mstp
+    spanning_tree_priority: 4096
+    loopback_ipv4_pool: 10.2.252.0/24
+    mlag_peer_ipv4_pool: 10.2.253.0/31
+    mlag_peer_l3_ipv4_pool: 10.2.253.2/31
+    virtual_router_mac_address: 00:1c:73:00:dc:01
+    mlag_interfaces: [ Ethernet1, Ethernet6 ]
+  node_groups:
+    - group: SPINES
+      nodes:
+        - name: s2-spine1
+          id: 1
+          mgmt_ip: 192.168.0.20/24
+        - name: s2-spine2
+          id: 2
+          mgmt_ip: 192.168.0.21/24
+
+# Leaf Switches
+leaf:
+  defaults:
+    platform: cEOS
+    mlag_peer_ipv4_pool: 10.2.253.0/31
+    spanning_tree_mode: mstp
+    spanning_tree_priority: 16384
+    uplink_switches: [ s2-spine1, s2-spine2 ]
+    uplink_interfaces: [ Ethernet2, Ethernet3 ]
+    mlag_interfaces: [ Ethernet1, Ethernet6 ]
+  node_groups:
+    - group: RACK1
+      filter:
+        tags: [ "DB" ]
+      nodes:
+        - name: s2-leaf1
+          id: 1
+          mgmt_ip: 192.168.0.22/24
+          uplink_switch_interfaces: [ Ethernet2, Ethernet2 ]
+        - name: s2-leaf2
+          id: 2
+          mgmt_ip: 192.168.0.23/24
+          uplink_switch_interfaces: [ Ethernet3, Ethernet3 ]
+    - group: RACK2
+      filter:
+        tags: [ "DMZ" ]
+      nodes:
+        - name: s2-leaf3
+          id: 3
+          mgmt_ip: 192.168.0.24/24
+          uplink_switch_interfaces: [ Ethernet4, Ethernet4 ]
+        - name: s2-leaf4
+          id: 4
+          mgmt_ip: 192.168.0.25/24
+          uplink_switch_interfaces: [ Ethernet5, Ethernet5 ]
+
+##################################################################
+# Underlay Routing Protocol - ran on Spines
+##################################################################
+
+underlay_routing_protocol: OSPF
+
+##################################################################
+# WAN/Core Edge Links
+##################################################################
+
+core_interfaces:
+  p2p_links:
+
+    - ip: [ 10.0.0.37/31, 10.0.0.36/31 ]
+      nodes: [ s2-spine1, WANCORE ]
+      interfaces: [ Ethernet7, Ethernet2 ]
+      include_in_underlay_protocol: true
+
+    - ip: [ 10.0.0.41/31, 10.0.0.40/31 ]
+      nodes: [ s2-spine1, WANCORE ]
+      interfaces: [ Ethernet8, Ethernet2 ]
+      include_in_underlay_protocol: true
+
+    - ip: [ 10.0.0.39/31, 10.0.0.38/31 ]
+      nodes: [ s2-spine2, WANCORE ]
+      interfaces: [ Ethernet7, Ethernet2 ]
+      include_in_underlay_protocol: true
+
+    - ip: [ 10.0.0.43/31, 10.0.0.42/31 ]
+      nodes: [ s2-spine2, WANCORE ]
+      interfaces: [ Ethernet8, Ethernet2 ]
+      include_in_underlay_protocol: true

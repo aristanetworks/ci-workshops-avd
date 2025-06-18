@@ -1,6 +1,5 @@
 ---
-
-# Credentials for CVP and EOS Switches
+# Credentials for CVP (legacy arista.avd.eos_config_deploy_cvp role) and EOS Switches
 ansible_user: arista
 ansible_password: "{{ lookup('env', 'LABPASSPHRASE') }}"
 ansible_network_os: arista.eos.eos
@@ -13,10 +12,14 @@ ansible_httpapi_port: 443
 ansible_httpapi_use_ssl: true
 ansible_httpapi_validate_certs: false
 ansible_python_interpreter: $(which python3)
-avd_data_conversion_mode: error
 avd_data_validation_mode: error
 
-# CVP node variables
+# arista.avd.cv_deploy role parameters
+cv_token: # Fill in here with a CloudVision Service Account Token
+cv_server: cvp
+cv_verify_certs: false
+
+# arista.avd.eos_config_deploy_cvp role parameters
 cv_collection: v3
 execute_tasks: true
 
@@ -25,7 +28,7 @@ local_users:
   - name: arista
     privilege: 15
     role: network-admin
-    sha512_password: "{{ ansible_password | password_hash('sha512', salt='arista') }}"
+    sha512_password: "{{ ansible_password | password_hash('sha512', salt='arista', rounds=5000) }}"
     ssh_key: "{{ lookup('ansible.builtin.file', '~/.ssh/id_rsa.pub') }}"
 
 # AAA
@@ -71,7 +74,7 @@ underlay_routing_protocol: ebgp
 overlay_routing_protocol: ebgp
 
 # Configure password authentication for BGP peerings
-bgp_peer_groups: 
+bgp_peer_groups:
   evpn_overlay_peers:
     password: Q4fqtbqcZ7oQuKfuWtNGRQ==
   ipv4_underlay_peers:
