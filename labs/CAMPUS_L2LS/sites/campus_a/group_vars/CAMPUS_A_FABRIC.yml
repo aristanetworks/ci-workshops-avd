@@ -1,0 +1,114 @@
+---
+fabric_name: CAMPUS_A_FABRIC
+
+# Repeat MLAG addressing between pairs
+fabric_ip_addressing:
+  mlag:
+    algorithm: same_subnet
+
+# Spine Switches
+l3spine:
+  defaults:
+    platform: cEOS
+    spanning_tree_mode: mstp
+    spanning_tree_priority: 4096
+    loopback_ipv4_pool: 10.1.252.0/24
+    mlag_peer_ipv4_pool: 10.1.253.0/31
+    mlag_peer_l3_ipv4_pool: 10.1.253.2/31
+    virtual_router_mac_address: 00:1c:73:00:dc:01
+    mlag_interfaces: [ Ethernet49/1, Ethernet50/1 ]
+  node_groups:
+    - group: CAMPUS_A_SPINES
+      nodes:
+        - name: spine-1
+          id: 1
+          mgmt_ip: 192.168.0.12/24
+        - name: spine-2
+          id: 2
+          mgmt_ip: 192.168.0.13/24
+
+# Leaf Switches
+l2leaf:
+  defaults:
+    platform: cEOS
+    mlag_peer_ipv4_pool: 10.1.253.0/31
+    spanning_tree_mode: mstp
+    spanning_tree_priority: 16384
+    uplink_switches: [ spine-1, spine-2 ]
+    uplink_interfaces: [ Ethernet49, Ethernet50 ]
+    mlag_interfaces: [ Ethernet47, Ethernet48 ]
+  node_groups:
+    - group: IDF1
+      filter:
+        tags: [ "IDF1_DATA", "IDF1_VOICE" ]
+      nodes:
+        - name: leaf-1a
+          id: 1
+          mgmt_ip: 192.168.0.14/24
+          uplink_interfaces: [ Ethernet49 ]
+          uplink_switches: [ spine-1 ]
+          uplink_switch_interfaces: [ Ethernet3 ]
+        - name: leaf-1b
+          id: 2
+          mgmt_ip: 192.168.0.15/24
+          uplink_interfaces: [ Ethernet49 ]
+          uplink_switches: [ spine-2 ]
+          uplink_switch_interfaces: [ Ethernet3 ]
+    - group: IDF2
+      filter:
+        tags: [ "IDF2_DATA", "IDF2_VOICE" ]
+      mlag: false
+      nodes:
+        - name: leaf-2a
+          id: 3
+          mgmt_ip: 192.168.0.16/24
+          uplink_interfaces: [ Ethernet1/1, Ethernet2/1 ]
+          uplink_switch_interfaces: [ Ethernet4, Ethernet4 ]
+    - group: IDF3
+      filter:
+        tags: [ "IDF3_DATA", "IDF3_VOICE" ]
+      nodes:
+        - name: leaf-3a
+          id: 4
+          mgmt_ip: 192.168.0.17/24
+          uplink_switch_interfaces: [ Ethernet5, Ethernet5 ]
+        - name: leaf-3b
+          id: 5
+          mgmt_ip: 192.168.0.18/24
+          uplink_switch_interfaces: [ Ethernet6, Ethernet6 ]
+    - group: IDF3_3C
+      filter:
+        tags: [ "IDF3_DATA", "IDF3_VOICE" ]
+      mlag: false
+      nodes:
+        - name: member-leaf-3c
+          id: 6
+          mgmt_ip: 192.168.0.19/24
+          uplink_switches: [ leaf-3a, leaf-3b ]
+          uplink_switch_interfaces: [ Ethernet51, Ethernet51 ]
+    - group: IDF3_3D
+      filter:
+        tags: [ "IDF3_DATA", "IDF3_VOICE" ]
+      mlag: false
+      nodes:
+        - name: member-leaf-3d
+          id: 7
+          mgmt_ip: 192.168.0.20/24
+          uplink_switches: [ leaf-3a, leaf-3b ]
+          uplink_switch_interfaces: [ Ethernet52, Ethernet52 ]
+    - group: IDF3_3E
+      filter:
+        tags: [ "IDF3_DATA", "IDF3_VOICE" ]
+      mlag: false
+      nodes:
+        - name: member-leaf-3e
+          id: 8
+          mgmt_ip: 192.168.0.21/24
+          uplink_switches: [ leaf-3a, leaf-3b ]
+          uplink_switch_interfaces: [ Ethernet53/1, Ethernet53/1 ]
+
+##################################################################
+# Underlay Routing Protocol - ran on Spines
+##################################################################
+
+underlay_routing_protocol: OSPF

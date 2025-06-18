@@ -1,0 +1,3 @@
+Role: Member-Leaf
+
+need to set Network-Type: Campus

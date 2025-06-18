@@ -1,0 +1,29 @@
+---
+CAMPUS_A:
+  children:
+    CVP:
+      hosts:
+        cvp:
+    CAMPUS_A_FABRIC:
+      children:
+        CAMPUS_A_SPINES:
+          hosts:
+            spine-1:
+            spine-2:
+        CAMPUS_A_LEAFS:
+          hosts:
+            leaf-1a:
+            leaf-1b:
+            leaf-2a:
+            leaf-3a:
+            leaf-3b:
+          children:
+            IDF3_MEMBER_LEAFS:
+              hosts:
+                member-leaf-3c:
+                member-leaf-3d:
+                member-leaf-3e:
+    CAMPUS_A_NETWORK_SERVICES:
+      children:
+        CAMPUS_A_SPINES:
+        CAMPUS_A_LEAFS:

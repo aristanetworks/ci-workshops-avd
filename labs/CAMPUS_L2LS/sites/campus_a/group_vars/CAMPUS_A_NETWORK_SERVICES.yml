@@ -1,0 +1,72 @@
+# ---
+# tenants:
+#   - name: CAMPUS_A
+#     vrfs:
+#       - name: default
+#         svis:
+#           - id: 110
+#             name: 'IDF1_DATA'
+#             tags: [ "IDF1_DATA" ]
+#             enabled: true
+#             ip_virtual_router_addresses:
+#               - 10.1.10.1
+#             nodes:
+#               - node: spine-1
+#                 ip_address: 10.1.10.2/24
+#               - node: spine-2
+#                 ip_address: 10.1.10.3/24
+#           - id: 120
+#             name: 'IDF1_VOICE'
+#             tags: [ "IDF1_VOICE" ]
+#             enabled: true
+#             ip_virtual_router_addresses:
+#               - 10.1.20.1
+#             nodes:
+#               - node: spine-1
+#                 ip_address: 10.1.20.2/24
+#               - node: spine-2
+#                 ip_address: 10.1.20.3/24
+#           - id: 210
+#             name: 'IDF2_DATA'
+#             tags: [ "IDF2_DATA" ]
+#             enabled: true
+#             ip_virtual_router_addresses:
+#               - 10.2.10.1
+#             nodes:
+#               - node: spine-1
+#                 ip_address: 10.2.10.2/24
+#               - node: spine-2
+#                 ip_address: 10.2.10.3/24
+#           - id: 220
+#             name: 'IDF2_VOICE'
+#             tags: [ "IDF2_VOICE" ]
+#             enabled: true
+#             ip_virtual_router_addresses:
+#               - 10.2.20.1
+#             nodes:
+#               - node: spine-1
+#                 ip_address: 10.2.20.2/24
+#               - node: spine-2
+#                 ip_address: 10.2.20.3/24
+#           - id: 310
+#             name: 'IDF3_DATA'
+#             tags: [ "IDF3_DATA" ]
+#             enabled: true
+#             ip_virtual_router_addresses:
+#               - 10.3.10.1
+#             nodes:
+#               - node: spine-1
+#                 ip_address: 10.3.10.2/24
+#               - node: spine-2
+#                 ip_address: 10.3.10.3/24
+#           - id: 320
+#             name: 'IDF3_VOICE'
+#             tags: [ "IDF3_VOICE" ]
+#             enabled: true
+#             ip_virtual_router_addresses:
+#               - 10.3.20.1
+#             nodes:
+#               - node: spine-1
+#                 ip_address: 10.3.20.2/24
+#               - node: spine-2
+#                 ip_address: 10.3.20.3/24

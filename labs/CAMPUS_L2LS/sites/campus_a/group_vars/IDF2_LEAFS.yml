@@ -1,0 +1,11 @@
+---
+generate_cv_tags:
+  device_tags:
+    - name: Access-Pod
+      value: IDF2
+    - name: Campus-Pod
+      value: Campus A
+    - name: Campus
+      value: Cleveland
+    - name: Role
+      value: Leaf
