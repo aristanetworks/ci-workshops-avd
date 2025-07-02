@@ -5,7 +5,7 @@ tenants:
       - name: default
         svis:
           - id: 30
-            name: 'Thirty'
+            name: 'ThirtyTEST'
             tags: [ "DB" ]
             enabled: true
             ip_virtual_router_addresses:
