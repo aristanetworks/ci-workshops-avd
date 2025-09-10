@@ -15,7 +15,8 @@ ansible_python_interpreter: $(which python3)
 avd_data_validation_mode: error
 
 # arista.avd.cv_deploy role parameters
-cv_token: # Fill in here with a CloudVision Service Account Token
+cv_token: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkaWQiOjc1MDQ0MDYzMzQwNjI3MjMzMTcsImRzbiI6ImFyaXN0YV9sYWIiLCJkc3QiOiJhY2NvdW50IiwiZXhwIjoxNzU5MjQ4MDAwLCJpYXQiOjE3NTc0ODc0MDcsIm9naSI6Mywib2duIjoiRGVmYXVsdCIsInNpZCI6Ijg4OGYwNzNkNjU2MDc4ZDk1M2Q2ZmQ2NzgwYzI5YTRhOTViYmU3YWI0MmZlZDU2YjRiZWI5NzQzYmIzMTM1Njcta1J1OGNKdjA3ejktTGxqMnhDSVBQckl4MF83SzNZLXozVUNoVWtsLSJ9.aJ_WKHNbt80_FmJA8NluQx_-I9vPFLUgAomKWvnWl-ZNAhOGgGzKbVi05mFka2xCo9ZS-809vOmG7LUfIjVpND1ADO5tL44ehqewBieqAsA5BWFn2D8yT76wQ3j_ikYwOEh59bhgB1X_0JdSB-0tZ98q4IH6J21-wJJ4_B3ruE4BlfcorSxh50zuAtnzoOwhEJ35X8fEOZt8oS4yWrglt9enp6ZjVIDGEf4gNaP8jNGoSKV_4QazzxcEYwvXvjgZwSGCdQKTmvsgGTnZBZXOZGajtSmURETGyIzNAAN5w1b4NCQfGY7En86MdIaMVnqFRXDhrfUVMqe7lm_SmNNH-EKshA9tlqDlF_PrPEwmjhI4uq82gOaj-Q8xi01Y95V6jUDDpMDwmOyj01T-zf6WzSaOlUKyLqlUHQigtASTDl6aRvu4AwqSIOOtuRSOuyucD0DArxw8cwc2mIRMRrX8LQoXA96oJRtyI9tf1cUsFcvU5CUjR9nr4VpMnNFsvS7fPm0nXlGnoj7dk1wxIQ4AqwvFQrAVgz0l-z2KM-Zdcpd2YUIrerZdFRvucLHLRSlqv3yUYDFxcFi9H91wNTvXZ2FoWQC1am0-Y9cd_FYDgFlbpuptMvycMDInr01bhW29E1UVsnbidNc6MCMurVnecB9My2i-Ah-PDYEChxIp2io
+# Fill in here with a CloudVision Service Account Token
 cv_server: cvp
 cv_verify_certs: false
 
@@ -68,3 +69,20 @@ p2p_uplinks_mtu: 1500
 # CVP node variables
 cv_collection: v3
 execute_tasks: true
+
+# Login Banner
+banners:
+  motd: |
+    You shall not pass. Unless you are authorized. Then you shall pass.
+    EOF
+
+# syslog
+logging:
+  vrfs: 
+    - name: default
+      source_interface: Management0
+      hosts:
+        - name: 10.200.0.108
+        - name: 10.200.1.108
+        
+
