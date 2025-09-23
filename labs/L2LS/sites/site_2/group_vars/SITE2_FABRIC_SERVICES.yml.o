@@ -26,14 +26,3 @@ tenants:
                 ip_address: 10.40.40.2/24
               - node: s2-spine2
                 ip_address: 10.40.40.3/24
-          - id: 45
-            name: 'Forty-five'
-            tags: [ "Guest" ]
-            enabled: true
-            ip_virtual_router_addresses:
-              - 10.45.45.1
-            nodes:
-              - node: s2-spine1
-                ip_address: 10.45.45.2/24
-              - node: s2-spine2
-                ip_address: 10.45.45.3/24
