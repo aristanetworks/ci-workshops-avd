@@ -21,6 +21,8 @@
 | SITE1_FABRIC | leaf | s1-leaf2 | 192.168.0.13/24 | cEOS | Provisioned | - |
 | SITE1_FABRIC | leaf | s1-leaf3 | 192.168.0.14/24 | cEOS | Provisioned | - |
 | SITE1_FABRIC | leaf | s1-leaf4 | 192.168.0.15/24 | cEOS | Provisioned | - |
+| SITE1_FABRIC | leaf | s1-leaf5 | 192.168.0.28/24 | cEOS | Provisioned | - |
+| SITE1_FABRIC | leaf | s1-leaf6 | 192.168.0.29/24 | cEOS | Provisioned | - |
 | SITE1_FABRIC | l3spine | s1-spine1 | 192.168.0.10/24 | cEOS | Provisioned | - |
 | SITE1_FABRIC | l3spine | s1-spine2 | 192.168.0.11/24 | cEOS | Provisioned | - |
 
@@ -47,6 +49,12 @@
 | leaf | s1-leaf3 | Ethernet6 | mlag_peer | s1-leaf4 | Ethernet6 |
 | leaf | s1-leaf4 | Ethernet2 | l3spine | s1-spine1 | Ethernet5 |
 | leaf | s1-leaf4 | Ethernet3 | l3spine | s1-spine2 | Ethernet5 |
+| leaf | s1-leaf5 | Ethernet1 | mlag_peer | s1-leaf6 | Ethernet1 |
+| leaf | s1-leaf5 | Ethernet2 | l3spine | s1-spine1 | Ethernet9 |
+| leaf | s1-leaf5 | Ethernet3 | l3spine | s1-spine2 | Ethernet9 |
+| leaf | s1-leaf5 | Ethernet6 | mlag_peer | s1-leaf6 | Ethernet6 |
+| leaf | s1-leaf6 | Ethernet2 | l3spine | s1-spine1 | Ethernet10 |
+| leaf | s1-leaf6 | Ethernet3 | l3spine | s1-spine2 | Ethernet10 |
 | l3spine | s1-spine1 | Ethernet1 | mlag_peer | s1-spine2 | Ethernet1 |
 | l3spine | s1-spine1 | Ethernet6 | mlag_peer | s1-spine2 | Ethernet6 |
 

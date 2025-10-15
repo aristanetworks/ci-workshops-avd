@@ -58,6 +58,24 @@ ethernet_interfaces:
   peer: s1-leaf4
   peer_interface: Ethernet3
   peer_type: leaf
+- name: Ethernet9
+  description: L2_s1-leaf5_Ethernet3
+  shutdown: false
+  channel_group:
+    id: 9
+    mode: active
+  peer: s1-leaf5
+  peer_interface: Ethernet3
+  peer_type: leaf
+- name: Ethernet10
+  description: L2_s1-leaf6_Ethernet3
+  shutdown: false
+  channel_group:
+    id: 9
+    mode: active
+  peer: s1-leaf6
+  peer_interface: Ethernet3
+  peer_type: leaf
 - name: Ethernet7
   description: P2P_WANCORE_Ethernet2
   shutdown: false
@@ -151,6 +169,15 @@ port_channel_interfaces:
     mode: trunk
     trunk:
       allowed_vlan: '20'
+- name: Port-Channel9
+  description: L2_RACK3_Port-Channel2
+  shutdown: false
+  mlag: 9
+  switchport:
+    enabled: true
+    mode: trunk
+    trunk:
+      allowed_vlan: 10,20
 router_ospf:
   process_ids:
   - id: 100
