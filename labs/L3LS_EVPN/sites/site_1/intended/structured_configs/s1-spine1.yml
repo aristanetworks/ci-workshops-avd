@@ -84,6 +84,26 @@ ethernet_interfaces:
   peer_type: l3leaf
   switchport:
     enabled: false
+- name: Ethernet9
+  description: P2P_s1-leaf5_Ethernet2
+  shutdown: false
+  mtu: 1500
+  ip_address: 172.16.1.24/31
+  peer: s1-leaf5
+  peer_interface: Ethernet2
+  peer_type: l3leaf
+  switchport:
+    enabled: false
+- name: Ethernet10
+  description: P2P_s1-leaf6_Ethernet2
+  shutdown: false
+  mtu: 1500
+  ip_address: 172.16.1.28/31
+  peer: s1-leaf6
+  peer_interface: Ethernet2
+  peer_type: l3leaf
+  switchport:
+    enabled: false
 hostname: s1-spine1
 ip_domain_lookup:
   source_interfaces:
@@ -210,6 +230,16 @@ router_bgp:
     remote_as: '65103'
     peer: s1-brdr2
     description: s1-brdr2_Ethernet2
+  - ip_address: 172.16.1.25
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65104'
+    peer: s1-leaf5
+    description: s1-leaf5_Ethernet2
+  - ip_address: 172.16.1.29
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65104'
+    peer: s1-leaf6
+    description: s1-leaf6_Ethernet2
   - ip_address: 10.250.1.7
     peer_group: EVPN-OVERLAY-PEERS
     remote_as: '65103'
@@ -240,6 +270,16 @@ router_bgp:
     remote_as: '65102'
     peer: s1-leaf4
     description: s1-leaf4_Loopback0
+  - ip_address: 10.250.1.9
+    peer_group: EVPN-OVERLAY-PEERS
+    remote_as: '65104'
+    peer: s1-leaf5
+    description: s1-leaf5_Loopback0
+  - ip_address: 10.250.1.10
+    peer_group: EVPN-OVERLAY-PEERS
+    remote_as: '65104'
+    peer: s1-leaf6
+    description: s1-leaf6_Loopback0
   redistribute:
     connected:
       enabled: true
