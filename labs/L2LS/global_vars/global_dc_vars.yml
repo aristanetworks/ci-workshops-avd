@@ -38,7 +38,6 @@ aaa_settings:
       privilege: 15
       role: network-admin
       sha512_password: "{{ ansible_password | password_hash('sha512', salt='arista', rounds=5000) }}"
-      ssh_key: "{{ lookup('ansible.builtin.file', '~/.ssh/id_rsa.pub') }}"
 
 # OOB Management network default gateway.
 mgmt_gateway: 192.168.0.1
