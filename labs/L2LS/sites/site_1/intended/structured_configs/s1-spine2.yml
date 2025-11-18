@@ -236,6 +236,15 @@ vlan_interfaces:
   tenant: MY_FABRIC
   tags:
   - App
+- name: Vlan25
+  description: Twenty-five
+  shutdown: false
+  ip_address: 10.25.25.3/24
+  ip_virtual_router_addresses:
+  - 10.25.25.1
+  tenant: MY_FABRIC
+  tags:
+  - Wifi
 vlan_internal_order:
   allocation: ascending
   range:
@@ -257,6 +266,9 @@ vlans:
   tenant: MY_FABRIC
 - id: 20
   name: Twenty
+  tenant: MY_FABRIC
+- id: 25
+  name: Twenty-five
   tenant: MY_FABRIC
 vrfs:
 - name: default
