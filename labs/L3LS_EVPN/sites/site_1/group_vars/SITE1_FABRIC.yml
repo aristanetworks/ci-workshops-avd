@@ -80,3 +80,14 @@ l3leaf:
               - hostname: s2-brdr2
                 bgp_as: 65203
                 ip_address: 10.250.2.8
+    - group: S1_RACK4
+      bgp_as: 65104
+      nodes:
+        - name: s1-leaf5
+          id: 7
+          mgmt_ip: 192.168.0.28/24
+          uplink_switch_interfaces: [ Ethernet9, Ethernet9 ]
+        - name: s1-leaf6
+          id: 8
+          mgmt_ip: 192.168.0.29/24
+          uplink_switch_interfaces: [ Ethernet10, Ethernet10 ]

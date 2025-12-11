@@ -18,6 +18,8 @@ SITE1:
             s1-leaf4:
             s1-brdr1:
             s1-brdr2:
+            s1-leaf5:
+            s1-leaf6:
     SITE1_NETWORK_SERVICES:
       children:
         SITE1_SPINES:
