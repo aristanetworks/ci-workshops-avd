@@ -56,6 +56,16 @@ ethernet_interfaces:
   peer_type: spine
   switchport:
     enabled: false
+- name: Ethernet4
+  description: P2P_s2-brdr1_Ethernet4
+  shutdown: false
+  mtu: 1500
+  ip_address: 172.16.255.0/31
+  peer: s2-brdr1
+  peer_interface: Ethernet4
+  peer_type: other
+  switchport:
+    enabled: false
 hostname: s1-brdr1
 ip_domain_lookup:
   source_interfaces:
@@ -195,6 +205,13 @@ router_bgp:
     password: Q4fqtbqcZ7oQuKfuWtNGRQ==
     send_community: all
     maximum_routes: 0
+  - name: EVPN-OVERLAY-CORE
+    type: evpn
+    update_source: Loopback0
+    bfd: true
+    ebgp_multihop: 15
+    send_community: all
+    maximum_routes: 0
   neighbors:
   - ip_address: 10.252.1.9
     peer_group: MLAG-IPv4-UNDERLAY-PEER
@@ -220,6 +237,16 @@ router_bgp:
     remote_as: '65100'
     peer: s1-spine2
     description: s1-spine2_Loopback0
+  - ip_address: 10.250.2.7
+    peer_group: EVPN-OVERLAY-CORE
+    remote_as: '65203'
+    peer: s2-brdr1
+    description: s2-brdr1
+  - ip_address: 172.16.255.1
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65203'
+    peer: s2-brdr1
+    description: s2-brdr1
   redistribute:
     connected:
       enabled: true
@@ -228,21 +255,40 @@ router_bgp:
   - id: 10
     tenant: S1_FABRIC
     rd: 10.250.1.7:10010
+    rd_evpn_domain:
+      domain: remote
+      rd: 10.250.1.7:10010
     route_targets:
       both:
       - 10010:10010
+      import_export_evpn_domains:
+      - domain: remote
+        route_target: 10010:10010
     redistribute_routes:
     - learned
   - id: 20
     tenant: S1_FABRIC
     rd: 10.250.1.7:10020
+    rd_evpn_domain:
+      domain: remote
+      rd: 10.250.1.7:10020
     route_targets:
       both:
       - 10020:10020
+      import_export_evpn_domains:
+      - domain: remote
+        route_target: 10020:10020
     redistribute_routes:
     - learned
   address_family_evpn:
+    neighbor_default:
+      next_hop_self_received_evpn_routes:
+        enable: true
+        inter_domain: true
     peer_groups:
+    - name: EVPN-OVERLAY-CORE
+      activate: true
+      domain_remote: true
     - name: EVPN-OVERLAY-PEERS
       activate: true
   address_family_ipv4:
@@ -252,6 +298,8 @@ router_bgp:
     - name: IPv4-UNDERLAY-PEERS
       activate: true
     - name: EVPN-OVERLAY-PEERS
+      activate: false
+    - name: EVPN-OVERLAY-CORE
       activate: false
   vrfs:
   - name: OVERLAY
