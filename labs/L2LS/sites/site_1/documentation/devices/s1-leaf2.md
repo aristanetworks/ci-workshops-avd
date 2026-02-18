@@ -286,11 +286,15 @@ vlan internal order ascending range 1006 1199
 
 | VLAN ID | Name | Trunk Groups |
 | ------- | ---- | ------------ |
+| 10 | Ten | - |
 | 4094 | MLAG | MLAG |
 
 ### VLANs Device Configuration
 
 ```eos
+!
+vlan 10
+   name Ten
 !
 vlan 4094
    name MLAG
@@ -308,8 +312,9 @@ vlan 4094
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | Channel-Group |
 | --------- | ----------- | ---- | ----- | ----------- | ----------- | ------------- |
 | Ethernet1 | MLAG_s1-leaf1_Ethernet1 | *trunk | *- | *- | *MLAG | 1 |
-| Ethernet2 | L2_s1-spine1_Ethernet3 | *trunk | *none | *- | *- | 2 |
-| Ethernet3 | L2_s1-spine2_Ethernet3 | *trunk | *none | *- | *- | 2 |
+| Ethernet2 | L2_s1-spine1_Ethernet3 | *trunk | *10 | *- | *- | 2 |
+| Ethernet3 | L2_s1-spine2_Ethernet3 | *trunk | *10 | *- | *- | 2 |
+| Ethernet4 | SERVER_s1-host1_eth2 | *access | *10 | *- | *- | 4 |
 | Ethernet6 | MLAG_s1-leaf1_Ethernet6 | *trunk | *- | *- | *MLAG | 1 |
 
 *Inherited from Port-Channel Interface
@@ -333,6 +338,11 @@ interface Ethernet3
    no shutdown
    channel-group 2 mode active
 !
+interface Ethernet4
+   description SERVER_s1-host1_eth2
+   no shutdown
+   channel-group 4 mode active
+!
 interface Ethernet6
    description MLAG_s1-leaf1_Ethernet6
    no shutdown
@@ -348,7 +358,8 @@ interface Ethernet6
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | LACP Fallback Timeout | LACP Fallback Mode | MLAG ID | EVPN ESI |
 | --------- | ----------- | ---- | ----- | ----------- | ------------| --------------------- | ------------------ | ------- | -------- |
 | Port-Channel1 | MLAG_s1-leaf1_Port-Channel1 | trunk | - | - | MLAG | - | - | - | - |
-| Port-Channel2 | L2_SPINES_Port-Channel2 | trunk | none | - | - | - | - | 2 | - |
+| Port-Channel2 | L2_SPINES_Port-Channel2 | trunk | 10 | - | - | - | - | 2 | - |
+| Port-Channel4 | SERVER_s1-host1 | access | 10 | - | - | - | - | 4 | - |
 
 #### Port-Channel Interfaces Device Configuration
 
@@ -364,10 +375,19 @@ interface Port-Channel1
 interface Port-Channel2
    description L2_SPINES_Port-Channel2
    no shutdown
-   switchport trunk allowed vlan none
+   switchport trunk allowed vlan 10
    switchport mode trunk
    switchport
    mlag 2
+!
+interface Port-Channel4
+   description SERVER_s1-host1
+   no shutdown
+   switchport access vlan 10
+   switchport mode access
+   switchport
+   mlag 4
+   spanning-tree portfast
 ```
 
 ### VLAN Interfaces

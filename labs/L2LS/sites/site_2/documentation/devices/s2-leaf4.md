@@ -1,4 +1,4 @@
-# s1-spine2
+# s2-leaf4
 
 ## Table of Contents
 
@@ -30,15 +30,12 @@
 - [Interfaces](#interfaces)
   - [Ethernet Interfaces](#ethernet-interfaces)
   - [Port-Channel Interfaces](#port-channel-interfaces)
-  - [Loopback Interfaces](#loopback-interfaces)
   - [VLAN Interfaces](#vlan-interfaces)
 - [Routing](#routing)
   - [Service Routing Protocols Model](#service-routing-protocols-model)
-  - [Virtual Router MAC Address](#virtual-router-mac-address)
   - [IP Routing](#ip-routing)
   - [IPv6 Routing](#ipv6-routing)
   - [Static Routes](#static-routes)
-  - [Router OSPF](#router-ospf)
 - [Multicast](#multicast)
   - [IP IGMP Snooping](#ip-igmp-snooping)
 - [VRF Instances](#vrf-instances)
@@ -55,7 +52,7 @@
 
 | Management Interface | Description | Type | VRF | IP Address | Gateway |
 | -------------------- | ----------- | ---- | --- | ---------- | ------- |
-| Management0 | OOB_MANAGEMENT | oob | default | 192.168.0.11/24 | 192.168.0.1 |
+| Management0 | OOB_MANAGEMENT | oob | default | 192.168.0.25/24 | 192.168.0.1 |
 
 ##### IPv6
 
@@ -70,7 +67,7 @@
 interface Management0
    description OOB_MANAGEMENT
    no shutdown
-   ip address 192.168.0.11/24
+   ip address 192.168.0.25/24
 ```
 
 ### DNS Domain
@@ -226,7 +223,7 @@ daemon TerminAttr
 
 | Domain-id | Local-interface | Peer-address | Peer-link |
 | --------- | --------------- | ------------ | --------- |
-| SPINES | Vlan4094 | 10.1.253.0 | Port-Channel1 |
+| RACK2 | Vlan4094 | 10.2.253.0 | Port-Channel1 |
 
 Dual primary detection is disabled.
 
@@ -235,9 +232,9 @@ Dual primary detection is disabled.
 ```eos
 !
 mlag configuration
-   domain-id SPINES
+   domain-id RACK2
    local-interface Vlan4094
-   peer-address 10.1.253.0
+   peer-address 10.2.253.0
    peer-link Port-Channel1
    reload-delay mlag 300
    reload-delay non-mlag 330
@@ -257,14 +254,14 @@ STP mode: **mstp**
 
 #### Global Spanning-Tree Settings
 
-- Spanning Tree disabled for VLANs: **4093-4094**
+- Spanning Tree disabled for VLANs: **4094**
 
 ### Spanning Tree Device Configuration
 
 ```eos
 !
 spanning-tree mode mstp
-no spanning-tree vlan-id 4093-4094
+no spanning-tree vlan-id 4094
 spanning-tree mst 0 priority 32768
 ```
 
@@ -289,24 +286,15 @@ vlan internal order ascending range 1006 1199
 
 | VLAN ID | Name | Trunk Groups |
 | ------- | ---- | ------------ |
-| 10 | Ten | - |
-| 20 | Twenty | - |
-| 4093 | MLAG_L3 | MLAG |
+| 40 | Forty | - |
 | 4094 | MLAG | MLAG |
 
 ### VLANs Device Configuration
 
 ```eos
 !
-vlan 10
-   name Ten
-!
-vlan 20
-   name Twenty
-!
-vlan 4093
-   name MLAG_L3
-   trunk group MLAG
+vlan 40
+   name Forty
 !
 vlan 4094
    name MLAG
@@ -323,73 +311,42 @@ vlan 4094
 
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | Channel-Group |
 | --------- | ----------- | ---- | ----- | ----------- | ----------- | ------------- |
-| Ethernet1 | MLAG_s1-spine1_Ethernet1 | *trunk | *- | *- | *MLAG | 1 |
-| Ethernet2 | L2_s1-leaf1_Ethernet3 | *trunk | *10 | *- | *- | 2 |
-| Ethernet3 | L2_s1-leaf2_Ethernet3 | *trunk | *10 | *- | *- | 2 |
-| Ethernet4 | L2_s1-leaf3_Ethernet3 | *trunk | *20 | *- | *- | 4 |
-| Ethernet5 | L2_s1-leaf4_Ethernet3 | *trunk | *20 | *- | *- | 4 |
-| Ethernet6 | MLAG_s1-spine1_Ethernet6 | *trunk | *- | *- | *MLAG | 1 |
+| Ethernet1 | MLAG_s2-leaf3_Ethernet1 | *trunk | *- | *- | *MLAG | 1 |
+| Ethernet2 | L2_s2-spine1_Ethernet5 | *trunk | *40 | *- | *- | 2 |
+| Ethernet3 | L2_s2-spine2_Ethernet5 | *trunk | *40 | *- | *- | 2 |
+| Ethernet4 | SERVER_s2-host2_eth2 | *access | *40 | *- | *- | 4 |
+| Ethernet6 | MLAG_s2-leaf3_Ethernet6 | *trunk | *- | *- | *MLAG | 1 |
 
 *Inherited from Port-Channel Interface
-
-##### IPv4
-
-| Interface | Description | Channel Group | IP Address | VRF |  MTU | Shutdown | ACL In | ACL Out |
-| --------- | ----------- | ------------- | ---------- | ----| ---- | -------- | ------ | ------- |
-| Ethernet7 | P2P_WANCORE_Ethernet2 | - | 10.0.0.31/31 | default | 1500 | False | - | - |
-| Ethernet8 | P2P_WANCORE_Ethernet2 | - | 10.0.0.35/31 | default | 1500 | False | - | - |
 
 #### Ethernet Interfaces Device Configuration
 
 ```eos
 !
 interface Ethernet1
-   description MLAG_s1-spine1_Ethernet1
+   description MLAG_s2-leaf3_Ethernet1
    no shutdown
    channel-group 1 mode active
 !
 interface Ethernet2
-   description L2_s1-leaf1_Ethernet3
+   description L2_s2-spine1_Ethernet5
    no shutdown
    channel-group 2 mode active
 !
 interface Ethernet3
-   description L2_s1-leaf2_Ethernet3
+   description L2_s2-spine2_Ethernet5
    no shutdown
    channel-group 2 mode active
 !
 interface Ethernet4
-   description L2_s1-leaf3_Ethernet3
-   no shutdown
-   channel-group 4 mode active
-!
-interface Ethernet5
-   description L2_s1-leaf4_Ethernet3
+   description SERVER_s2-host2_eth2
    no shutdown
    channel-group 4 mode active
 !
 interface Ethernet6
-   description MLAG_s1-spine1_Ethernet6
+   description MLAG_s2-leaf3_Ethernet6
    no shutdown
    channel-group 1 mode active
-!
-interface Ethernet7
-   description P2P_WANCORE_Ethernet2
-   no shutdown
-   mtu 1500
-   no switchport
-   ip address 10.0.0.31/31
-   ip ospf network point-to-point
-   ip ospf area 0.0.0.0
-!
-interface Ethernet8
-   description P2P_WANCORE_Ethernet2
-   no shutdown
-   mtu 1500
-   no switchport
-   ip address 10.0.0.35/31
-   ip ospf network point-to-point
-   ip ospf area 0.0.0.0
 ```
 
 ### Port-Channel Interfaces
@@ -400,63 +357,37 @@ interface Ethernet8
 
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | LACP Fallback Timeout | LACP Fallback Mode | MLAG ID | EVPN ESI |
 | --------- | ----------- | ---- | ----- | ----------- | ------------| --------------------- | ------------------ | ------- | -------- |
-| Port-Channel1 | MLAG_s1-spine1_Port-Channel1 | trunk | - | - | MLAG | - | - | - | - |
-| Port-Channel2 | L2_RACK1_Port-Channel2 | trunk | 10 | - | - | - | - | 2 | - |
-| Port-Channel4 | L2_RACK2_Port-Channel2 | trunk | 20 | - | - | - | - | 4 | - |
+| Port-Channel1 | MLAG_s2-leaf3_Port-Channel1 | trunk | - | - | MLAG | - | - | - | - |
+| Port-Channel2 | L2_SPINES_Port-Channel4 | trunk | 40 | - | - | - | - | 2 | - |
+| Port-Channel4 | SERVER_s2-host2 | access | 40 | - | - | - | - | 4 | - |
 
 #### Port-Channel Interfaces Device Configuration
 
 ```eos
 !
 interface Port-Channel1
-   description MLAG_s1-spine1_Port-Channel1
+   description MLAG_s2-leaf3_Port-Channel1
    no shutdown
    switchport mode trunk
    switchport trunk group MLAG
    switchport
 !
 interface Port-Channel2
-   description L2_RACK1_Port-Channel2
+   description L2_SPINES_Port-Channel4
    no shutdown
-   switchport trunk allowed vlan 10
+   switchport trunk allowed vlan 40
    switchport mode trunk
    switchport
    mlag 2
 !
 interface Port-Channel4
-   description L2_RACK2_Port-Channel2
+   description SERVER_s2-host2
    no shutdown
-   switchport trunk allowed vlan 20
-   switchport mode trunk
+   switchport access vlan 40
+   switchport mode access
    switchport
    mlag 4
-```
-
-### Loopback Interfaces
-
-#### Loopback Interfaces Summary
-
-##### IPv4
-
-| Interface | Description | VRF | IP Address |
-| --------- | ----------- | --- | ---------- |
-| Loopback0 | ROUTER_ID | default | 10.1.252.2/32 |
-
-##### IPv6
-
-| Interface | Description | VRF | IPv6 Address |
-| --------- | ----------- | --- | ------------ |
-| Loopback0 | ROUTER_ID | default | - |
-
-#### Loopback Interfaces Device Configuration
-
-```eos
-!
-interface Loopback0
-   description ROUTER_ID
-   no shutdown
-   ip address 10.1.252.2/32
-   ip ospf area 0.0.0.0
+   spanning-tree portfast
 ```
 
 ### VLAN Interfaces
@@ -465,50 +396,24 @@ interface Loopback0
 
 | Interface | Description | VRF |  MTU | Shutdown |
 | --------- | ----------- | --- | ---- | -------- |
-| Vlan10 | Ten | default | - | False |
-| Vlan20 | Twenty | default | - | False |
-| Vlan4093 | MLAG_L3 | default | 1500 | False |
 | Vlan4094 | MLAG | default | 1500 | False |
 
 ##### IPv4
 
 | Interface | VRF | IP Address | IP Address Virtual | IP Router Virtual Address | ACL In | ACL Out |
 | --------- | --- | ---------- | ------------------ | ------------------------- | ------ | ------- |
-| Vlan10 |  default  |  10.10.10.3/24  |  -  |  10.10.10.1  |  -  |  -  |
-| Vlan20 |  default  |  10.20.20.3/24  |  -  |  10.20.20.1  |  -  |  -  |
-| Vlan4093 |  default  |  10.1.253.3/31  |  -  |  -  |  -  |  -  |
-| Vlan4094 |  default  |  10.1.253.1/31  |  -  |  -  |  -  |  -  |
+| Vlan4094 |  default  |  10.2.253.1/31  |  -  |  -  |  -  |  -  |
 
 #### VLAN Interfaces Device Configuration
 
 ```eos
-!
-interface Vlan10
-   description Ten
-   no shutdown
-   ip address 10.10.10.3/24
-   ip virtual-router address 10.10.10.1
-!
-interface Vlan20
-   description Twenty
-   no shutdown
-   ip address 10.20.20.3/24
-   ip virtual-router address 10.20.20.1
-!
-interface Vlan4093
-   description MLAG_L3
-   no shutdown
-   mtu 1500
-   ip address 10.1.253.3/31
-   ip ospf network point-to-point
-   ip ospf area 0.0.0.0
 !
 interface Vlan4094
    description MLAG
    no shutdown
    mtu 1500
    no autostate
-   ip address 10.1.253.1/31
+   ip address 10.2.253.1/31
 ```
 
 ## Routing
@@ -522,32 +427,17 @@ Multi agent routing protocol model enabled
 service routing protocols model multi-agent
 ```
 
-### Virtual Router MAC Address
-
-#### Virtual Router MAC Address Summary
-
-Virtual Router MAC Address: 00:1c:73:00:dc:01
-
-#### Virtual Router MAC Address Device Configuration
-
-```eos
-!
-ip virtual-router mac-address 00:1c:73:00:dc:01
-```
-
 ### IP Routing
 
 #### IP Routing Summary
 
 | VRF | Routing Enabled |
 | --- | --------------- |
-| default | True |
+| default | False |
 
 #### IP Routing Device Configuration
 
 ```eos
-!
-ip routing
 ```
 
 ### IPv6 Routing
@@ -572,43 +462,6 @@ ip routing
 ```eos
 !
 ip route 0.0.0.0/0 192.168.0.1
-```
-
-### Router OSPF
-
-#### Router OSPF Summary
-
-| Process ID | Router ID | Default Passive Interface | No Passive Interface | BFD | Max LSA | Default Information Originate | Log Adjacency Changes Detail | Auto Cost Reference Bandwidth | Maximum Paths | MPLS LDP Sync Default | Distribute List In |
-| ---------- | --------- | ------------------------- | -------------------- | --- | ------- | ----------------------------- | ---------------------------- | ----------------------------- | ------------- | --------------------- | ------------------ |
-| 100 | 10.1.252.2 | enabled | Vlan4093 <br> Ethernet7 <br> Ethernet8 <br> | disabled | 12000 | disabled | disabled | - | - | - | - |
-
-#### Router OSPF Router Redistribution
-
-| Process ID | Source Protocol | Include Leaked | Route Map |
-| ---------- | --------------- | -------------- | --------- |
-| 100 | connected | disabled | - |
-
-#### OSPF Interfaces
-
-| Interface | Area | Cost | Point To Point |
-| -------- | -------- | -------- | -------- |
-| Ethernet7 | 0.0.0.0 | - | True |
-| Ethernet8 | 0.0.0.0 | - | True |
-| Vlan4093 | 0.0.0.0 | - | True |
-| Loopback0 | 0.0.0.0 | - | - |
-
-#### Router OSPF Device Configuration
-
-```eos
-!
-router ospf 100
-   router-id 10.1.252.2
-   passive-interface default
-   no passive-interface Ethernet7
-   no passive-interface Ethernet8
-   no passive-interface Vlan4093
-   redistribute connected
-   max-lsa 12000
 ```
 
 ## Multicast
