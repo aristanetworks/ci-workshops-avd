@@ -332,6 +332,13 @@ vlan 4094
 
 *Inherited from Port-Channel Interface
 
+##### IPv4
+
+| Interface | Description | Channel Group | IP Address | VRF |  MTU | Shutdown | ACL In | ACL Out |
+| --------- | ----------- | ------------- | ---------- | ----| ---- | -------- | ------ | ------- |
+| Ethernet7 | P2P_WANCORE_Ethernet2 | - | 10.0.0.31/31 | default | 1500 | False | - | - |
+| Ethernet8 | P2P_WANCORE_Ethernet2 | - | 10.0.0.35/31 | default | 1500 | False | - | - |
+
 #### Ethernet Interfaces Device Configuration
 
 ```eos
@@ -365,6 +372,24 @@ interface Ethernet6
    description MLAG_s1-spine1_Ethernet6
    no shutdown
    channel-group 1 mode active
+!
+interface Ethernet7
+   description P2P_WANCORE_Ethernet2
+   no shutdown
+   mtu 1500
+   no switchport
+   ip address 10.0.0.31/31
+   ip ospf network point-to-point
+   ip ospf area 0.0.0.0
+!
+interface Ethernet8
+   description P2P_WANCORE_Ethernet2
+   no shutdown
+   mtu 1500
+   no switchport
+   ip address 10.0.0.35/31
+   ip ospf network point-to-point
+   ip ospf area 0.0.0.0
 ```
 
 ### Port-Channel Interfaces
@@ -555,7 +580,7 @@ ip route 0.0.0.0/0 192.168.0.1
 
 | Process ID | Router ID | Default Passive Interface | No Passive Interface | BFD | Max LSA | Default Information Originate | Log Adjacency Changes Detail | Auto Cost Reference Bandwidth | Maximum Paths | MPLS LDP Sync Default | Distribute List In |
 | ---------- | --------- | ------------------------- | -------------------- | --- | ------- | ----------------------------- | ---------------------------- | ----------------------------- | ------------- | --------------------- | ------------------ |
-| 100 | 10.1.252.2 | enabled | Vlan4093 <br> | disabled | 12000 | disabled | disabled | - | - | - | - |
+| 100 | 10.1.252.2 | enabled | Vlan4093 <br> Ethernet7 <br> Ethernet8 <br> | disabled | 12000 | disabled | disabled | - | - | - | - |
 
 #### Router OSPF Router Redistribution
 
@@ -567,6 +592,8 @@ ip route 0.0.0.0/0 192.168.0.1
 
 | Interface | Area | Cost | Point To Point |
 | -------- | -------- | -------- | -------- |
+| Ethernet7 | 0.0.0.0 | - | True |
+| Ethernet8 | 0.0.0.0 | - | True |
 | Vlan4093 | 0.0.0.0 | - | True |
 | Loopback0 | 0.0.0.0 | - | - |
 
@@ -577,6 +604,8 @@ ip route 0.0.0.0/0 192.168.0.1
 router ospf 100
    router-id 10.1.252.2
    passive-interface default
+   no passive-interface Ethernet7
+   no passive-interface Ethernet8
    no passive-interface Vlan4093
    redistribute connected
    max-lsa 12000
