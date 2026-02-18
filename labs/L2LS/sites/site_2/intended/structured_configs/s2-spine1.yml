@@ -19,52 +19,60 @@ enable_password:
   disabled: true
 ethernet_interfaces:
 - name: Ethernet1
-  description: MLAG_s1-leaf1_Ethernet1
+  description: MLAG_s2-spine2_Ethernet1
   shutdown: false
   channel_group:
     id: 1
     mode: active
-  peer: s1-leaf1
+  peer: s2-spine2
   peer_interface: Ethernet1
   peer_type: mlag_peer
 - name: Ethernet6
-  description: MLAG_s1-leaf1_Ethernet6
+  description: MLAG_s2-spine2_Ethernet6
   shutdown: false
   channel_group:
     id: 1
     mode: active
-  peer: s1-leaf1
+  peer: s2-spine2
   peer_interface: Ethernet6
   peer_type: mlag_peer
 - name: Ethernet2
-  description: L2_s1-spine1_Ethernet3
+  description: L2_s2-leaf1_Ethernet2
   shutdown: false
   channel_group:
     id: 2
     mode: active
-  peer: s1-spine1
-  peer_interface: Ethernet3
-  peer_type: l3spine
+  peer: s2-leaf1
+  peer_interface: Ethernet2
+  peer_type: l2leaf
 - name: Ethernet3
-  description: L2_s1-spine2_Ethernet3
+  description: L2_s2-leaf2_Ethernet2
   shutdown: false
   channel_group:
     id: 2
     mode: active
-  peer: s1-spine2
-  peer_interface: Ethernet3
-  peer_type: l3spine
+  peer: s2-leaf2
+  peer_interface: Ethernet2
+  peer_type: l2leaf
 - name: Ethernet4
-  description: SERVER_s1-host1_eth2
+  description: L2_s2-leaf3_Ethernet2
   shutdown: false
   channel_group:
     id: 4
     mode: active
-  peer: s1-host1
-  peer_interface: eth2
-  peer_type: server
-  port_profile: PP-VLAN10
-hostname: s1-leaf2
+  peer: s2-leaf3
+  peer_interface: Ethernet2
+  peer_type: l2leaf
+- name: Ethernet5
+  description: L2_s2-leaf4_Ethernet2
+  shutdown: false
+  channel_group:
+    id: 4
+    mode: active
+  peer: s2-leaf4
+  peer_interface: Ethernet2
+  peer_type: l2leaf
+hostname: s2-spine1
 ip_domain_lookup:
   source_interfaces:
   - name: Management0
@@ -73,6 +81,8 @@ ip_igmp_snooping:
 ip_name_servers:
 - ip_address: 192.168.0.1
   vrf: default
+ip_routing: true
+ip_virtual_router_mac_address: 00:1c:73:00:dc:01
 local_users:
 - name: arista
   privilege: 15
@@ -80,6 +90,12 @@ local_users:
   sha512_password: $6$arista$PwX71Uhva5qXNmEvsfWCB0BoYFKwriK19U6b88QbJhZvMfqU1cihzQZ2nJTNkjysRFaKfYVDhtcqUFqkXH/Ao/
   ssh_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDQQIt3Wru70un+80A7AMWPxiTyLBV7vaA8Wf6xHx5GebI4idxM/sqMUGqVjHXVKcJt37Bk3/+s8CsgcC8rEl0tCo5Y04vaoTSFMgHHOJGcy6MwBr6n43j3pCifVPbB9304JNsgNSRln53WeebmzP0qCRvxZ54W0eN0d6ysc4Ey9+DP1c6itESJl79X+RGYdQ38RH0zQQ0L9lgOFrnHK2kciRHscbQiWOyVs0KYgQ/zvwn+q5iicCRvODaLyB2xmKXKrPgHcXL3+fmSbDMASqffNZpuZ/6M6Zwm2HvSKx+4KX2uIAa10jIuY//m1yfVUhNCpZPYrSZzNA+0bHm55UuN
     arista@automation-atd-sydney-38-0aa45f33-eos
+loopback_interfaces:
+- name: Loopback0
+  description: ROUTER_ID
+  shutdown: false
+  ip_address: 10.2.252.1/32
+  ospf_area: 0.0.0.0
 management_api_http:
   enable_https: true
   enable_vrfs:
@@ -89,17 +105,17 @@ management_interfaces:
   description: OOB_MANAGEMENT
   shutdown: false
   vrf: default
-  ip_address: 192.168.0.13/24
+  ip_address: 192.168.0.20/24
   type: oob
   gateway: 192.168.0.1
 metadata:
   is_deployed: true
   platform: cEOS
-  fabric_name: SITE1_FABRIC
+  fabric_name: SITE2_FABRIC
 mlag_configuration:
-  domain_id: RACK1
+  domain_id: SPINES
   local_interface: Vlan4094
-  peer_address: 10.1.253.0
+  peer_address: 10.2.253.1
   peer_link: Port-Channel1
   reload_delay_mlag: '300'
   reload_delay_non_mlag: '330'
@@ -114,7 +130,7 @@ ntp:
     vrf: default
 port_channel_interfaces:
 - name: Port-Channel1
-  description: MLAG_s1-leaf1_Port-Channel1
+  description: MLAG_s2-spine2_Port-Channel1
   shutdown: false
   switchport:
     enabled: true
@@ -123,55 +139,100 @@ port_channel_interfaces:
       groups:
       - MLAG
 - name: Port-Channel2
-  description: L2_SPINES_Port-Channel2
+  description: L2_RACK1_Port-Channel2
   shutdown: false
   mlag: 2
   switchport:
     enabled: true
     mode: trunk
     trunk:
-      allowed_vlan: '10'
+      allowed_vlan: '30'
 - name: Port-Channel4
-  description: SERVER_s1-host1
+  description: L2_RACK2_Port-Channel2
   shutdown: false
   mlag: 4
-  spanning_tree_portfast: edge
   switchport:
     enabled: true
-    mode: access
-    access_vlan: 10
+    mode: trunk
+    trunk:
+      allowed_vlan: '40'
+router_ospf:
+  process_ids:
+  - id: 100
+    passive_interface_default: true
+    router_id: 10.2.252.1
+    bfd_enable: false
+    no_passive_interfaces:
+    - Vlan4093
+    max_lsa: 12000
+    redistribute:
+      connected:
+        enabled: true
 service_routing_protocols_model: multi-agent
 spanning_tree:
   mode: mstp
   mst_instances:
   - id: '0'
     priority: 32768
-  no_spanning_tree_vlan: '4094'
+  no_spanning_tree_vlan: 4093-4094
 static_routes:
 - vrf: default
   prefix: 0.0.0.0/0
   next_hop: 192.168.0.1
 transceiver_qsfp_default_mode_4x10: true
 vlan_interfaces:
+- name: Vlan4093
+  description: MLAG_L3
+  shutdown: false
+  ip_address: 10.2.253.2/31
+  ospf_network_point_to_point: true
+  ospf_area: 0.0.0.0
+  mtu: 1500
 - name: Vlan4094
   description: MLAG
   shutdown: false
-  ip_address: 10.1.253.1/31
+  ip_address: 10.2.253.0/31
   mtu: 1500
   no_autostate: true
+- name: Vlan30
+  description: Thirty
+  shutdown: false
+  ip_address: 10.30.30.2/24
+  ip_virtual_router_addresses:
+  - 10.30.30.1
+  tenant: MY_FABRIC
+  tags:
+  - DB
+- name: Vlan40
+  description: Forty
+  shutdown: false
+  ip_address: 10.40.40.2/24
+  ip_virtual_router_addresses:
+  - 10.40.40.1
+  tenant: MY_FABRIC
+  tags:
+  - DMZ
 vlan_internal_order:
   allocation: ascending
   range:
     beginning: 1006
     ending: 1199
 vlans:
+- id: 4093
+  name: MLAG_L3
+  trunk_groups:
+  - MLAG
+  tenant: system
 - id: 4094
   name: MLAG
   trunk_groups:
   - MLAG
   tenant: system
-- id: 10
-  name: Ten
+- id: 30
+  name: Thirty
+  tenant: MY_FABRIC
+- id: 40
+  name: Forty
   tenant: MY_FABRIC
 vrfs:
 - name: default

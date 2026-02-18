@@ -146,7 +146,7 @@ port_channel_interfaces:
     enabled: true
     mode: trunk
     trunk:
-      allowed_vlan: none
+      allowed_vlan: '10'
 - name: Port-Channel4
   description: L2_RACK2_Port-Channel2
   shutdown: false
@@ -155,7 +155,7 @@ port_channel_interfaces:
     enabled: true
     mode: trunk
     trunk:
-      allowed_vlan: none
+      allowed_vlan: '20'
 router_ospf:
   process_ids:
   - id: 100
@@ -194,6 +194,24 @@ vlan_interfaces:
   ip_address: 10.1.253.1/31
   mtu: 1500
   no_autostate: true
+- name: Vlan10
+  description: Ten
+  shutdown: false
+  ip_address: 10.10.10.3/24
+  ip_virtual_router_addresses:
+  - 10.10.10.1
+  tenant: MY_FABRIC
+  tags:
+  - Web
+- name: Vlan20
+  description: Twenty
+  shutdown: false
+  ip_address: 10.20.20.3/24
+  ip_virtual_router_addresses:
+  - 10.20.20.1
+  tenant: MY_FABRIC
+  tags:
+  - App
 vlan_internal_order:
   allocation: ascending
   range:
@@ -210,6 +228,12 @@ vlans:
   trunk_groups:
   - MLAG
   tenant: system
+- id: 10
+  name: Ten
+  tenant: MY_FABRIC
+- id: 20
+  name: Twenty
+  tenant: MY_FABRIC
 vrfs:
 - name: default
   ip_routing: false
