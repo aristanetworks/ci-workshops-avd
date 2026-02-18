@@ -1,0 +1,156 @@
+aaa_authorization:
+  exec:
+    default: local
+aaa_root:
+  disabled: true
+config_end: true
+daemon_terminattr:
+  cvaddrs:
+  - 192.168.0.5:9910
+  cvauth:
+    method: token
+    token_file: /tmp/token
+  cvsourceintf: Management0
+  cvvrf: default
+  disable_aaa: true
+  smashexcludes: ale,flexCounter,hardware,kni,pulse,strata
+dns_domain: atd.lab
+enable_password:
+  disabled: true
+ethernet_interfaces:
+- name: Ethernet1
+  description: MLAG_s1-leaf3_Ethernet1
+  shutdown: false
+  channel_group:
+    id: 1
+    mode: active
+  peer: s1-leaf3
+  peer_interface: Ethernet1
+  peer_type: mlag_peer
+- name: Ethernet6
+  description: MLAG_s1-leaf3_Ethernet6
+  shutdown: false
+  channel_group:
+    id: 1
+    mode: active
+  peer: s1-leaf3
+  peer_interface: Ethernet6
+  peer_type: mlag_peer
+- name: Ethernet2
+  description: L2_s1-spine1_Ethernet5
+  shutdown: false
+  channel_group:
+    id: 2
+    mode: active
+  peer: s1-spine1
+  peer_interface: Ethernet5
+  peer_type: l3spine
+- name: Ethernet3
+  description: L2_s1-spine2_Ethernet5
+  shutdown: false
+  channel_group:
+    id: 2
+    mode: active
+  peer: s1-spine2
+  peer_interface: Ethernet5
+  peer_type: l3spine
+hostname: s1-leaf4
+ip_domain_lookup:
+  source_interfaces:
+  - name: Management0
+ip_igmp_snooping:
+  globally_enabled: true
+ip_name_servers:
+- ip_address: 192.168.0.1
+  vrf: default
+local_users:
+- name: arista
+  privilege: 15
+  role: network-admin
+  sha512_password: $6$arista$TJDFJ9.0BMlkaIgjJQMCOHzuIMTRotfK8KNOaGJBN6NmRyD4uvYtua3WCOkRTEsS4TJeDQAvn/G.4.9aLxGCN1
+  ssh_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDl9UuhBjG/d8XRsbHtb+/M6l64wHbzDcO7H3Pi1bmc0ysNSr0mu+4k4ek1lP2HVBiimmYRlgC/IO2sKS6rFTufCNFV2QJUICxYZ/qQiZDSfhSrN7D/687okxxKUyG1nWKMczOpc5qmd7dIPA1eHJPM3IzXjwwT5rRB0M1fI3wytHxGgbNo3pscfxYmRzwfJfGCcd47yiZmlhGFuvo5mgDi7JzqDux2KtYwC1PHvnqpyWXEnKVbcdWyqQRzuYGMwidYkRJUyqt5lNVZtCOOf340NA7fHm0gOxMCydAj0gkBsAGYyczv50CpjcYQw21ZtZQxkXV55JVOVwYucInUGF/l
+    arista@automation-atd-sydney-43-0aa45f33-eos
+management_api_http:
+  enable_https: true
+  enable_vrfs:
+  - name: default
+management_interfaces:
+- name: Management0
+  description: OOB_MANAGEMENT
+  shutdown: false
+  vrf: default
+  ip_address: 192.168.0.15/24
+  type: oob
+  gateway: 192.168.0.1
+metadata:
+  is_deployed: true
+  platform: cEOS
+  fabric_name: SITE1_FABRIC
+mlag_configuration:
+  domain_id: RACK2
+  local_interface: Vlan4094
+  peer_address: 10.1.253.0
+  peer_link: Port-Channel1
+  reload_delay_mlag: '300'
+  reload_delay_non_mlag: '330'
+ntp:
+  local_interface:
+    name: Management0
+    vrf: default
+  servers:
+  - name: 192.168.0.1
+    iburst: true
+    preferred: true
+    vrf: default
+port_channel_interfaces:
+- name: Port-Channel1
+  description: MLAG_s1-leaf3_Port-Channel1
+  shutdown: false
+  switchport:
+    enabled: true
+    mode: trunk
+    trunk:
+      groups:
+      - MLAG
+- name: Port-Channel2
+  description: L2_SPINES_Port-Channel4
+  shutdown: false
+  mlag: 2
+  switchport:
+    enabled: true
+    mode: trunk
+    trunk:
+      allowed_vlan: none
+service_routing_protocols_model: multi-agent
+spanning_tree:
+  mode: mstp
+  mst_instances:
+  - id: '0'
+    priority: 32768
+  no_spanning_tree_vlan: '4094'
+static_routes:
+- vrf: default
+  prefix: 0.0.0.0/0
+  next_hop: 192.168.0.1
+transceiver_qsfp_default_mode_4x10: true
+vlan_interfaces:
+- name: Vlan4094
+  description: MLAG
+  shutdown: false
+  ip_address: 10.1.253.1/31
+  mtu: 1500
+  no_autostate: true
+vlan_internal_order:
+  allocation: ascending
+  range:
+    beginning: 1006
+    ending: 1199
+vlans:
+- id: 4094
+  name: MLAG
+  trunk_groups:
+  - MLAG
+  tenant: system
+vrfs:
+- name: default
+  ip_routing: false
