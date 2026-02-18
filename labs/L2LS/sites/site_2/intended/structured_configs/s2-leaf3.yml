@@ -86,6 +86,15 @@ local_users:
   sha512_password: $6$arista$jxRYBl5F3YXA0gvHhhw638rcR6Qe8g5o/0nbvqS3PzV6R36jGYkB15d8iUG13AR/CwX3JCMBSesa11SujdWLh.
   ssh_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCxx8nFmXsqhOPxhNXwfmhQycEElhY5G6k2LyZFtLqPQTxDWb2EKVmNz4qEAGUcEWcXDaUd7eFTnVUAMcssgD5Ii53w4jzLcMbGLyCzx7x1YtlE5kUB4eIrWq16zfTFsS/hZXMGUNUnb/0SX6onOZPSaB0ijCRKujd3bvXz+CsADSjJoDXIUkKuAR+MCo3mjOTDVJmmqeGNUXDdi+KIpWHMPKokX5Dqh7BQQAVW/1MFBITQuGZ+N+EqklKSrZ5qc+mSePgjFGfCeANjN4HbZ4Z2FKyKYAzIbls5WOWV5x+a5dxSmvIbVGnKwP4eHWmgevFTHn3UK2BZKs2obSj2YIuR
     arista@automation-atd-sydney-4-0aa45f33-eos
+logging:
+  vrfs:
+  - name: default
+    source_interface: Management0
+    hosts:
+    - name: 10.200.0.108
+      protocol: udp
+    - name: 10.200.1.108
+      protocol: udp
 management_api_http:
   enable_https: true
   enable_vrfs:
