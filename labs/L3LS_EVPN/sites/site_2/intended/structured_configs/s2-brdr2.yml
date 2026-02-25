@@ -19,44 +19,44 @@ enable_password:
   disabled: true
 ethernet_interfaces:
 - name: Ethernet1
-  description: MLAG_s1-brdr2_Ethernet1
+  description: MLAG_s2-brdr1_Ethernet1
   shutdown: false
   channel_group:
     id: 1
     mode: active
-  peer: s1-brdr2
+  peer: s2-brdr1
   peer_interface: Ethernet1
   peer_type: mlag_peer
 - name: Ethernet6
-  description: MLAG_s1-brdr2_Ethernet6
+  description: MLAG_s2-brdr1_Ethernet6
   shutdown: false
   channel_group:
     id: 1
     mode: active
-  peer: s1-brdr2
+  peer: s2-brdr1
   peer_interface: Ethernet6
   peer_type: mlag_peer
 - name: Ethernet2
-  description: P2P_s1-spine1_Ethernet7
+  description: P2P_s2-spine1_Ethernet8
   shutdown: false
   mtu: 1500
-  ip_address: 172.16.1.17/31
-  peer: s1-spine1
-  peer_interface: Ethernet7
+  ip_address: 172.16.2.21/31
+  peer: s2-spine1
+  peer_interface: Ethernet8
   peer_type: spine
   switchport:
     enabled: false
 - name: Ethernet3
-  description: P2P_s1-spine2_Ethernet7
+  description: P2P_s2-spine2_Ethernet8
   shutdown: false
   mtu: 1500
-  ip_address: 172.16.1.19/31
-  peer: s1-spine2
-  peer_interface: Ethernet7
+  ip_address: 172.16.2.23/31
+  peer: s2-spine2
+  peer_interface: Ethernet8
   peer_type: spine
   switchport:
     enabled: false
-hostname: s1-brdr1
+hostname: s2-brdr2
 ip_domain_lookup:
   source_interfaces:
   - name: Management0
@@ -78,11 +78,11 @@ loopback_interfaces:
 - name: Loopback0
   description: ROUTER_ID
   shutdown: false
-  ip_address: 10.250.1.7/32
+  ip_address: 10.250.2.8/32
 - name: Loopback1
   description: VXLAN_TUNNEL_SOURCE
   shutdown: false
-  ip_address: 10.255.1.7/32
+  ip_address: 10.255.2.7/32
 management_api_http:
   enable_https: true
   enable_vrfs:
@@ -92,17 +92,17 @@ management_interfaces:
   description: OOB_MANAGEMENT
   shutdown: false
   vrf: default
-  ip_address: 192.168.0.100/24
+  ip_address: 192.168.0.201/24
   type: oob
   gateway: 192.168.0.1
 metadata:
   is_deployed: true
   platform: cEOS
-  fabric_name: SITE1_FABRIC
+  fabric_name: SITE2_FABRIC
 mlag_configuration:
-  domain_id: S1_BRDR
+  domain_id: S2_BRDR
   local_interface: Vlan4094
-  peer_address: 10.251.1.9
+  peer_address: 10.251.2.8
   peer_link: Port-Channel1
   reload_delay_mlag: '300'
   reload_delay_non_mlag: '330'
@@ -117,7 +117,7 @@ ntp:
     vrf: default
 port_channel_interfaces:
 - name: Port-Channel1
-  description: MLAG_s1-brdr2_Port-Channel1
+  description: MLAG_s2-brdr1_Port-Channel1
   shutdown: false
   switchport:
     enabled: true
@@ -129,13 +129,9 @@ prefix_lists:
 - name: PL-LOOPBACKS-EVPN-OVERLAY
   sequence_numbers:
   - sequence: 10
-    action: permit 10.250.1.0/24 eq 32
+    action: permit 10.250.2.0/24 eq 32
   - sequence: 20
-    action: permit 10.255.1.0/24 eq 32
-- name: PL-MLAG-PEER-VRFS
-  sequence_numbers:
-  - sequence: 10
-    action: permit 10.252.1.8/31
+    action: permit 10.255.2.0/24 eq 32
 route_maps:
 - name: RM-MLAG-PEER-IN
   sequence_numbers:
@@ -150,22 +146,14 @@ route_maps:
     type: permit
     match:
     - ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY
-- name: RM-CONN-2-BGP-VRFS
-  sequence_numbers:
-  - sequence: 10
-    type: deny
-    match:
-    - ip address prefix-list PL-MLAG-PEER-VRFS
-  - sequence: 20
-    type: permit
 router_bfd:
   multihop:
     interval: 300
     min_rx: 300
     multiplier: 3
 router_bgp:
-  as: '65103'
-  router_id: 10.250.1.7
+  as: '65203'
+  router_id: 10.250.2.8
   maximum_paths:
     paths: 4
     ecmp: 4
@@ -175,8 +163,8 @@ router_bgp:
   peer_groups:
   - name: MLAG-IPv4-UNDERLAY-PEER
     type: ipv4
-    remote_as: '65103'
-    description: s1-brdr2
+    remote_as: '65203'
+    description: s2-brdr1
     next_hop_self: true
     password: 4b21pAdCvWeAqpcKDFMdWw==
     send_community: all
@@ -196,51 +184,34 @@ router_bgp:
     send_community: all
     maximum_routes: 0
   neighbors:
-  - ip_address: 10.252.1.9
+  - ip_address: 10.252.2.8
     peer_group: MLAG-IPv4-UNDERLAY-PEER
-    peer: s1-brdr2
-    description: s1-brdr2_Vlan4093
-  - ip_address: 172.16.1.16
+    peer: s2-brdr1
+    description: s2-brdr1_Vlan4093
+  - ip_address: 172.16.2.20
     peer_group: IPv4-UNDERLAY-PEERS
-    remote_as: '65100'
-    peer: s1-spine1
-    description: s1-spine1_Ethernet7
-  - ip_address: 172.16.1.18
+    remote_as: '65200'
+    peer: s2-spine1
+    description: s2-spine1_Ethernet8
+  - ip_address: 172.16.2.22
     peer_group: IPv4-UNDERLAY-PEERS
-    remote_as: '65100'
-    peer: s1-spine2
-    description: s1-spine2_Ethernet7
-  - ip_address: 10.250.1.1
+    remote_as: '65200'
+    peer: s2-spine2
+    description: s2-spine2_Ethernet8
+  - ip_address: 10.250.2.1
     peer_group: EVPN-OVERLAY-PEERS
-    remote_as: '65100'
-    peer: s1-spine1
-    description: s1-spine1_Loopback0
-  - ip_address: 10.250.1.2
+    remote_as: '65200'
+    peer: s2-spine1
+    description: s2-spine1_Loopback0
+  - ip_address: 10.250.2.2
     peer_group: EVPN-OVERLAY-PEERS
-    remote_as: '65100'
-    peer: s1-spine2
-    description: s1-spine2_Loopback0
+    remote_as: '65200'
+    peer: s2-spine2
+    description: s2-spine2_Loopback0
   redistribute:
     connected:
       enabled: true
       route_map: RM-CONN-2-BGP
-  vlans:
-  - id: 10
-    tenant: S1_FABRIC
-    rd: 10.250.1.7:10010
-    route_targets:
-      both:
-      - 10010:10010
-    redistribute_routes:
-    - learned
-  - id: 20
-    tenant: S1_FABRIC
-    rd: 10.250.1.7:10020
-    route_targets:
-      both:
-      - 10020:10020
-    redistribute_routes:
-    - learned
   address_family_evpn:
     peer_groups:
     - name: EVPN-OVERLAY-PEERS
@@ -253,27 +224,6 @@ router_bgp:
       activate: true
     - name: EVPN-OVERLAY-PEERS
       activate: false
-  vrfs:
-  - name: OVERLAY
-    rd: 10.250.1.7:10
-    route_targets:
-      import:
-      - address_family: evpn
-        route_targets:
-        - '10:10'
-      export:
-      - address_family: evpn
-        route_targets:
-        - '10:10'
-    router_id: 10.250.1.7
-    neighbors:
-    - ip_address: 10.252.1.9
-      peer_group: MLAG-IPv4-UNDERLAY-PEER
-      description: s1-brdr2_Vlan3009
-    redistribute:
-      connected:
-        enabled: true
-        route_map: RM-CONN-2-BGP-VRFS
 service_routing_protocols_model: multi-agent
 spanning_tree:
   mode: mstp
@@ -290,34 +240,14 @@ vlan_interfaces:
 - name: Vlan4093
   description: MLAG_L3
   shutdown: false
-  ip_address: 10.252.1.8/31
+  ip_address: 10.252.2.9/31
   mtu: 1500
 - name: Vlan4094
   description: MLAG
   shutdown: false
-  ip_address: 10.251.1.8/31
+  ip_address: 10.251.2.9/31
   mtu: 1500
   no_autostate: true
-- name: Vlan10
-  description: Ten
-  shutdown: false
-  vrf: OVERLAY
-  ip_address_virtual: 10.10.10.1/24
-  tenant: S1_FABRIC
-- name: Vlan20
-  description: Twenty
-  shutdown: false
-  vrf: OVERLAY
-  ip_address_virtual: 10.20.20.1/24
-  tenant: S1_FABRIC
-- name: Vlan3009
-  description: MLAG_L3_VRF_OVERLAY
-  shutdown: false
-  vrf: OVERLAY
-  ip_address: 10.252.1.8/31
-  mtu: 1500
-  tenant: S1_FABRIC
-  type: underlay_peering
 vlan_internal_order:
   allocation: ascending
   range:
@@ -334,35 +264,13 @@ vlans:
   trunk_groups:
   - MLAG
   tenant: system
-- id: 10
-  name: Ten
-  tenant: S1_FABRIC
-- id: 20
-  name: Twenty
-  tenant: S1_FABRIC
-- id: 3009
-  name: MLAG_L3_VRF_OVERLAY
-  trunk_groups:
-  - MLAG
-  tenant: S1_FABRIC
 vrfs:
 - name: default
   ip_routing: false
-- name: OVERLAY
-  ip_routing: true
-  tenant: S1_FABRIC
 vxlan_interface:
   vxlan1:
-    description: s1-brdr1_VTEP
+    description: s2-brdr2_VTEP
     vxlan:
       source_interface: Loopback1
       udp_port: 4789
       virtual_router_encapsulation_mac_address: mlag-system-id
-      vlans:
-      - id: 10
-        vni: 10010
-      - id: 20
-        vni: 10020
-      vrfs:
-      - name: OVERLAY
-        vni: 10
