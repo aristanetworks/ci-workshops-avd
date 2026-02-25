@@ -1,11 +1,4 @@
 ---
 collections:
-
   - name: arista.avd
-    version: 5.7.1
-
-  - name: community.general
-    version: 11.2.1
-
-  - name: ansible.posix
-    version: 2.1.0
+    version: 6.0.0
