@@ -60,6 +60,10 @@ dns_settings:
 # Point to Point Links MTU Override for Lab
 p2p_uplinks_mtu: 1500
 
+# eAPI must be explicitly enabled in AVD 6.0.0
+management_eapi:
+  enabled: true
+
 # Set IPv4 Underlay Routing and EVPN Overlay Routing to use eBGP
 underlay_routing_protocol: ebgp
 overlay_routing_protocol: ebgp
