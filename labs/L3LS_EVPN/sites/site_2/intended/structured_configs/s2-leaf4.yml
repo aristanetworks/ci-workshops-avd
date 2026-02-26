@@ -1,50 +1,224 @@
+aaa_authorization:
+  exec:
+    default: local
+aaa_root:
+  disabled: true
+config_end: true
+daemon_terminattr:
+  cvaddrs:
+  - 192.168.0.5:9910
+  cvauth:
+    method: token
+    token_file: /tmp/token
+  cvsourceintf: Management0
+  cvvrf: default
+  disable_aaa: true
+  smashexcludes: ale,flexCounter,hardware,kni,pulse,strata
+dns_domain: atd.lab
+enable_password:
+  disabled: true
+ethernet_interfaces:
+- name: Ethernet1
+  description: MLAG_s2-leaf3_Ethernet1
+  shutdown: false
+  channel_group:
+    id: 1
+    mode: active
+  peer: s2-leaf3
+  peer_interface: Ethernet1
+  peer_type: mlag_peer
+- name: Ethernet6
+  description: MLAG_s2-leaf3_Ethernet6
+  shutdown: false
+  channel_group:
+    id: 1
+    mode: active
+  peer: s2-leaf3
+  peer_interface: Ethernet6
+  peer_type: mlag_peer
+- name: Ethernet2
+  description: P2P_s2-spine1_Ethernet5
+  shutdown: false
+  mtu: 1500
+  ip_address: 172.16.2.13/31
+  peer: s2-spine1
+  peer_interface: Ethernet5
+  peer_type: spine
+  switchport:
+    enabled: false
+- name: Ethernet3
+  description: P2P_s2-spine2_Ethernet5
+  shutdown: false
+  mtu: 1500
+  ip_address: 172.16.2.15/31
+  peer: s2-spine2
+  peer_interface: Ethernet5
+  peer_type: spine
+  switchport:
+    enabled: false
+- name: Ethernet4
+  description: SERVER_s2-host2_eth2
+  shutdown: false
+  channel_group:
+    id: 4
+    mode: active
+  peer: s2-host2
+  peer_interface: eth2
+  peer_type: server
+  port_profile: PP-VLAN20
 hostname: s2-leaf4
-is_deployed: true
+ip_domain_lookup:
+  source_interfaces:
+  - name: Management0
+ip_igmp_snooping:
+  globally_enabled: true
+ip_name_servers:
+- ip_address: 192.168.0.1
+  vrf: default
+ip_routing: true
+ip_virtual_router_mac_address: 00:1c:73:00:00:99
+local_users:
+- name: arista
+  privilege: 15
+  role: network-admin
+  sha512_password: $6$arista$BKQq8kaXODorNRcLGrhhISrM6U127DG.78jAkxg9ItL.4Qv1IYwEjWiCo.HJQy1uI7et8oLeH5A9yjF00T.4X/
+  ssh_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDXOwzPv4hBZGRccbRTOpTWsOjVNBoqHtpJNiJiODpoJUGnPwFazYseHCHeAinUo52EWOg5vMbBubmUH9GXdzNOtRTBzQjafBgcBSXQUc1lXZPOULNo88/SQckCwccuIIT/X/lNFydp+aykNUORv4mf057mW7YlPBxaylQcH1Vb34ZrE3NCPncsJ5EvvrBxl4OwZwpx8rFTqYQyv5jFyBae7M6KmyVxUvYELusIkjVB+9NrV14AQBdJVKyElG23wPR7YCutevIy9TvWELVjLmIvNLsQWOaPBNfRCcicsqYpEeFQswYboKW0IMyS1+6XNiBcZDH5RIt/Kzq5AWHCh8AF
+    arista@index-exchange-train2-1-216bda19-eos
+loopback_interfaces:
+- name: Loopback0
+  description: ROUTER_ID
+  shutdown: false
+  ip_address: 10.250.2.6/32
+- name: Loopback1
+  description: VXLAN_TUNNEL_SOURCE
+  shutdown: false
+  ip_address: 10.255.2.5/32
+management_api_http:
+  enable_https: true
+  enable_vrfs:
+  - name: default
+management_interfaces:
+- name: Management0
+  description: OOB_MANAGEMENT
+  shutdown: false
+  vrf: default
+  ip_address: 192.168.0.25/24
+  type: oob
+  gateway: 192.168.0.1
+metadata:
+  is_deployed: true
+  platform: cEOS
+  fabric_name: SITE2_FABRIC
+mlag_configuration:
+  domain_id: S2_RACK2
+  local_interface: Vlan4094
+  peer_address: 10.251.2.4
+  peer_link: Port-Channel1
+  reload_delay_mlag: '300'
+  reload_delay_non_mlag: '330'
+ntp:
+  local_interface:
+    name: Management0
+    vrf: default
+  servers:
+  - name: 192.168.0.1
+    iburst: true
+    preferred: true
+    vrf: default
+port_channel_interfaces:
+- name: Port-Channel1
+  description: MLAG_s2-leaf3_Port-Channel1
+  shutdown: false
+  switchport:
+    enabled: true
+    mode: trunk
+    trunk:
+      groups:
+      - MLAG
+- name: Port-Channel4
+  description: SERVER_s2-host2
+  shutdown: false
+  mlag: 4
+  spanning_tree_portfast: edge
+  switchport:
+    enabled: true
+    mode: access
+    access_vlan: 20
+prefix_lists:
+- name: PL-LOOPBACKS-EVPN-OVERLAY
+  sequence_numbers:
+  - sequence: 10
+    action: permit 10.250.2.0/24 eq 32
+  - sequence: 20
+    action: permit 10.255.2.0/24 eq 32
+- name: PL-MLAG-PEER-VRFS
+  sequence_numbers:
+  - sequence: 10
+    action: permit 10.252.2.4/31
+route_maps:
+- name: RM-MLAG-PEER-IN
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    description: Make routes learned over MLAG Peer-link less preferred on spines to ensure optimal routing
+    set:
+    - origin incomplete
+- name: RM-CONN-2-BGP
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    match:
+    - ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY
+- name: RM-CONN-2-BGP-VRFS
+  sequence_numbers:
+  - sequence: 10
+    type: deny
+    match:
+    - ip address prefix-list PL-MLAG-PEER-VRFS
+  - sequence: 20
+    type: permit
+router_bfd:
+  multihop:
+    interval: 300
+    min_rx: 300
+    multiplier: 3
 router_bgp:
   as: '65202'
   router_id: 10.250.2.6
-  bgp:
-    default:
-      ipv4_unicast: false
   maximum_paths:
     paths: 4
     ecmp: 4
+  bgp:
+    default:
+      ipv4_unicast: false
   peer_groups:
   - name: MLAG-IPv4-UNDERLAY-PEER
     type: ipv4
     remote_as: '65202'
-    next_hop_self: true
     description: s2-leaf3
+    next_hop_self: true
     password: 4b21pAdCvWeAqpcKDFMdWw==
-    maximum_routes: 12000
     send_community: all
+    maximum_routes: 12000
     route_map_in: RM-MLAG-PEER-IN
   - name: IPv4-UNDERLAY-PEERS
     type: ipv4
     password: 7x4B4rnJhZB438m9+BrBfQ==
-    maximum_routes: 12000
     send_community: all
+    maximum_routes: 12000
   - name: EVPN-OVERLAY-PEERS
     type: evpn
     update_source: Loopback0
     bfd: true
+    ebgp_multihop: 3
     password: Q4fqtbqcZ7oQuKfuWtNGRQ==
     send_community: all
     maximum_routes: 0
-    ebgp_multihop: 3
-  address_family_ipv4:
-    peer_groups:
-    - name: MLAG-IPv4-UNDERLAY-PEER
-      activate: true
-    - name: IPv4-UNDERLAY-PEERS
-      activate: true
-    - name: EVPN-OVERLAY-PEERS
-      activate: false
   neighbors:
   - ip_address: 10.252.2.4
     peer_group: MLAG-IPv4-UNDERLAY-PEER
     peer: s2-leaf3
-    description: s2-leaf3
+    description: s2-leaf3_Vlan4093
   - ip_address: 172.16.2.12
     peer_group: IPv4-UNDERLAY-PEERS
     remote_as: '65200'
@@ -57,39 +231,18 @@ router_bgp:
     description: s2-spine2_Ethernet5
   - ip_address: 10.250.2.1
     peer_group: EVPN-OVERLAY-PEERS
-    peer: s2-spine1
-    description: s2-spine1
     remote_as: '65200'
+    peer: s2-spine1
+    description: s2-spine1_Loopback0
   - ip_address: 10.250.2.2
     peer_group: EVPN-OVERLAY-PEERS
-    peer: s2-spine2
-    description: s2-spine2
     remote_as: '65200'
-  redistribute_routes:
-  - source_protocol: connected
-    route_map: RM-CONN-2-BGP
-  address_family_evpn:
-    peer_groups:
-    - name: EVPN-OVERLAY-PEERS
-      activate: true
-  vrfs:
-  - name: OVERLAY
-    router_id: 10.250.2.6
-    rd: 10.250.2.6:10
-    route_targets:
-      import:
-      - address_family: evpn
-        route_targets:
-        - '10:10'
-      export:
-      - address_family: evpn
-        route_targets:
-        - '10:10'
-    redistribute_routes:
-    - source_protocol: connected
-    neighbors:
-    - ip_address: 10.252.2.4
-      peer_group: MLAG-IPv4-UNDERLAY-PEER
+    peer: s2-spine2
+    description: s2-spine2_Loopback0
+  redistribute:
+    connected:
+      enabled: true
+      route_map: RM-CONN-2-BGP
   vlans:
   - id: 10
     tenant: S2_FABRIC
@@ -107,61 +260,99 @@ router_bgp:
       - 10020:10020
     redistribute_routes:
     - learned
-static_routes:
-- vrf: default
-  destination_address_prefix: 0.0.0.0/0
-  gateway: 192.168.0.1
+  address_family_evpn:
+    peer_groups:
+    - name: EVPN-OVERLAY-PEERS
+      activate: true
+  address_family_ipv4:
+    peer_groups:
+    - name: MLAG-IPv4-UNDERLAY-PEER
+      activate: true
+    - name: IPv4-UNDERLAY-PEERS
+      activate: true
+    - name: EVPN-OVERLAY-PEERS
+      activate: false
+  vrfs:
+  - name: OVERLAY
+    rd: 10.250.2.6:10
+    route_targets:
+      import:
+      - address_family: evpn
+        route_targets:
+        - '10:10'
+      export:
+      - address_family: evpn
+        route_targets:
+        - '10:10'
+    router_id: 10.250.2.6
+    neighbors:
+    - ip_address: 10.252.2.4
+      peer_group: MLAG-IPv4-UNDERLAY-PEER
+      description: s2-leaf3_Vlan3009
+    redistribute:
+      connected:
+        enabled: true
+        route_map: RM-CONN-2-BGP-VRFS
 service_routing_protocols_model: multi-agent
-ip_routing: true
-vlan_internal_order:
-  allocation: ascending
-  range:
-    beginning: 1006
-    ending: 1199
 spanning_tree:
   mode: mstp
   mst_instances:
   - id: '0'
     priority: 32768
   no_spanning_tree_vlan: 4093-4094
-vrfs:
-- name: default
-  ip_routing: false
-- name: OVERLAY
-  tenant: S2_FABRIC
-  ip_routing: true
-management_interfaces:
-- name: Management0
-  description: oob_management
+static_routes:
+- vrf: default
+  prefix: 0.0.0.0/0
+  next_hop: 192.168.0.1
+transceiver_qsfp_default_mode_4x10: true
+vlan_interfaces:
+- name: Vlan4093
+  description: MLAG_L3
   shutdown: false
-  vrf: default
-  ip_address: 192.168.0.25/24
-  gateway: 192.168.0.1
-  type: oob
-management_api_http:
-  enable_vrfs:
-  - name: default
-  enable_https: true
-ntp:
-  local_interface:
-    name: Management0
-    vrf: default
-  servers:
-  - name: 192.168.0.1
-    iburst: true
-    vrf: default
-    preferred: true
+  ip_address: 10.252.2.5/31
+  mtu: 1500
+- name: Vlan4094
+  description: MLAG
+  shutdown: false
+  ip_address: 10.251.2.5/31
+  mtu: 1500
+  no_autostate: true
+- name: Vlan10
+  description: Ten
+  shutdown: false
+  vrf: OVERLAY
+  ip_address_virtual: 10.10.10.1/24
+  tenant: S2_FABRIC
+- name: Vlan20
+  description: Twenty
+  shutdown: false
+  vrf: OVERLAY
+  ip_address_virtual: 10.20.20.1/24
+  tenant: S2_FABRIC
+- name: Vlan3009
+  description: MLAG_L3_VRF_OVERLAY
+  shutdown: false
+  vrf: OVERLAY
+  ip_address: 10.252.2.5/31
+  mtu: 1500
+  tenant: S2_FABRIC
+  type: underlay_peering
+vlan_internal_order:
+  allocation: ascending
+  range:
+    beginning: 1006
+    ending: 1199
 vlans:
 - id: 4093
-  tenant: system
-  name: LEAF_PEER_L3
-  trunk_groups:
-  - LEAF_PEER_L3
-- id: 4094
-  tenant: system
-  name: MLAG_PEER
+  name: MLAG_L3
   trunk_groups:
   - MLAG
+  tenant: system
+- id: 4094
+  name: MLAG
+  trunk_groups:
+  - MLAG
+  tenant: system
 - id: 10
   name: Ten
   tenant: S2_FABRIC
@@ -169,160 +360,22 @@ vlans:
   name: Twenty
   tenant: S2_FABRIC
 - id: 3009
-  name: MLAG_iBGP_OVERLAY
+  name: MLAG_L3_VRF_OVERLAY
   trunk_groups:
-  - LEAF_PEER_L3
-  tenant: S2_FABRIC
-vlan_interfaces:
-- name: Vlan4093
-  description: MLAG_PEER_L3_PEERING
-  shutdown: false
-  mtu: 1500
-  ip_address: 10.252.2.5/31
-- name: Vlan4094
-  description: MLAG_PEER
-  shutdown: false
-  no_autostate: true
-  mtu: 1500
-  ip_address: 10.251.2.5/31
-- name: Vlan10
-  tenant: S2_FABRIC
-  description: Ten
-  shutdown: false
-  ip_address_virtual: 10.10.10.1/24
-  vrf: OVERLAY
-- name: Vlan20
-  tenant: S2_FABRIC
-  description: Twenty
-  shutdown: false
-  ip_address_virtual: 10.20.20.1/24
-  vrf: OVERLAY
-- name: Vlan3009
-  tenant: S2_FABRIC
-  type: underlay_peering
-  shutdown: false
-  description: 'MLAG_PEER_L3_iBGP: vrf OVERLAY'
-  vrf: OVERLAY
-  mtu: 1500
-  ip_address: 10.252.2.5/31
-port_channel_interfaces:
-- name: Port-Channel1
-  description: MLAG_PEER_s2-leaf3_Po1
-  type: switched
-  shutdown: false
-  mode: trunk
-  trunk_groups:
-  - LEAF_PEER_L3
   - MLAG
-- name: Port-Channel4
-  description: s2-host2
-  type: switched
-  shutdown: false
-  mode: access
-  vlans: '20'
-  spanning_tree_portfast: edge
-  mlag: 4
-ethernet_interfaces:
-- name: Ethernet1
-  peer: s2-leaf3
-  peer_interface: Ethernet1
-  peer_type: mlag_peer
-  description: MLAG_PEER_s2-leaf3_Ethernet1
-  type: port-channel-member
-  shutdown: false
-  channel_group:
-    id: 1
-    mode: active
-- name: Ethernet6
-  peer: s2-leaf3
-  peer_interface: Ethernet6
-  peer_type: mlag_peer
-  description: MLAG_PEER_s2-leaf3_Ethernet6
-  type: port-channel-member
-  shutdown: false
-  channel_group:
-    id: 1
-    mode: active
-- name: Ethernet2
-  peer: s2-spine1
-  peer_interface: Ethernet5
-  peer_type: spine
-  description: P2P_LINK_TO_S2-SPINE1_Ethernet5
-  shutdown: false
-  mtu: 1500
-  type: routed
-  ip_address: 172.16.2.13/31
-- name: Ethernet3
-  peer: s2-spine2
-  peer_interface: Ethernet5
-  peer_type: spine
-  description: P2P_LINK_TO_S2-SPINE2_Ethernet5
-  shutdown: false
-  mtu: 1500
-  type: routed
-  ip_address: 172.16.2.15/31
-- name: Ethernet4
-  peer: s2-host2
-  peer_interface: eth2
-  peer_type: server
-  port_profile: PP-VLAN20
-  description: s2-host2_eth2
-  shutdown: false
-  type: port-channel-member
-  channel_group:
-    id: 4
-    mode: active
-mlag_configuration:
-  domain_id: S2_RACK2
-  local_interface: Vlan4094
-  peer_address: 10.251.2.4
-  peer_link: Port-Channel1
-  reload_delay_mlag: '300'
-  reload_delay_non_mlag: '330'
-route_maps:
-- name: RM-MLAG-PEER-IN
-  sequence_numbers:
-  - sequence: 10
-    type: permit
-    set:
-    - origin incomplete
-    description: Make routes learned over MLAG Peer-link less preferred on spines to ensure optimal routing
-- name: RM-CONN-2-BGP
-  sequence_numbers:
-  - sequence: 10
-    type: permit
-    match:
-    - ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY
-loopback_interfaces:
-- name: Loopback0
-  description: EVPN_Overlay_Peering
-  shutdown: false
-  ip_address: 10.250.2.6/32
-- name: Loopback1
-  description: VTEP_VXLAN_Tunnel_Source
-  shutdown: false
-  ip_address: 10.255.2.5/32
-prefix_lists:
-- name: PL-LOOPBACKS-EVPN-OVERLAY
-  sequence_numbers:
-  - sequence: 10
-    action: permit 10.250.2.0/24 eq 32
-  - sequence: 20
-    action: permit 10.255.2.0/24 eq 32
-router_bfd:
-  multihop:
-    interval: 300
-    min_rx: 300
-    multiplier: 3
-ip_igmp_snooping:
-  globally_enabled: true
-ip_virtual_router_mac_address: 00:1c:73:00:00:99
+  tenant: S2_FABRIC
+vrfs:
+- name: default
+  ip_routing: false
+- name: OVERLAY
+  ip_routing: true
+  tenant: S2_FABRIC
 vxlan_interface:
-  Vxlan1:
+  vxlan1:
     description: s2-leaf4_VTEP
     vxlan:
-      udp_port: 4789
       source_interface: Loopback1
+      udp_port: 4789
       virtual_router_encapsulation_mac_address: mlag-system-id
       vlans:
       - id: 10
@@ -332,5 +385,3 @@ vxlan_interface:
       vrfs:
       - name: OVERLAY
         vni: 10
-metadata:
-  platform: cEOS
