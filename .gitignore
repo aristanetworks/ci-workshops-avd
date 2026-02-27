@@ -2,3 +2,5 @@
 **/intended
 # AVD generated documentation
 **/documentation
+# AVD config backups
+**/config_backup
