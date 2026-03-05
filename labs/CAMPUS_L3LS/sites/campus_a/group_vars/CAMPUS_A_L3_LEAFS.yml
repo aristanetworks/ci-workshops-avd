@@ -20,6 +20,7 @@ l3leaf:
       filter:
         tags: [ "IDF1_DATA", "IDF1_VOICE" ]
       campus_access_pod: IDF1
+      bgp_as: 65101
       nodes:
         - name: leaf-1a
           id: 1
@@ -37,6 +38,7 @@ l3leaf:
       filter:
         tags: [ "IDF2_DATA", "IDF2_VOICE" ]
       mlag: false
+      bgp_as: 65102
       nodes:
         - name: leaf-2a
           id: 3
@@ -47,6 +49,7 @@ l3leaf:
       filter:
         tags: [ "IDF3_DATA", "IDF3_VOICE" ]
       campus_access_pod: IDF3
+      bgp_as: 65103
       nodes:
         - name: leaf-3a
           id: 4
