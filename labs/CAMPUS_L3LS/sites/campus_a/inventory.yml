@@ -31,4 +31,5 @@ CAMPUS_A:
     CAMPUS_A_NETWORK_SERVICES:
       children:
         CAMPUS_A_SPINES:
-        CAMPUS_A_LEAFS:
+        CAMPUS_A_L3_LEAFS:
+        CAMPUS_A_L2_LEAFS:
