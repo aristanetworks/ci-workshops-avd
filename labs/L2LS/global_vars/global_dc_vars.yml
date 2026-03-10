@@ -59,3 +59,17 @@ dns_settings:
 
 # Point to Point Links MTU Override for Lab
 p2p_uplinks_mtu: 1500
+
+# Login Banner
+custom_structured_configuration_banners:
+  motd: |
+    You shall not pass. Unless you are authorized. Then you shall pass.
+    EOF
+
+# Syslog
+logging_settings:
+  hosts:
+    - name: 10.200.0.108
+    - name: 10.200.1.108
+  vrfs:
+    - name: default
