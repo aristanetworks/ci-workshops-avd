@@ -289,12 +289,20 @@ vlan internal order ascending range 1006 1199
 
 | VLAN ID | Name | Trunk Groups |
 | ------- | ---- | ------------ |
+| 30 | Thirty | - |
+| 40 | Forty | - |
 | 4093 | MLAG_L3 | MLAG |
 | 4094 | MLAG | MLAG |
 
 ### VLANs Device Configuration
 
 ```eos
+!
+vlan 30
+   name Thirty
+!
+vlan 40
+   name Forty
 !
 vlan 4093
    name MLAG_L3
@@ -316,13 +324,20 @@ vlan 4094
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | Channel-Group |
 | --------- | ----------- | ---- | ----- | ----------- | ----------- | ------------- |
 | Ethernet1 | MLAG_s2-spine2_Ethernet1 | *trunk | *- | *- | *MLAG | 1 |
-| Ethernet2 | L2_s2-leaf1_Ethernet2 | *trunk | *none | *- | *- | 2 |
-| Ethernet3 | L2_s2-leaf2_Ethernet2 | *trunk | *none | *- | *- | 2 |
-| Ethernet4 | L2_s2-leaf3_Ethernet2 | *trunk | *none | *- | *- | 4 |
-| Ethernet5 | L2_s2-leaf4_Ethernet2 | *trunk | *none | *- | *- | 4 |
+| Ethernet2 | L2_s2-leaf1_Ethernet2 | *trunk | *30 | *- | *- | 2 |
+| Ethernet3 | L2_s2-leaf2_Ethernet2 | *trunk | *30 | *- | *- | 2 |
+| Ethernet4 | L2_s2-leaf3_Ethernet2 | *trunk | *40 | *- | *- | 4 |
+| Ethernet5 | L2_s2-leaf4_Ethernet2 | *trunk | *40 | *- | *- | 4 |
 | Ethernet6 | MLAG_s2-spine2_Ethernet6 | *trunk | *- | *- | *MLAG | 1 |
 
 *Inherited from Port-Channel Interface
+
+##### IPv4
+
+| Interface | Description | Channel Group | IP Address | VRF |  MTU | Shutdown | ACL In | ACL Out |
+| --------- | ----------- | ------------- | ---------- | ----| ---- | -------- | ------ | ------- |
+| Ethernet7 | P2P_WANCORE_Ethernet2 | - | 10.0.0.37/31 | default | 1500 | False | - | - |
+| Ethernet8 | P2P_WANCORE_Ethernet2 | - | 10.0.0.41/31 | default | 1500 | False | - | - |
 
 #### Ethernet Interfaces Device Configuration
 
@@ -357,6 +372,24 @@ interface Ethernet6
    description MLAG_s2-spine2_Ethernet6
    no shutdown
    channel-group 1 mode active
+!
+interface Ethernet7
+   description P2P_WANCORE_Ethernet2
+   no shutdown
+   mtu 1500
+   no switchport
+   ip address 10.0.0.37/31
+   ip ospf network point-to-point
+   ip ospf area 0.0.0.0
+!
+interface Ethernet8
+   description P2P_WANCORE_Ethernet2
+   no shutdown
+   mtu 1500
+   no switchport
+   ip address 10.0.0.41/31
+   ip ospf network point-to-point
+   ip ospf area 0.0.0.0
 ```
 
 ### Port-Channel Interfaces
@@ -368,8 +401,8 @@ interface Ethernet6
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | LACP Fallback Timeout | LACP Fallback Mode | MLAG ID | EVPN ESI |
 | --------- | ----------- | ---- | ----- | ----------- | ------------| --------------------- | ------------------ | ------- | -------- |
 | Port-Channel1 | MLAG_s2-spine2_Port-Channel1 | trunk | - | - | MLAG | - | - | - | - |
-| Port-Channel2 | L2_RACK1_Port-Channel2 | trunk | none | - | - | - | - | 2 | - |
-| Port-Channel4 | L2_RACK2_Port-Channel2 | trunk | none | - | - | - | - | 4 | - |
+| Port-Channel2 | L2_RACK1_Port-Channel2 | trunk | 30 | - | - | - | - | 2 | - |
+| Port-Channel4 | L2_RACK2_Port-Channel2 | trunk | 40 | - | - | - | - | 4 | - |
 
 #### Port-Channel Interfaces Device Configuration
 
@@ -385,7 +418,7 @@ interface Port-Channel1
 interface Port-Channel2
    description L2_RACK1_Port-Channel2
    no shutdown
-   switchport trunk allowed vlan none
+   switchport trunk allowed vlan 30
    switchport mode trunk
    switchport
    mlag 2
@@ -393,7 +426,7 @@ interface Port-Channel2
 interface Port-Channel4
    description L2_RACK2_Port-Channel2
    no shutdown
-   switchport trunk allowed vlan none
+   switchport trunk allowed vlan 40
    switchport mode trunk
    switchport
    mlag 4
@@ -432,6 +465,8 @@ interface Loopback0
 
 | Interface | Description | VRF |  MTU | Shutdown |
 | --------- | ----------- | --- | ---- | -------- |
+| Vlan30 | Thirty | default | - | False |
+| Vlan40 | Forty | default | - | False |
 | Vlan4093 | MLAG_L3 | default | 1500 | False |
 | Vlan4094 | MLAG | default | 1500 | False |
 
@@ -439,12 +474,26 @@ interface Loopback0
 
 | Interface | VRF | IP Address | IP Address Virtual | IP Router Virtual Address | ACL In | ACL Out |
 | --------- | --- | ---------- | ------------------ | ------------------------- | ------ | ------- |
+| Vlan30 |  default  |  10.30.30.2/24  |  -  |  10.30.30.1  |  -  |  -  |
+| Vlan40 |  default  |  10.40.40.2/24  |  -  |  10.40.40.1  |  -  |  -  |
 | Vlan4093 |  default  |  10.2.253.2/31  |  -  |  -  |  -  |  -  |
 | Vlan4094 |  default  |  10.2.253.0/31  |  -  |  -  |  -  |  -  |
 
 #### VLAN Interfaces Device Configuration
 
 ```eos
+!
+interface Vlan30
+   description Thirty
+   no shutdown
+   ip address 10.30.30.2/24
+   ip virtual-router address 10.30.30.1
+!
+interface Vlan40
+   description Forty
+   no shutdown
+   ip address 10.40.40.2/24
+   ip virtual-router address 10.40.40.1
 !
 interface Vlan4093
    description MLAG_L3
@@ -531,7 +580,7 @@ ip route 0.0.0.0/0 192.168.0.1
 
 | Process ID | Router ID | Default Passive Interface | No Passive Interface | BFD | Max LSA | Default Information Originate | Log Adjacency Changes Detail | Auto Cost Reference Bandwidth | Maximum Paths | MPLS LDP Sync Default | Distribute List In |
 | ---------- | --------- | ------------------------- | -------------------- | --- | ------- | ----------------------------- | ---------------------------- | ----------------------------- | ------------- | --------------------- | ------------------ |
-| 100 | 10.2.252.1 | enabled | Vlan4093 <br> | disabled | 12000 | disabled | disabled | - | - | - | - |
+| 100 | 10.2.252.1 | enabled | Vlan4093 <br> Ethernet7 <br> Ethernet8 <br> | disabled | 12000 | disabled | disabled | - | - | - | - |
 
 #### Router OSPF Router Redistribution
 
@@ -543,6 +592,8 @@ ip route 0.0.0.0/0 192.168.0.1
 
 | Interface | Area | Cost | Point To Point |
 | -------- | -------- | -------- | -------- |
+| Ethernet7 | 0.0.0.0 | - | True |
+| Ethernet8 | 0.0.0.0 | - | True |
 | Vlan4093 | 0.0.0.0 | - | True |
 | Loopback0 | 0.0.0.0 | - | - |
 
@@ -553,6 +604,8 @@ ip route 0.0.0.0/0 192.168.0.1
 router ospf 100
    router-id 10.2.252.1
    passive-interface default
+   no passive-interface Ethernet7
+   no passive-interface Ethernet8
    no passive-interface Vlan4093
    redistribute connected
    max-lsa 12000
