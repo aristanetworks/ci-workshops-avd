@@ -7,9 +7,8 @@ anta.tests.hardware:
   - VerifyEnvironmentCooling:
       states:
         - ok
-  
-anta.tests.software:
 
+anta.tests.software:
     # Verifies the device is running one of the allowed TerminAttr version.
     - VerifyTerminAttrVersion:
         versions:

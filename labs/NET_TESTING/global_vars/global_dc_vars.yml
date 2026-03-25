@@ -1,8 +1,8 @@
 ---
 
-# Credentials for CVP and EOS Switches
+# Credentials for EOS Switches
 ansible_user: arista
-ansible_password: "{{ lookup('env', 'LABPASSPHRASE') }}"
+ansible_password: "{{ (lookup('file', '/home/coder/.config/code-server/config.yaml', errors='ignore') | from_yaml).password | default(lookup('ansible.builtin.env', 'LABPASSPHRASE')) }}"
 ansible_network_os: arista.eos.eos
 # Configure privilege escalation
 ansible_become: true
@@ -13,55 +13,50 @@ ansible_httpapi_port: 443
 ansible_httpapi_use_ssl: true
 ansible_httpapi_validate_certs: false
 ansible_python_interpreter: $(which python3)
-avd_data_conversion_mode: error
-avd_data_validation_mode: error
 
-# CVP node variables
-cv_collection: v3
-execute_tasks: true
+# arista.avd.cv_deploy role parameters
+# Export token using 'export CV_TOKEN=<generated token here>'
+cv_token: "{{ lookup('env', 'CV_TOKEN') }}"
+cv_server: cvp
+cv_verify_certs: false
 
-# Local Users
-local_users:
-  - name: arista
-    privilege: 15
-    role: network-admin
-    sha512_password: "{{ ansible_password | password_hash('sha512', salt='arista') }}"
-    ssh_key: "{{ lookup('ansible.builtin.file', '~/.ssh/id_rsa.pub') }}"
+# TerminAttr settings
+cv_settings:
+  onprem_clusters:
+    - name: atd-cvp
+      servers:
+        - name: 192.168.0.5
+  terminattr:
+    disable_aaa: true
 
-# AAA
-aaa_authorization:
-  exec:
-    default: local
+# AAA settings and local users
+aaa_settings:
+  authorization:
+    exec:
+      default: local
+  local_users:
+    - name: arista
+      privilege: 15
+      role: network-admin
+      sha512_password: "{{ ansible_password | password_hash('sha512', salt='arista', rounds=5000) }}"
+      ssh_key: "{{ lookup('ansible.builtin.file', '~/.ssh/id_rsa.pub') }}"
 
 # OOB Management network default gateway.
 mgmt_gateway: 192.168.0.1
 mgmt_interface_vrf: default
+mgmt_interface: Management0
 
 # NTP Servers IP or DNS name, first NTP server will be preferred, and sourced from Management VRF
-ntp:
+ntp_settings:
   servers:
     - name: 192.168.0.1
       iburst: true
-      local_interface: Management0
 
-# Domain/DNS
-dns_domain: atd.lab
-
-# TerminAttr
-daemon_terminattr:
-  # Address of the gRPC server on CloudVision
-  # TCP 9910 is used on on-prem
-  # TCP 443 is used on CV as a Service
-  cvaddrs: # For single cluster
-    - 192.168.0.5:9910
-  # Authentication scheme used to connect to CloudVision
-  cvauth:
-    method: token
-    token_file: "/tmp/token"
-  # Exclude paths from Sysdb on the ingest side
-  ingestexclude: /Sysdb/cell/1/agent,/Sysdb/cell/2/agent
-  # Exclude paths from the shared memory table
-  smashexcludes: ale,flexCounter,hardware,kni,pulse,strata
+# DNS settings
+dns_settings:
+  domain: atd.lab
+  servers:
+    - ip_address: 192.168.0.1
 
 # Point to Point Links MTU Override for Lab
 p2p_uplinks_mtu: 1500
@@ -71,26 +66,22 @@ underlay_routing_protocol: ebgp
 overlay_routing_protocol: ebgp
 
 # Configure password authentication for BGP peerings
-bgp_peer_groups: 
+bgp_peer_groups:
   evpn_overlay_peers:
     password: Q4fqtbqcZ7oQuKfuWtNGRQ==
   ipv4_underlay_peers:
     password: 7x4B4rnJhZB438m9+BrBfQ==
   mlag_ipv4_underlay_peer:
     password: 4b21pAdCvWeAqpcKDFMdWw==
-  
-# Add a logging server to both our sites to sastify compliance
-# logging:
+
+# Add a logging server to both our sites to satisfy compliance
+# logging_settings:
 #   buffered:
 #     size: 8000
 #     level: notifications
 #   trap: debugging
-#   vrfs:
-#     - name: "default"
-#       source_interface: "Management0"
-#       hosts:
-#         - name: 10.100.100.100
-#           protocol: udp
+#   hosts:
+#     - name: 10.100.100.100
 
 # # L3 Edge port definitions. This can be any port in the entire Fabric, where IP interfaces are defined.
 l3_edge:
@@ -114,5 +105,3 @@ l3_edge:
       nodes: [ s1-brdr2, s2-brdr2 ]
       interfaces: [ Ethernet5, Ethernet5 ]
       profile: S1_to_S2_profile
-
-

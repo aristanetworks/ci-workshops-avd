@@ -1,0 +1,61 @@
+---
+type: l3leaf
+
+l3leaf:
+  defaults:
+    platform: cEOS
+    spanning_tree_mode: mstp
+    loopback_ipv4_pool: 10.250.1.0/24
+    loopback_ipv4_offset: 2
+    vtep_loopback_ipv4_pool: 10.255.255.0/24
+    uplink_switches: [ spine-1, spine-2 ]
+    uplink_interfaces: [ Ethernet49, Ethernet50 ]
+    uplink_ipv4_pool: 172.16.1.0/24
+    mlag_interfaces: [ Ethernet47, Ethernet48 ]
+    mlag_peer_ipv4_pool: 10.253.1.0/31
+    mlag_peer_l3_ipv4_pool: 10.252.1.0/24
+    virtual_router_mac_address: 00:1c:73:00:00:99
+  node_groups:
+    - group: IDF1
+      filter:
+        tags: [ "IDF1_DATA", "IDF1_VOICE" ]
+      campus_access_pod: IDF1
+      bgp_as: 65101
+      nodes:
+        - name: leaf-1a
+          id: 1
+          mgmt_ip: 192.168.0.14/24
+          uplink_interfaces: [ Ethernet49 ]
+          uplink_switches: [ spine-1 ]
+          uplink_switch_interfaces: [ Ethernet3 ]
+        - name: leaf-1b
+          id: 2
+          mgmt_ip: 192.168.0.15/24
+          uplink_interfaces: [ Ethernet49 ]
+          uplink_switches: [ spine-2 ]
+          uplink_switch_interfaces: [ Ethernet3 ]
+    - group: IDF2
+      filter:
+        tags: [ "IDF2_DATA", "IDF2_VOICE" ]
+      mlag: false
+      bgp_as: 65102
+      nodes:
+        - name: leaf-2a
+          id: 3
+          mgmt_ip: 192.168.0.16/24
+          uplink_interfaces: [ Ethernet1/1, Ethernet2/1 ]
+          uplink_switch_interfaces: [ Ethernet4, Ethernet4 ]
+    - group: IDF3
+      filter:
+        tags: [ "IDF3_DATA", "IDF3_VOICE" ]
+      campus_access_pod: IDF3
+      bgp_as: 65103
+      nodes:
+        - name: leaf-3a
+          id: 4
+          mgmt_ip: 192.168.0.17/24
+          uplink_switch_interfaces: [ Ethernet5, Ethernet5 ]
+        - name: leaf-3b
+          id: 5
+          mgmt_ip: 192.168.0.18/24
+          uplink_switch_interfaces: [ Ethernet6, Ethernet6 ]

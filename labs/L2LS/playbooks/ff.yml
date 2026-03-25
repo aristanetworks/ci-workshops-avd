@@ -1,0 +1,44 @@
+---
+- name: Copy complete files for CICD
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+    project_root: "{{ playbook_dir }}/.."
+    _access_info_raw: "{{ lookup('file', '/etc/atd/ACCESS_INFO.yaml', errors='ignore') | from_yaml | default({}) }}"
+    access_info: "{{ _access_info_raw if _access_info_raw is mapping else {} }}"
+    cv_url_base: "{{ access_info.get('name') or 'CVP_NAME_NOT_FOUND' }}"
+    atd_env: "{{ access_info.get('project') }}"
+
+    atd_env_suffix_map:
+      atds-280712: "eos.topo.testdrive.arista.com"
+      beta-atds: "eos.topo.testdrive-dev.arista.com"
+
+    cv_server_suffix: "{{ atd_env_suffix_map.get(atd_env, 'PROJECT_NOT_FOUND') }}"
+    cv_server_url: "{{ cv_url_base }}-{{ cv_server_suffix }}"
+
+    sync_dirs:
+      - site_1
+      - site_2
+
+  tasks:
+    - name: Sync site group_vars content
+      ansible.builtin.synchronize:
+        src: "{{ project_root }}/complete/{{ item }}/group_vars/"
+        dest: "{{ project_root }}/sites/{{ item }}/group_vars/"
+        archive: yes
+      loop: "{{ sync_dirs }}"
+      loop_control:
+        label: "{{ item }}"
+
+    - name: Copy global_dc_vars.yml (preserving variables)
+      ansible.builtin.copy:
+        src: "{{ project_root }}/complete/global_vars/global_dc_vars.yml"
+        dest: "{{ project_root }}/global_vars/global_dc_vars.yml"
+        mode: 'preserve'
+
+    - name: Template cvp.yml
+      ansible.builtin.template:
+        src: "{{ project_root }}/complete/playbooks/cvp.j2"
+        dest: "{{ project_root }}/playbooks/cvp.yml"
+        mode: 'preserve'

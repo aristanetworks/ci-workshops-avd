@@ -1,0 +1,38 @@
+# ---
+# tenants:
+#   - name: CAMPUS_A
+#     mac_vrf_vni_base: 10000
+#     vrfs:
+#       - name: OVERLAY
+#         vrf_vni: 10
+#         svis:
+#           - id: 110
+#             name: 'IDF1_DATA'
+#             tags: [ "IDF1_DATA" ]
+#             enabled: true
+#             ip_address_virtual: 10.1.10.1/24
+#           - id: 120
+#             name: 'IDF1_VOICE'
+#             tags: [ "IDF1_VOICE" ]
+#             enabled: true
+#             ip_address_virtual: 10.1.20.1/24
+#           - id: 210
+#             name: 'IDF2_DATA'
+#             tags: [ "IDF2_DATA" ]
+#             enabled: true
+#             ip_address_virtual: 10.2.10.1/24
+#           - id: 220
+#             name: 'IDF2_VOICE'
+#             tags: [ "IDF2_VOICE" ]
+#             enabled: true
+#             ip_address_virtual: 10.2.20.1/24
+#           - id: 310
+#             name: 'IDF3_DATA'
+#             tags: [ "IDF3_DATA" ]
+#             enabled: true
+#             ip_address_virtual: 10.3.10.1/24
+#           - id: 320
+#             name: 'IDF3_VOICE'
+#             tags: [ "IDF3_VOICE" ]
+#             enabled: true
+#             ip_address_virtual: 10.3.20.1/24

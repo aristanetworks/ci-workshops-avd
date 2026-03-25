@@ -1,0 +1,15 @@
+---
+type: spine
+
+spine:
+  defaults:
+    platform: cEOS
+    loopback_ipv4_pool: 10.1.252.0/24
+    bgp_as: 65100
+  nodes:
+    - name: spine-1
+      id: 1
+      mgmt_ip: 192.168.0.12/24
+    - name: spine-2
+      id: 2
+      mgmt_ip: 192.168.0.13/24

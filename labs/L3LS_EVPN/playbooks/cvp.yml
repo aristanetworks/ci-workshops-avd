@@ -1,0 +1,12 @@
+---
+- name: Deploy to CloudVision
+  hosts: "{{ target_hosts }}"
+  gather_facts: false
+
+  tasks:
+
+    - name: Deploy to Static Configuration Studio
+      ansible.builtin.import_role:
+        name: arista.avd.cv_deploy
+      vars:
+        cv_run_change_control: true
