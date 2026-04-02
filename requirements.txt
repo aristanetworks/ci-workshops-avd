@@ -1,2 +1,2 @@
-pyavd[ansible]==6.0.0
-anta[cli]==1.7.0
+pyavd[ansible]==6.1.0
+anta[cli]==1.8.0
