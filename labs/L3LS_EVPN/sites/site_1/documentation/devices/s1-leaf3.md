@@ -335,6 +335,7 @@ vlan 4094
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | Channel-Group |
 | --------- | ----------- | ---- | ----- | ----------- | ----------- | ------------- |
 | Ethernet1 | MLAG_s1-leaf4_Ethernet1 | *trunk | *- | *- | *MLAG | 1 |
+| Ethernet4 | SERVER_s1-host2_eth1 | *access | *20 | *- | *- | 4 |
 | Ethernet6 | MLAG_s1-leaf4_Ethernet6 | *trunk | *- | *- | *MLAG | 1 |
 
 *Inherited from Port-Channel Interface
@@ -369,6 +370,11 @@ interface Ethernet3
    no switchport
    ip address 172.16.1.11/31
 !
+interface Ethernet4
+   description SERVER_s1-host2_eth1
+   no shutdown
+   channel-group 4 mode active
+!
 interface Ethernet6
    description MLAG_s1-leaf4_Ethernet6
    no shutdown
@@ -384,6 +390,7 @@ interface Ethernet6
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | LACP Fallback Timeout | LACP Fallback Mode | MLAG ID | EVPN ESI |
 | --------- | ----------- | ---- | ----- | ----------- | ------------| --------------------- | ------------------ | ------- | -------- |
 | Port-Channel1 | MLAG_s1-leaf4_Port-Channel1 | trunk | - | - | MLAG | - | - | - | - |
+| Port-Channel4 | SERVER_s1-host2 | access | 20 | - | - | - | - | 4 | - |
 
 #### Port-Channel Interfaces Device Configuration
 
@@ -395,6 +402,15 @@ interface Port-Channel1
    switchport mode trunk
    switchport trunk group MLAG
    switchport
+!
+interface Port-Channel4
+   description SERVER_s1-host2
+   no shutdown
+   switchport access vlan 20
+   switchport mode access
+   switchport
+   mlag 4
+   spanning-tree portfast
 ```
 
 ### Loopback Interfaces
