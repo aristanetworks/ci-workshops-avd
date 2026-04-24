@@ -95,3 +95,9 @@ l3_edge:
       nodes: [ s1-brdr2, s2-brdr2 ]
       interfaces: [ Ethernet5, Ethernet5 ]
       profile: S1_to_S2_profile
+
+# Login Banner
+custom_structured_configuration_banners:
+  motd: |
+    You shall not pass. Unless you are authorized. Then you shall pass.
+    EOF
