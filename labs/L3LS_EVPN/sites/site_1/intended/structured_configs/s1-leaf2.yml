@@ -132,6 +132,10 @@ prefix_lists:
     action: permit 10.250.1.0/24 eq 32
   - sequence: 20
     action: permit 10.255.1.0/24 eq 32
+- name: PL-MLAG-PEER-VRFS
+  sequence_numbers:
+  - sequence: 10
+    action: permit 10.252.1.0/31
 route_maps:
 - name: RM-MLAG-PEER-IN
   sequence_numbers:
@@ -146,6 +150,14 @@ route_maps:
     type: permit
     match:
     - ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY
+- name: RM-CONN-2-BGP-VRFS
+  sequence_numbers:
+  - sequence: 10
+    type: deny
+    match:
+    - ip address prefix-list PL-MLAG-PEER-VRFS
+  - sequence: 20
+    type: permit
 router_bfd:
   multihop:
     interval: 300
@@ -212,6 +224,23 @@ router_bgp:
     connected:
       enabled: true
       route_map: RM-CONN-2-BGP
+  vlans:
+  - id: 10
+    tenant: S1_FABRIC
+    rd: 10.250.1.4:10010
+    route_targets:
+      both:
+      - 10010:10010
+    redistribute_routes:
+    - learned
+  - id: 20
+    tenant: S1_FABRIC
+    rd: 10.250.1.4:10020
+    route_targets:
+      both:
+      - 10020:10020
+    redistribute_routes:
+    - learned
   address_family_evpn:
     peer_groups:
     - name: EVPN-OVERLAY-PEERS
@@ -224,6 +253,27 @@ router_bgp:
       activate: true
     - name: EVPN-OVERLAY-PEERS
       activate: false
+  vrfs:
+  - name: OVERLAY
+    rd: 10.250.1.4:10
+    route_targets:
+      import:
+      - address_family: evpn
+        route_targets:
+        - '10:10'
+      export:
+      - address_family: evpn
+        route_targets:
+        - '10:10'
+    router_id: 10.250.1.4
+    neighbors:
+    - ip_address: 10.252.1.0
+      peer_group: MLAG-IPv4-UNDERLAY-PEER
+      description: s1-leaf1_Vlan3009
+    redistribute:
+      connected:
+        enabled: true
+        route_map: RM-CONN-2-BGP-VRFS
 service_routing_protocols_model: multi-agent
 spanning_tree:
   mode: mstp
@@ -248,6 +298,26 @@ vlan_interfaces:
   ip_address: 10.251.1.1/31
   mtu: 1500
   no_autostate: true
+- name: Vlan10
+  description: Ten
+  shutdown: false
+  vrf: OVERLAY
+  ip_address_virtual: 10.10.10.1/24
+  tenant: S1_FABRIC
+- name: Vlan20
+  description: Twenty
+  shutdown: false
+  vrf: OVERLAY
+  ip_address_virtual: 10.20.20.1/24
+  tenant: S1_FABRIC
+- name: Vlan3009
+  description: MLAG_L3_VRF_OVERLAY
+  shutdown: false
+  vrf: OVERLAY
+  ip_address: 10.252.1.1/31
+  mtu: 1500
+  tenant: S1_FABRIC
+  type: underlay_peering
 vlan_internal_order:
   allocation: ascending
   range:
@@ -264,9 +334,23 @@ vlans:
   trunk_groups:
   - MLAG
   tenant: system
+- id: 10
+  name: Ten
+  tenant: S1_FABRIC
+- id: 20
+  name: Twenty
+  tenant: S1_FABRIC
+- id: 3009
+  name: MLAG_L3_VRF_OVERLAY
+  trunk_groups:
+  - MLAG
+  tenant: S1_FABRIC
 vrfs:
 - name: default
   ip_routing: false
+- name: OVERLAY
+  ip_routing: true
+  tenant: S1_FABRIC
 vxlan_interface:
   vxlan1:
     description: s1-leaf2_VTEP
@@ -274,3 +358,11 @@ vxlan_interface:
       source_interface: Loopback1
       udp_port: 4789
       virtual_router_encapsulation_mac_address: mlag-system-id
+      vlans:
+      - id: 10
+        vni: 10010
+      - id: 20
+        vni: 10020
+      vrfs:
+      - name: OVERLAY
+        vni: 10
