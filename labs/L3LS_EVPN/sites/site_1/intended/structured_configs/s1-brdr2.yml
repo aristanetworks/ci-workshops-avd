@@ -56,6 +56,16 @@ ethernet_interfaces:
   peer_type: spine
   switchport:
     enabled: false
+- name: Ethernet5
+  description: P2P_s2-brdr2_Ethernet5
+  shutdown: false
+  mtu: 1500
+  ip_address: 172.16.255.2/31
+  peer: s2-brdr2
+  peer_interface: Ethernet5
+  peer_type: other
+  switchport:
+    enabled: false
 hostname: s1-brdr2
 ip_domain_lookup:
   source_interfaces:
@@ -220,6 +230,11 @@ router_bgp:
     remote_as: '65100'
     peer: s1-spine2
     description: s1-spine2_Loopback0
+  - ip_address: 172.16.255.3
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65203'
+    peer: s2-brdr2
+    description: s2-brdr2
   redistribute:
     connected:
       enabled: true

@@ -345,6 +345,7 @@ vlan 4094
 | --------- | ----------- | ------------- | ---------- | ----| ---- | -------- | ------ | ------- |
 | Ethernet2 | P2P_s1-spine1_Ethernet7 | - | 172.16.1.17/31 | default | 1500 | False | - | - |
 | Ethernet3 | P2P_s1-spine2_Ethernet7 | - | 172.16.1.19/31 | default | 1500 | False | - | - |
+| Ethernet4 | P2P_s2-brdr1_Ethernet4 | - | 172.16.255.0/31 | default | 1500 | False | - | - |
 
 #### Ethernet Interfaces Device Configuration
 
@@ -368,6 +369,13 @@ interface Ethernet3
    mtu 1500
    no switchport
    ip address 172.16.1.19/31
+!
+interface Ethernet4
+   description P2P_s2-brdr1_Ethernet4
+   no shutdown
+   mtu 1500
+   no switchport
+   ip address 172.16.255.0/31
 !
 interface Ethernet6
    description MLAG_s1-brdr2_Ethernet6
@@ -647,6 +655,7 @@ ASN Notation: asplain
 | 10.252.1.9 | Inherited from peer group MLAG-IPv4-UNDERLAY-PEER | default | - | Inherited from peer group MLAG-IPv4-UNDERLAY-PEER | Inherited from peer group MLAG-IPv4-UNDERLAY-PEER | - | - | - | - | - | - |
 | 172.16.1.16 | 65100 | default | - | Inherited from peer group IPv4-UNDERLAY-PEERS | Inherited from peer group IPv4-UNDERLAY-PEERS | - | - | - | - | - | - |
 | 172.16.1.18 | 65100 | default | - | Inherited from peer group IPv4-UNDERLAY-PEERS | Inherited from peer group IPv4-UNDERLAY-PEERS | - | - | - | - | - | - |
+| 172.16.255.1 | 65203 | default | - | Inherited from peer group IPv4-UNDERLAY-PEERS | Inherited from peer group IPv4-UNDERLAY-PEERS | - | - | - | - | - | - |
 | 10.252.1.9 | Inherited from peer group MLAG-IPv4-UNDERLAY-PEER | OVERLAY | - | Inherited from peer group MLAG-IPv4-UNDERLAY-PEER | Inherited from peer group MLAG-IPv4-UNDERLAY-PEER | - | - | - | - | - | - |
 
 #### Router BGP EVPN Address Family
@@ -711,6 +720,9 @@ router bgp 65103
    neighbor 172.16.1.18 peer group IPv4-UNDERLAY-PEERS
    neighbor 172.16.1.18 remote-as 65100
    neighbor 172.16.1.18 description s1-spine2_Ethernet7
+   neighbor 172.16.255.1 peer group IPv4-UNDERLAY-PEERS
+   neighbor 172.16.255.1 remote-as 65203
+   neighbor 172.16.255.1 description s2-brdr1
    redistribute connected route-map RM-CONN-2-BGP
    !
    vlan 10
