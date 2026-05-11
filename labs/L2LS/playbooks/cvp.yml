@@ -10,3 +10,4 @@
         name: arista.avd.cv_deploy
       vars:
         cv_run_change_control: true
+        cv_server: "CVP_NAME_NOT_FOUND-PROJECT_NOT_FOUND"

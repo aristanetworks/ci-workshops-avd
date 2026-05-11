@@ -1,7 +1,7 @@
 ---
 # Credentials for EOS Switches
 ansible_user: arista
-ansible_password: "{{ (lookup('file', '/home/coder/.config/code-server/config.yaml', errors='ignore') | from_yaml).password | default(lookup('ansible.builtin.env', 'LABPASSPHRASE')) }}"
+ansible_password: arista
 ansible_network_os: arista.eos.eos
 # Configure privilege escalation
 ansible_become: true
@@ -38,7 +38,6 @@ aaa_settings:
       privilege: 15
       role: network-admin
       sha512_password: "{{ ansible_password | password_hash('sha512', salt='arista', rounds=5000) }}"
-      ssh_key: "{{ lookup('ansible.builtin.file', '~/.ssh/id_rsa.pub') }}"
 
 # OOB Management network default gateway.
 mgmt_gateway: 192.168.0.1
