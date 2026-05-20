@@ -1,7 +1,6 @@
 ---
-- name: Test Connectivity to Lab Nodes
+- name: Deploy WAN & Host configurations
   hosts: "{{ target_hosts }}"
-  connection: local
   gather_facts: false
 
   tasks:
@@ -11,5 +10,7 @@
       with_items:
         - "../global_vars/global_campus_vars.yml"
 
-    - name: Ping Hosts
-      ping:
+    - name: load configuration from file
+      arista.eos.eos_config:
+        src: ../extra_configs/{{inventory_hostname}}.cfg
+        replace: line

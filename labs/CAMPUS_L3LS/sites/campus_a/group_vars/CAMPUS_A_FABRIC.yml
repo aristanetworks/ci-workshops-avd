@@ -1,0 +1,16 @@
+---
+fabric_name: CAMPUS_A_FABRIC
+
+# Repeat MLAG addressing between pairs
+fabric_ip_addressing:
+  mlag:
+    algorithm: same_subnet
+
+# Generate CloudVision Tags based on AVD data
+generate_cv_tags:
+  topology_hints: true
+  campus_fabric: true
+
+# Used to generate CloudVision device tags with the `generate_cv_tags.campus_fabric` feature.
+campus: Cleveland
+campus_pod: Campus A
