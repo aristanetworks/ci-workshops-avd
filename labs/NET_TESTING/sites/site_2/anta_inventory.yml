@@ -1,0 +1,26 @@
+anta_inventory:
+  hosts:
+  - host: 192.168.0.20
+    name: s2-spine1
+    tags: ['spine']
+  - host: 192.168.0.21
+    name: s2-spine2
+    tags: ['spine']
+  - host: 192.168.0.22
+    name: s2-leaf1
+    tags: ['leaf']
+  - host: 192.168.0.23
+    name: s2-leaf2
+    tags: ['leaf']
+  - host: 192.168.0.24
+    name: s2-leaf3
+    tags: ['leaf']
+  - host: 192.168.0.25
+    name: s2-leaf4
+    tags: ['leaf']
+  - host: 192.168.0.200
+    name: s2-brdr1
+    tags: ['border']
+  - host: 192.168.0.201
+    name: s2-brdr2
+    tags: ['border']
