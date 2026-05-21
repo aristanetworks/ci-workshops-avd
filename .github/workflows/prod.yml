@@ -1,12 +1,12 @@
-name: Deploy updates
+name: Test the upcoming changes
 
 on:
   push:
-    branches:
+    branches-ignore:
       - main
 
 jobs:
-  deploy-prod:
+  dev:
     env:
       LABPASSPHRASE: ${{ secrets.LABPASSPHRASE }}
       CV_TOKEN: ${{ secrets.CV_TOKEN }}
@@ -20,6 +20,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup Python
         uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
       - name: Install Python requirements
         run: pip3 install -r requirements.txt
       - name: Run pre-commit on files
@@ -41,11 +43,11 @@ jobs:
       - name: Install collections
         run: ansible-galaxy collection install -r requirements.yml
         if: steps.filter-site1.outputs.workflows == 'true' || steps.filter-site2.outputs.workflows == 'true'
-      - name: Build and deploy site1
-        run: make build-site-1 cvp-site-1
+      - name: Test configuration for site1
+        run: make build-site-1
         working-directory: labs/L2LS/
         if: steps.filter-site1.outputs.workflows == 'true'
-      - name: Build and deploy site2
-        run: make build-site-2 cvp-site-2
+      - name: Test configuration for site2
+        run: make build-site-2
         working-directory: labs/L2LS/
         if: steps.filter-site2.outputs.workflows == 'true'
