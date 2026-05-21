@@ -25,7 +25,7 @@ jobs:
       - name: Install Python requirements
         run: pip3 install -r requirements.txt
       - name: Run pre-commit on files
-        uses: pre-commit/action@v3.0.0
+        uses: pre-commit/action@v3.0.1
       - name: Check paths for sites/site_1
         uses: dorny/paths-filter@v3
         id: filter-site1
