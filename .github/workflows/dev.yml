@@ -40,11 +40,11 @@ jobs:
               - 'labs/L2LS/sites/site_2/**
       - name: Install collections
         run: ansible-galaxy collection install -r requirements.yml
-        if: steps.filter-site1.outputs.workflows == 'true' || steps.filter-site2.outputs.workflows == 'true
+        if: steps.filter-site1.outputs.workflows == 'true' || steps.filter-site2.outputs.workflows == 'true'
       - name: Test configuration for site1
         run: make build-site-1
         working-directory: labs/L2LS/
-        if: steps.filter-site1.outputs.workflows == 'true
+        if: steps.filter-site1.outputs.workflows == 'true'
       - name: Test configuration for site2
         run: make build-site-2
         working-directory: labs/L2LS/
