@@ -13,6 +13,12 @@ ansible_httpapi_use_ssl: true
 ansible_httpapi_validate_certs: false
 ansible_python_interpreter: $(which python3)
 
+# AVD 6.0 defaults to Management1 for cEOS, override
+custom_platform_settings:
+  - platforms:
+      - cEOS
+    management_interface: Management0
+
 # arista.avd.cv_deploy role parameters
 # Export token using 'export CV_TOKEN=<generated token here>'
 cv_token: "{{ lookup('env', 'CV_TOKEN') }}"
@@ -37,14 +43,12 @@ aaa_settings:
     - name: arista
       privilege: 15
       role: network-admin
-      sha512_password: "{{ ansible_password | password_hash('sha512', salt='arista', rounds=5000) }}"
+      cleartext_password: "{{ ansible_password }}"
       ssh_key: "{{ lookup('ansible.builtin.file', '~/.ssh/id_rsa.pub') }}"
 
-# DNS settings
-dns_settings:
-  domain: atd.lab
-  servers:
-    - ip_address: 192.168.0.1
+# OOB Management network default gateway.
+mgmt_gateway: 192.168.0.1
+mgmt_interface_vrf: default
 
 # NTP Servers IP or DNS name, first NTP server will be preferred, and sourced from Management VRF
 ntp_settings:
@@ -52,10 +56,11 @@ ntp_settings:
     - name: 192.168.0.1
       iburst: true
 
-# OOB Management network default gateway.
-mgmt_gateway: 192.168.0.1
-mgmt_interface_vrf: default
-mgmt_interface: Management0
+# DNS settings
+dns_settings:
+  domain: atd.lab
+  servers:
+    - ip_address: 192.168.0.1
 
 # Point to Point Links MTU Override for Lab
 p2p_uplinks_mtu: 1500
