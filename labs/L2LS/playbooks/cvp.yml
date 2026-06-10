@@ -10,3 +10,4 @@
         name: arista.avd.cv_deploy
       vars:
         cv_run_change_control: true
+        cv_server: "qts-avd-training2-2-b6a7e02f-eos.topo.testdrive.arista.com"
