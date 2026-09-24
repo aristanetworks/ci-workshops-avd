@@ -63,4 +63,4 @@ preplab: ## Deploy Configs via eAPI
 ########################################################
 
 .PHONY: all
-all: build-site-1 build-site-2 deploy-site-1 deploy-site-2
+all: build-site-1 build-site-2 cvp-site-1 cvp-site-2
