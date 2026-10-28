@@ -1,4 +1,10 @@
-.vscode/
+
+documentation/
+intedned/
+anta/
+config_backup/
+
+in.vscode/
 .DS_store
 # Byte-compiled / optimized / DLL files
 __pycache__/
