@@ -58,6 +58,18 @@ ethernet_interfaces:
     peer: s1-spine2
     peer_interface: Ethernet2
     peer_type: l3spine
+- name: Ethernet4
+  description: SERVER_s1-host1_eth1
+  shutdown: false
+  channel_group:
+    id: 4
+    mode: active
+  metadata:
+    peer: s1-host1
+    peer_interface: eth1
+    peer_type: server
+    peer_key: servers
+    port_profile: PP-VLAN10
 hostname: s1-leaf1
 ip_domain_lookup:
   source_interfaces:
@@ -125,6 +137,15 @@ port_channel_interfaces:
     mode: trunk
     trunk:
       allowed_vlan: '10'
+- name: Port-Channel4
+  description: SERVER_s1-host1
+  shutdown: false
+  mlag: 4
+  spanning_tree_portfast: edge
+  switchport:
+    enabled: true
+    mode: access
+    access_vlan: 10
 service_routing_protocols_model: multi-agent
 spanning_tree:
   mode: mstp
