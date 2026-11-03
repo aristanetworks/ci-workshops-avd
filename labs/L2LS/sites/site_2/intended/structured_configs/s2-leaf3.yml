@@ -88,6 +88,15 @@ local_users:
   sha512_password: $6$af5164ca6a7254b7$Xz6OJ6vjpavodf.ksYV2s1dg941aRAspLj1A9RjJaM9l1IUsUBNSm1HJahwAWwfiJbx60SGhOdsVNjieic0.m.
   ssh_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCSzQHRi6/AuRWGhcOI9axmXDg3KOyS3bPSPO6jvX4QEDds6LUaua7gKVzwujNyGC63s1RAM0I4XP6rkoGVDqRMDgzl1tL9N3Ug3P9NiH1NNpWZdPmqbp+EqPodDZG1sgzrAXCrWXGBFd86t/PrFp2R+SAxDzMA1zUaTt/dAkj+ouZ+p2AxI3EA7eP4vXQqFLWX0SnBD/9lLBSgcoILYgFtFEGi/2H5HMeHltBTwFwv3o1it3RnbIb0lB9abZBP8jiITCbqKyJ2witTVSeGZ3KzsTZ8sjEbe3waiZZdvi3GaNXv/IB5aC1eoaHjy2lk3hwQSfdff1fF+DiF3LrQ7s11
     arista@avd-workshop-1-73ce2af1-eos
+logging:
+  vrfs:
+  - name: default
+    source_interface: Management0
+    hosts:
+    - name: 10.200.0.108
+      protocol: udp
+    - name: 10.200.1.108
+      protocol: udp
 management_api_http:
   enable_https: true
   enable_vrfs:
