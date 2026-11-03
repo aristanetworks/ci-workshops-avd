@@ -3,6 +3,12 @@ aaa_authorization:
     default: local
 aaa_root:
   disabled: true
+banners:
+  motd: 'You shall not pass. Unless you are authorized. Then you shall pass.
+
+    EOF
+
+    '
 config_end: true
 daemon_terminattr:
   cvaddrs:
@@ -60,6 +66,17 @@ ethernet_interfaces:
     peer_type: spine
   switchport:
     enabled: false
+- name: Ethernet4
+  description: P2P_s2-brdr1_Ethernet4
+  shutdown: false
+  mtu: 1500
+  ip_address: 172.16.255.0/31
+  metadata:
+    peer: s2-brdr1
+    peer_interface: Ethernet4
+    peer_type: other
+  switchport:
+    enabled: false
 hostname: s1-brdr1
 ip_domain_lookup:
   source_interfaces:
@@ -80,6 +97,15 @@ local_users:
   sha512_password: $6$41131928f7b5e265$Ja7Hw4RicYUrEOBGAtlP.WhVHTEuMFD2HyfgaI8qbmF/6NXjlggU9ozsU/4eiwvfOLrYRtY5SF4odtfJYIQtd0
   ssh_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCSzQHRi6/AuRWGhcOI9axmXDg3KOyS3bPSPO6jvX4QEDds6LUaua7gKVzwujNyGC63s1RAM0I4XP6rkoGVDqRMDgzl1tL9N3Ug3P9NiH1NNpWZdPmqbp+EqPodDZG1sgzrAXCrWXGBFd86t/PrFp2R+SAxDzMA1zUaTt/dAkj+ouZ+p2AxI3EA7eP4vXQqFLWX0SnBD/9lLBSgcoILYgFtFEGi/2H5HMeHltBTwFwv3o1it3RnbIb0lB9abZBP8jiITCbqKyJ2witTVSeGZ3KzsTZ8sjEbe3waiZZdvi3GaNXv/IB5aC1eoaHjy2lk3hwQSfdff1fF+DiF3LrQ7s11
     arista@avd-workshop-1-73ce2af1-eos
+logging:
+  vrfs:
+  - name: default
+    source_interface: Management0
+    hosts:
+    - name: 10.200.0.108
+      protocol: udp
+    - name: 10.200.1.108
+      protocol: udp
 loopback_interfaces:
 - name: Loopback0
   description: ROUTER_ID
@@ -136,6 +162,10 @@ prefix_lists:
     action: permit 10.250.1.0/24 eq 32
   - sequence: 20
     action: permit 10.255.1.0/24 eq 32
+- name: PL-MLAG-PEER-VRFS
+  sequence_numbers:
+  - sequence: 10
+    action: permit 10.252.1.8/31
 route_maps:
 - name: RM-MLAG-PEER-IN
   sequence_numbers:
@@ -150,6 +180,14 @@ route_maps:
     type: permit
     match:
     - ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY
+- name: RM-CONN-2-BGP-VRFS
+  sequence_numbers:
+  - sequence: 10
+    type: deny
+    match:
+    - ip address prefix-list PL-MLAG-PEER-VRFS
+  - sequence: 20
+    type: permit
 router_bfd:
   multihop:
     interval: 300
@@ -191,6 +229,14 @@ router_bgp:
     password: Q4fqtbqcZ7oQuKfuWtNGRQ==
     send_community: all
     maximum_routes: 0
+  - name: EVPN-OVERLAY-CORE
+    metadata:
+      type: evpn
+    update_source: Loopback0
+    bfd: true
+    ebgp_multihop: 15
+    send_community: all
+    maximum_routes: 0
   neighbors:
   - ip_address: 10.252.1.9
     peer_group: MLAG-IPv4-UNDERLAY-PEER
@@ -221,14 +267,66 @@ router_bgp:
     metadata:
       peer: s1-spine2
     description: s1-spine2_Loopback0
+  - ip_address: 10.250.2.7
+    peer_group: EVPN-OVERLAY-CORE
+    remote_as: '65203'
+    metadata:
+      peer: s2-brdr1
+    description: s2-brdr1
+  - ip_address: 172.16.255.1
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65203'
+    metadata:
+      peer: s2-brdr1
+    description: s2-brdr1
   redistribute:
     connected:
       enabled: true
       route_map: RM-CONN-2-BGP
+  vlans:
+  - id: 10
+    metadata:
+      tenants:
+      - S1_FABRIC
+    rd: 10.250.1.7:10010
+    rd_evpn_domain:
+      domain: remote
+      rd: 10.250.1.7:10010
+    route_targets:
+      both:
+      - 10010:10010
+      import_export_evpn_domains:
+      - domain: remote
+        route_target: 10010:10010
+    redistribute_routes:
+    - learned
+  - id: 20
+    metadata:
+      tenants:
+      - S1_FABRIC
+    rd: 10.250.1.7:10020
+    rd_evpn_domain:
+      domain: remote
+      rd: 10.250.1.7:10020
+    route_targets:
+      both:
+      - 10020:10020
+      import_export_evpn_domains:
+      - domain: remote
+        route_target: 10020:10020
+    redistribute_routes:
+    - learned
   address_family_evpn:
+    neighbor_default:
+      next_hop_self_received_evpn_routes:
+        enable: true
+        inter_domain: true
     peer_groups:
     - name: EVPN-OVERLAY-PEERS
       activate: true
+    - name: EVPN-OVERLAY-CORE
+      activate: true
+      domain_remote: true
   address_family_ipv4:
     peer_groups:
     - name: MLAG-IPv4-UNDERLAY-PEER
@@ -237,6 +335,31 @@ router_bgp:
       activate: true
     - name: EVPN-OVERLAY-PEERS
       activate: false
+    - name: EVPN-OVERLAY-CORE
+      activate: false
+  vrfs:
+  - name: OVERLAY
+    rd: 10.250.1.7:10
+    route_targets:
+      import:
+      - address_family: evpn
+        route_targets:
+        - '10:10'
+      export:
+      - address_family: evpn
+        route_targets:
+        - '10:10'
+    router_id: 10.250.1.7
+    updates:
+      wait_install: true
+    neighbors:
+    - ip_address: 10.252.1.9
+      peer_group: MLAG-IPv4-UNDERLAY-PEER
+      description: s1-brdr2_Vlan3009
+    redistribute:
+      connected:
+        enabled: true
+        route_map: RM-CONN-2-BGP-VRFS
 service_routing_protocols_model: multi-agent
 spanning_tree:
   mode: mstp
@@ -261,6 +384,32 @@ vlan_interfaces:
   ip_address: 10.251.1.8/31
   mtu: 1500
   no_autostate: true
+- name: Vlan10
+  description: Ten
+  shutdown: false
+  vrf: OVERLAY
+  ip_address_virtual: 10.10.10.1/24
+  metadata:
+    tenants:
+    - S1_FABRIC
+- name: Vlan20
+  description: Twenty
+  shutdown: false
+  vrf: OVERLAY
+  ip_address_virtual: 10.20.20.1/24
+  metadata:
+    tenants:
+    - S1_FABRIC
+- name: Vlan3009
+  description: MLAG_L3_VRF_OVERLAY
+  shutdown: false
+  vrf: OVERLAY
+  ip_address: 10.252.1.8/31
+  mtu: 1500
+  metadata:
+    tenants:
+    - S1_FABRIC
+    type: underlay_peering
 vlan_internal_order:
   allocation: ascending
   range:
@@ -281,9 +430,31 @@ vlans:
   metadata:
     tenants:
     - system
+- id: 10
+  name: Ten
+  metadata:
+    tenants:
+    - S1_FABRIC
+- id: 20
+  name: Twenty
+  metadata:
+    tenants:
+    - S1_FABRIC
+- id: 3009
+  name: MLAG_L3_VRF_OVERLAY
+  trunk_groups:
+  - MLAG
+  metadata:
+    tenants:
+    - S1_FABRIC
 vrfs:
 - name: default
   ip_routing: false
+- name: OVERLAY
+  ip_routing: true
+  metadata:
+    tenants:
+    - S1_FABRIC
 vxlan_interface:
   vxlan1:
     description: s1-brdr1_VTEP
@@ -291,3 +462,11 @@ vxlan_interface:
       source_interface: Loopback1
       udp_port: 4789
       virtual_router_encapsulation_mac_address: mlag-system-id
+      vlans:
+      - id: 10
+        vni: 10010
+      - id: 20
+        vni: 10020
+      vrfs:
+      - name: OVERLAY
+        vni: 10
