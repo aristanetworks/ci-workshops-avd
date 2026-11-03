@@ -78,6 +78,32 @@ ethernet_interfaces:
     peer: s1-leaf4
     peer_interface: Ethernet2
     peer_type: l2leaf
+- name: Ethernet7
+  description: P2P_WANCORE_Ethernet2
+  shutdown: false
+  mtu: 1500
+  ip_address: 10.0.0.29/31
+  ospf_network_point_to_point: true
+  ospf_area: 0.0.0.0
+  metadata:
+    peer: WANCORE
+    peer_interface: Ethernet2
+    peer_type: other
+  switchport:
+    enabled: false
+- name: Ethernet8
+  description: P2P_WANCORE_Ethernet2
+  shutdown: false
+  mtu: 1500
+  ip_address: 10.0.0.33/31
+  ospf_network_point_to_point: true
+  ospf_area: 0.0.0.0
+  metadata:
+    peer: WANCORE
+    peer_interface: Ethernet2
+    peer_type: other
+  switchport:
+    enabled: false
 hostname: s1-spine1
 ip_domain_lookup:
   source_interfaces:
@@ -170,6 +196,8 @@ router_ospf:
     bfd_enable: false
     no_passive_interfaces:
     - Vlan4093
+    - Ethernet7
+    - Ethernet8
     max_lsa: 12000
     redistribute:
       connected:
