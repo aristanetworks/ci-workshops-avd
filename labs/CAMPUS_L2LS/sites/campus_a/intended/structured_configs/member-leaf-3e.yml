@@ -126,7 +126,7 @@ port_channel_interfaces:
     enabled: true
     mode: trunk
     trunk:
-      allowed_vlan: none
+      allowed_vlan: 310,320
 service_routing_protocols_model: multi-agent
 spanning_tree:
   mode: mstp
@@ -143,6 +143,17 @@ vlan_internal_order:
   range:
     beginning: 1006
     ending: 1199
+vlans:
+- id: 310
+  name: IDF3_DATA
+  metadata:
+    tenants:
+    - CAMPUS_A
+- id: 320
+  name: IDF3_VOICE
+  metadata:
+    tenants:
+    - CAMPUS_A
 vrfs:
 - name: default
   ip_routing: false

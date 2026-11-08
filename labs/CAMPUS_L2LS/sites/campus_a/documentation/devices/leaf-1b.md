@@ -286,11 +286,19 @@ vlan internal order ascending range 1006 1199
 
 | VLAN ID | Name | Trunk Groups |
 | ------- | ---- | ------------ |
+| 110 | IDF1_DATA | - |
+| 120 | IDF1_VOICE | - |
 | 4094 | MLAG | MLAG |
 
 ### VLANs Device Configuration
 
 ```eos
+!
+vlan 110
+   name IDF1_DATA
+!
+vlan 120
+   name IDF1_VOICE
 !
 vlan 4094
    name MLAG
@@ -309,7 +317,7 @@ vlan 4094
 | --------- | ----------- | ---- | ----- | ----------- | ----------- | ------------- |
 | Ethernet47 | MLAG_leaf-1a_Ethernet47 | *trunk | *- | *- | *MLAG | 47 |
 | Ethernet48 | MLAG_leaf-1a_Ethernet48 | *trunk | *- | *- | *MLAG | 47 |
-| Ethernet49 | L2_spine-2_Ethernet3 | *trunk | *none | *- | *- | 49 |
+| Ethernet49 | L2_spine-2_Ethernet3 | *trunk | *110,120 | *- | *- | 49 |
 
 *Inherited from Port-Channel Interface
 
@@ -342,7 +350,7 @@ interface Ethernet49
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | LACP Fallback Timeout | LACP Fallback Mode | MLAG ID | EVPN ESI |
 | --------- | ----------- | ---- | ----- | ----------- | ----------- | --------------------- | ------------------ | ------- | -------- |
 | Port-Channel47 | MLAG_leaf-1a_Port-Channel47 | trunk | - | - | MLAG | - | - | - | - |
-| Port-Channel49 | L2_CAMPUS_A_SPINES_Port-Channel3 | trunk | none | - | - | - | - | 49 | - |
+| Port-Channel49 | L2_CAMPUS_A_SPINES_Port-Channel3 | trunk | 110,120 | - | - | - | - | 49 | - |
 
 #### Port-Channel Interfaces Device Configuration
 
@@ -358,7 +366,7 @@ interface Port-Channel47
 interface Port-Channel49
    description L2_CAMPUS_A_SPINES_Port-Channel3
    no shutdown
-   switchport trunk allowed vlan none
+   switchport trunk allowed vlan 110,120
    switchport mode trunk
    switchport
    mlag 49

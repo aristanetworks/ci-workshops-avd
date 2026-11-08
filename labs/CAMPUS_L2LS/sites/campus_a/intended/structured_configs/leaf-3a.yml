@@ -231,7 +231,7 @@ port_channel_interfaces:
     enabled: true
     mode: trunk
     trunk:
-      allowed_vlan: none
+      allowed_vlan: 310,320
 - name: Port-Channel51
   description: L2_member-leaf-3c_Port-Channel49
   shutdown: false
@@ -240,7 +240,7 @@ port_channel_interfaces:
     enabled: true
     mode: trunk
     trunk:
-      allowed_vlan: none
+      allowed_vlan: 310,320
 - name: Port-Channel52
   description: L2_member-leaf-3d_Port-Channel49
   shutdown: false
@@ -249,7 +249,7 @@ port_channel_interfaces:
     enabled: true
     mode: trunk
     trunk:
-      allowed_vlan: none
+      allowed_vlan: 310,320
 - name: Port-Channel531
   description: L2_member-leaf-3e_Port-Channel49
   shutdown: false
@@ -258,7 +258,7 @@ port_channel_interfaces:
     enabled: true
     mode: trunk
     trunk:
-      allowed_vlan: none
+      allowed_vlan: 310,320
 service_routing_protocols_model: multi-agent
 spanning_tree:
   mode: mstp
@@ -291,6 +291,16 @@ vlans:
   metadata:
     tenants:
     - system
+- id: 310
+  name: IDF3_DATA
+  metadata:
+    tenants:
+    - CAMPUS_A
+- id: 320
+  name: IDF3_VOICE
+  metadata:
+    tenants:
+    - CAMPUS_A
 vrfs:
 - name: default
   ip_routing: false

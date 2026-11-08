@@ -289,12 +289,36 @@ vlan internal order ascending range 1006 1199
 
 | VLAN ID | Name | Trunk Groups |
 | ------- | ---- | ------------ |
+| 110 | IDF1_DATA | - |
+| 120 | IDF1_VOICE | - |
+| 210 | IDF2_DATA | - |
+| 220 | IDF2_VOICE | - |
+| 310 | IDF3_DATA | - |
+| 320 | IDF3_VOICE | - |
 | 4093 | MLAG_L3 | MLAG |
 | 4094 | MLAG | MLAG |
 
 ### VLANs Device Configuration
 
 ```eos
+!
+vlan 110
+   name IDF1_DATA
+!
+vlan 120
+   name IDF1_VOICE
+!
+vlan 210
+   name IDF2_DATA
+!
+vlan 220
+   name IDF2_VOICE
+!
+vlan 310
+   name IDF3_DATA
+!
+vlan 320
+   name IDF3_VOICE
 !
 vlan 4093
    name MLAG_L3
@@ -315,10 +339,10 @@ vlan 4094
 
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | Channel-Group |
 | --------- | ----------- | ---- | ----- | ----------- | ----------- | ------------- |
-| Ethernet3 | L2_leaf-1b_Ethernet49 | *trunk | *none | *- | *- | 3 |
-| Ethernet4 | L2_leaf-2a_Ethernet2/1 | *trunk | *none | *- | *- | 4 |
-| Ethernet5 | L2_leaf-3a_Ethernet50 | *trunk | *none | *- | *- | 5 |
-| Ethernet6 | L2_leaf-3b_Ethernet50 | *trunk | *none | *- | *- | 5 |
+| Ethernet3 | L2_leaf-1b_Ethernet49 | *trunk | *110,120 | *- | *- | 3 |
+| Ethernet4 | L2_leaf-2a_Ethernet2/1 | *trunk | *210,220 | *- | *- | 4 |
+| Ethernet5 | L2_leaf-3a_Ethernet50 | *trunk | *310,320 | *- | *- | 5 |
+| Ethernet6 | L2_leaf-3b_Ethernet50 | *trunk | *310,320 | *- | *- | 5 |
 | Ethernet49/1 | MLAG_spine-1_Ethernet49/1 | *trunk | *- | *- | *MLAG | 491 |
 | Ethernet50/1 | MLAG_spine-1_Ethernet50/1 | *trunk | *- | *- | *MLAG | 491 |
 
@@ -367,9 +391,9 @@ interface Ethernet50/1
 
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | LACP Fallback Timeout | LACP Fallback Mode | MLAG ID | EVPN ESI |
 | --------- | ----------- | ---- | ----- | ----------- | ----------- | --------------------- | ------------------ | ------- | -------- |
-| Port-Channel3 | L2_IDF1_Port-Channel49 | trunk | none | - | - | - | - | 3 | - |
-| Port-Channel4 | L2_leaf-2a_Port-Channel11 | trunk | none | - | - | - | - | 4 | - |
-| Port-Channel5 | L2_IDF3_Port-Channel49 | trunk | none | - | - | - | - | 5 | - |
+| Port-Channel3 | L2_IDF1_Port-Channel49 | trunk | 110,120 | - | - | - | - | 3 | - |
+| Port-Channel4 | L2_leaf-2a_Port-Channel11 | trunk | 210,220 | - | - | - | - | 4 | - |
+| Port-Channel5 | L2_IDF3_Port-Channel49 | trunk | 310,320 | - | - | - | - | 5 | - |
 | Port-Channel491 | MLAG_spine-1_Port-Channel491 | trunk | - | - | MLAG | - | - | - | - |
 
 #### Port-Channel Interfaces Device Configuration
@@ -379,7 +403,7 @@ interface Ethernet50/1
 interface Port-Channel3
    description L2_IDF1_Port-Channel49
    no shutdown
-   switchport trunk allowed vlan none
+   switchport trunk allowed vlan 110,120
    switchport mode trunk
    switchport
    mlag 3
@@ -387,7 +411,7 @@ interface Port-Channel3
 interface Port-Channel4
    description L2_leaf-2a_Port-Channel11
    no shutdown
-   switchport trunk allowed vlan none
+   switchport trunk allowed vlan 210,220
    switchport mode trunk
    switchport
    mlag 4
@@ -395,7 +419,7 @@ interface Port-Channel4
 interface Port-Channel5
    description L2_IDF3_Port-Channel49
    no shutdown
-   switchport trunk allowed vlan none
+   switchport trunk allowed vlan 310,320
    switchport mode trunk
    switchport
    mlag 5
@@ -441,6 +465,12 @@ interface Loopback0
 
 | Interface | Description | VRF | MTU | Shutdown |
 | --------- | ----------- | --- | --- | -------- |
+| Vlan110 | IDF1_DATA | default | - | False |
+| Vlan120 | IDF1_VOICE | default | - | False |
+| Vlan210 | IDF2_DATA | default | - | False |
+| Vlan220 | IDF2_VOICE | default | - | False |
+| Vlan310 | IDF3_DATA | default | - | False |
+| Vlan320 | IDF3_VOICE | default | - | False |
 | Vlan4093 | MLAG_L3 | default | 1500 | False |
 | Vlan4094 | MLAG | default | 1500 | False |
 
@@ -448,6 +478,12 @@ interface Loopback0
 
 | Interface | VRF | IP Address | IP Address Virtual | IP Router Virtual Address | ACL In | ACL Out |
 | --------- | --- | ---------- | ------------------ | ------------------------- | ------ | ------- |
+| Vlan110 | default | 10.1.10.3/24 | - | 10.1.10.1 | - | - |
+| Vlan120 | default | 10.1.20.3/24 | - | 10.1.20.1 | - | - |
+| Vlan210 | default | 10.2.10.3/24 | - | 10.2.10.1 | - | - |
+| Vlan220 | default | 10.2.20.3/24 | - | 10.2.20.1 | - | - |
+| Vlan310 | default | 10.3.10.3/24 | - | 10.3.10.1 | - | - |
+| Vlan320 | default | 10.3.20.3/24 | - | 10.3.20.1 | - | - |
 | Vlan4093 | default | 10.1.253.3/31 | - | - | - | - |
 | Vlan4094 | default | 10.1.253.1/31 | - | - | - | - |
 
@@ -460,6 +496,42 @@ interface Loopback0
 #### VLAN Interfaces Device Configuration
 
 ```eos
+!
+interface Vlan110
+   description IDF1_DATA
+   no shutdown
+   ip address 10.1.10.3/24
+   ip virtual-router address 10.1.10.1
+!
+interface Vlan120
+   description IDF1_VOICE
+   no shutdown
+   ip address 10.1.20.3/24
+   ip virtual-router address 10.1.20.1
+!
+interface Vlan210
+   description IDF2_DATA
+   no shutdown
+   ip address 10.2.10.3/24
+   ip virtual-router address 10.2.10.1
+!
+interface Vlan220
+   description IDF2_VOICE
+   no shutdown
+   ip address 10.2.20.3/24
+   ip virtual-router address 10.2.20.1
+!
+interface Vlan310
+   description IDF3_DATA
+   no shutdown
+   ip address 10.3.10.3/24
+   ip virtual-router address 10.3.10.1
+!
+interface Vlan320
+   description IDF3_VOICE
+   no shutdown
+   ip address 10.3.20.3/24
+   ip virtual-router address 10.3.20.1
 !
 interface Vlan4093
    description MLAG_L3

@@ -21,6 +21,9 @@
 - [Internal VLAN Allocation Policy](#internal-vlan-allocation-policy)
   - [Internal VLAN Allocation Policy Summary](#internal-vlan-allocation-policy-summary)
   - [Internal VLAN Allocation Policy Device Configuration](#internal-vlan-allocation-policy-device-configuration)
+- [VLANs](#vlans)
+  - [VLANs Summary](#vlans-summary)
+  - [VLANs Device Configuration](#vlans-device-configuration)
 - [Interfaces](#interfaces)
   - [Ethernet Interfaces](#ethernet-interfaces)
   - [Port-Channel Interfaces](#port-channel-interfaces)
@@ -247,6 +250,26 @@ spanning-tree mst 0 priority 32768
 vlan internal order ascending range 1006 1199
 ```
 
+## VLANs
+
+### VLANs Summary
+
+| VLAN ID | Name | Trunk Groups |
+| ------- | ---- | ------------ |
+| 210 | IDF2_DATA | - |
+| 220 | IDF2_VOICE | - |
+
+### VLANs Device Configuration
+
+```eos
+!
+vlan 210
+   name IDF2_DATA
+!
+vlan 220
+   name IDF2_VOICE
+```
+
 ## Interfaces
 
 ### Ethernet Interfaces
@@ -257,8 +280,8 @@ vlan internal order ascending range 1006 1199
 
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | Channel-Group |
 | --------- | ----------- | ---- | ----- | ----------- | ----------- | ------------- |
-| Ethernet1/1 | L2_spine-1_Ethernet4 | *trunk | *none | *- | *- | 11 |
-| Ethernet2/1 | L2_spine-2_Ethernet4 | *trunk | *none | *- | *- | 11 |
+| Ethernet1/1 | L2_spine-1_Ethernet4 | *trunk | *210,220 | *- | *- | 11 |
+| Ethernet2/1 | L2_spine-2_Ethernet4 | *trunk | *210,220 | *- | *- | 11 |
 
 *Inherited from Port-Channel Interface
 
@@ -285,7 +308,7 @@ interface Ethernet2/1
 
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | LACP Fallback Timeout | LACP Fallback Mode | MLAG ID | EVPN ESI |
 | --------- | ----------- | ---- | ----- | ----------- | ----------- | --------------------- | ------------------ | ------- | -------- |
-| Port-Channel11 | L2_CAMPUS_A_SPINES_Port-Channel4 | trunk | none | - | - | - | - | - | - |
+| Port-Channel11 | L2_CAMPUS_A_SPINES_Port-Channel4 | trunk | 210,220 | - | - | - | - | - | - |
 
 #### Port-Channel Interfaces Device Configuration
 
@@ -294,7 +317,7 @@ interface Ethernet2/1
 interface Port-Channel11
    description L2_CAMPUS_A_SPINES_Port-Channel4
    no shutdown
-   switchport trunk allowed vlan none
+   switchport trunk allowed vlan 210,220
    switchport mode trunk
    switchport
 ```

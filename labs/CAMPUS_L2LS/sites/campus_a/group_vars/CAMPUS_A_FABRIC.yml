@@ -65,12 +65,14 @@ l2leaf:
     - group: IDF2
       filter:
         tags: [ "IDF2_DATA", "IDF2_VOICE" ]
+      campus_access_pod: IDF2
       mlag: false
       nodes:
         - name: leaf-2a
           id: 3
           mgmt_ip: 192.168.0.16/24
           uplink_interfaces: [ Ethernet1/1, Ethernet2/1 ]
+          uplink_switches: [ spine-1, spine-2]
           uplink_switch_interfaces: [ Ethernet4, Ethernet4 ]
     - group: IDF3
       filter:

@@ -84,6 +84,8 @@ metadata:
       value: Cleveland
     - name: Campus-Pod
       value: Campus A
+    - name: Access-Pod
+      value: IDF2
     interface_tags:
     - interface: Ethernet1/1
       tags:
@@ -124,7 +126,7 @@ port_channel_interfaces:
     enabled: true
     mode: trunk
     trunk:
-      allowed_vlan: none
+      allowed_vlan: 210,220
 service_routing_protocols_model: multi-agent
 spanning_tree:
   mode: mstp
@@ -141,6 +143,17 @@ vlan_internal_order:
   range:
     beginning: 1006
     ending: 1199
+vlans:
+- id: 210
+  name: IDF2_DATA
+  metadata:
+    tenants:
+    - CAMPUS_A
+- id: 220
+  name: IDF2_VOICE
+  metadata:
+    tenants:
+    - CAMPUS_A
 vrfs:
 - name: default
   ip_routing: false

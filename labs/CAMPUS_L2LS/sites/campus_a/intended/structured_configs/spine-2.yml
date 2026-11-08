@@ -219,7 +219,7 @@ port_channel_interfaces:
     enabled: true
     mode: trunk
     trunk:
-      allowed_vlan: none
+      allowed_vlan: 110,120
 - name: Port-Channel4
   description: L2_leaf-2a_Port-Channel11
   shutdown: false
@@ -228,7 +228,7 @@ port_channel_interfaces:
     enabled: true
     mode: trunk
     trunk:
-      allowed_vlan: none
+      allowed_vlan: 210,220
 - name: Port-Channel5
   description: L2_IDF3_Port-Channel49
   shutdown: false
@@ -237,7 +237,7 @@ port_channel_interfaces:
     enabled: true
     mode: trunk
     trunk:
-      allowed_vlan: none
+      allowed_vlan: 310,320
 router_ospf:
   process_ids:
   - id: 100
@@ -278,6 +278,72 @@ vlan_interfaces:
   ip_address: 10.1.253.1/31
   mtu: 1500
   no_autostate: true
+- name: Vlan110
+  description: IDF1_DATA
+  shutdown: false
+  ip_address: 10.1.10.3/24
+  ip_virtual_router_addresses:
+  - 10.1.10.1
+  metadata:
+    tenants:
+    - CAMPUS_A
+    tags:
+    - IDF1_DATA
+- name: Vlan120
+  description: IDF1_VOICE
+  shutdown: false
+  ip_address: 10.1.20.3/24
+  ip_virtual_router_addresses:
+  - 10.1.20.1
+  metadata:
+    tenants:
+    - CAMPUS_A
+    tags:
+    - IDF1_VOICE
+- name: Vlan210
+  description: IDF2_DATA
+  shutdown: false
+  ip_address: 10.2.10.3/24
+  ip_virtual_router_addresses:
+  - 10.2.10.1
+  metadata:
+    tenants:
+    - CAMPUS_A
+    tags:
+    - IDF2_DATA
+- name: Vlan220
+  description: IDF2_VOICE
+  shutdown: false
+  ip_address: 10.2.20.3/24
+  ip_virtual_router_addresses:
+  - 10.2.20.1
+  metadata:
+    tenants:
+    - CAMPUS_A
+    tags:
+    - IDF2_VOICE
+- name: Vlan310
+  description: IDF3_DATA
+  shutdown: false
+  ip_address: 10.3.10.3/24
+  ip_virtual_router_addresses:
+  - 10.3.10.1
+  metadata:
+    tenants:
+    - CAMPUS_A
+    tags:
+    - IDF3_DATA
+- name: Vlan320
+  description: IDF3_VOICE
+  shutdown: false
+  ip_address: 10.3.20.3/24
+  ip_virtual_router_addresses:
+  - 10.3.20.1
+  metadata:
+    tenants:
+    - CAMPUS_A
+    tags:
+    - IDF3_VOICE
 vlan_internal_order:
   allocation: ascending
   range:
@@ -298,6 +364,36 @@ vlans:
   metadata:
     tenants:
     - system
+- id: 110
+  name: IDF1_DATA
+  metadata:
+    tenants:
+    - CAMPUS_A
+- id: 120
+  name: IDF1_VOICE
+  metadata:
+    tenants:
+    - CAMPUS_A
+- id: 210
+  name: IDF2_DATA
+  metadata:
+    tenants:
+    - CAMPUS_A
+- id: 220
+  name: IDF2_VOICE
+  metadata:
+    tenants:
+    - CAMPUS_A
+- id: 310
+  name: IDF3_DATA
+  metadata:
+    tenants:
+    - CAMPUS_A
+- id: 320
+  name: IDF3_VOICE
+  metadata:
+    tenants:
+    - CAMPUS_A
 vrfs:
 - name: default
   ip_routing: false
