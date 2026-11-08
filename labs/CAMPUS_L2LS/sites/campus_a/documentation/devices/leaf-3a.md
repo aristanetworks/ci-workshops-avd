@@ -3,6 +3,7 @@
 ## Table of Contents
 
 - [Management](#management)
+  - [Banner](#banner)
   - [Management Interfaces](#management-interfaces)
   - [DNS Domain](#dns-domain)
   - [IP Name Servers](#ip-name-servers)
@@ -15,6 +16,7 @@
   - [AAA Authorization](#aaa-authorization)
 - [Monitoring](#monitoring)
   - [TerminAttr Daemon](#terminattr-daemon)
+  - [Logging](#logging)
 - [MLAG](#mlag)
   - [MLAG Summary](#mlag-summary)
   - [MLAG Device Configuration](#mlag-device-configuration)
@@ -43,6 +45,15 @@
   - [VRF Instances Device Configuration](#vrf-instances-device-configuration)
 
 ## Management
+
+### Banner
+
+#### MOTD Banner
+
+```text
+You shall not pass. Unless you are authorized. Then you shall pass.
+EOF
+```
 
 ### Management Interfaces
 
@@ -219,6 +230,31 @@ daemon TerminAttr
    no shutdown
 ```
 
+### Logging
+
+#### Logging Servers and Features Summary
+
+| Type | Level |
+| ---- | ----- |
+
+| VRF | Source Interface |
+| --- | ---------------- |
+| default | Management0 |
+
+| VRF | Hosts | Ports | Protocol | SSL-profile |
+| --- | ----- | ----- | -------- | ----------- |
+| default | 10.200.0.108 | Default | UDP | - |
+| default | 10.200.1.108 | Default | UDP | - |
+
+#### Logging Servers and Features Device Configuration
+
+```eos
+!
+logging host 10.200.0.108
+logging host 10.200.1.108
+logging source-interface Management0
+```
+
 ## MLAG
 
 ### MLAG Summary
@@ -288,6 +324,7 @@ vlan internal order ascending range 1006 1199
 | ------- | ---- | ------------ |
 | 310 | IDF3_DATA | - |
 | 320 | IDF3_VOICE | - |
+| 1000 | SECURITY | - |
 | 4094 | MLAG | MLAG |
 
 ### VLANs Device Configuration
@@ -299,6 +336,9 @@ vlan 310
 !
 vlan 320
    name IDF3_VOICE
+!
+vlan 1000
+   name SECURITY
 !
 vlan 4094
    name MLAG
@@ -317,11 +357,11 @@ vlan 4094
 | --------- | ----------- | ---- | ----- | ----------- | ----------- | ------------- |
 | Ethernet47 | MLAG_leaf-3b_Ethernet47 | *trunk | *- | *- | *MLAG | 47 |
 | Ethernet48 | MLAG_leaf-3b_Ethernet48 | *trunk | *- | *- | *MLAG | 47 |
-| Ethernet49 | L2_spine-1_Ethernet5 | *trunk | *310,320 | *- | *- | 49 |
-| Ethernet50 | L2_spine-2_Ethernet5 | *trunk | *310,320 | *- | *- | 49 |
-| Ethernet51 | L2_member-leaf-3c_Ethernet49 | *trunk | *310,320 | *- | *- | 51 |
-| Ethernet52 | L2_member-leaf-3d_Ethernet49 | *trunk | *310,320 | *- | *- | 52 |
-| Ethernet53/1 | L2_member-leaf-3e_Ethernet49 | *trunk | *310,320 | *- | *- | 531 |
+| Ethernet49 | L2_spine-1_Ethernet5 | *trunk | *310,320,1000 | *- | *- | 49 |
+| Ethernet50 | L2_spine-2_Ethernet5 | *trunk | *310,320,1000 | *- | *- | 49 |
+| Ethernet51 | L2_member-leaf-3c_Ethernet49 | *trunk | *310,320,1000 | *- | *- | 51 |
+| Ethernet52 | L2_member-leaf-3d_Ethernet49 | *trunk | *310,320,1000 | *- | *- | 52 |
+| Ethernet53/1 | L2_member-leaf-3e_Ethernet49 | *trunk | *310,320,1000 | *- | *- | 531 |
 
 *Inherited from Port-Channel Interface
 
@@ -374,10 +414,10 @@ interface Ethernet53/1
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | LACP Fallback Timeout | LACP Fallback Mode | MLAG ID | EVPN ESI |
 | --------- | ----------- | ---- | ----- | ----------- | ----------- | --------------------- | ------------------ | ------- | -------- |
 | Port-Channel47 | MLAG_leaf-3b_Port-Channel47 | trunk | - | - | MLAG | - | - | - | - |
-| Port-Channel49 | L2_CAMPUS_A_SPINES_Port-Channel5 | trunk | 310,320 | - | - | - | - | 49 | - |
-| Port-Channel51 | L2_member-leaf-3c_Port-Channel49 | trunk | 310,320 | - | - | - | - | 51 | - |
-| Port-Channel52 | L2_member-leaf-3d_Port-Channel49 | trunk | 310,320 | - | - | - | - | 52 | - |
-| Port-Channel531 | L2_member-leaf-3e_Port-Channel49 | trunk | 310,320 | - | - | - | - | 531 | - |
+| Port-Channel49 | L2_CAMPUS_A_SPINES_Port-Channel5 | trunk | 310,320,1000 | - | - | - | - | 49 | - |
+| Port-Channel51 | L2_member-leaf-3c_Port-Channel49 | trunk | 310,320,1000 | - | - | - | - | 51 | - |
+| Port-Channel52 | L2_member-leaf-3d_Port-Channel49 | trunk | 310,320,1000 | - | - | - | - | 52 | - |
+| Port-Channel531 | L2_member-leaf-3e_Port-Channel49 | trunk | 310,320,1000 | - | - | - | - | 531 | - |
 
 #### Port-Channel Interfaces Device Configuration
 
@@ -393,7 +433,7 @@ interface Port-Channel47
 interface Port-Channel49
    description L2_CAMPUS_A_SPINES_Port-Channel5
    no shutdown
-   switchport trunk allowed vlan 310,320
+   switchport trunk allowed vlan 310,320,1000
    switchport mode trunk
    switchport
    mlag 49
@@ -401,7 +441,7 @@ interface Port-Channel49
 interface Port-Channel51
    description L2_member-leaf-3c_Port-Channel49
    no shutdown
-   switchport trunk allowed vlan 310,320
+   switchport trunk allowed vlan 310,320,1000
    switchport mode trunk
    switchport
    mlag 51
@@ -409,7 +449,7 @@ interface Port-Channel51
 interface Port-Channel52
    description L2_member-leaf-3d_Port-Channel49
    no shutdown
-   switchport trunk allowed vlan 310,320
+   switchport trunk allowed vlan 310,320,1000
    switchport mode trunk
    switchport
    mlag 52
@@ -417,7 +457,7 @@ interface Port-Channel52
 interface Port-Channel531
    description L2_member-leaf-3e_Port-Channel49
    no shutdown
-   switchport trunk allowed vlan 310,320
+   switchport trunk allowed vlan 310,320,1000
    switchport mode trunk
    switchport
    mlag 531

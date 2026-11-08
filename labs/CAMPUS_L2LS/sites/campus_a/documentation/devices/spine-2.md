@@ -3,6 +3,7 @@
 ## Table of Contents
 
 - [Management](#management)
+  - [Banner](#banner)
   - [Management Interfaces](#management-interfaces)
   - [DNS Domain](#dns-domain)
   - [IP Name Servers](#ip-name-servers)
@@ -15,6 +16,7 @@
   - [AAA Authorization](#aaa-authorization)
 - [Monitoring](#monitoring)
   - [TerminAttr Daemon](#terminattr-daemon)
+  - [Logging](#logging)
 - [MLAG](#mlag)
   - [MLAG Summary](#mlag-summary)
   - [MLAG Device Configuration](#mlag-device-configuration)
@@ -46,6 +48,15 @@
   - [VRF Instances Device Configuration](#vrf-instances-device-configuration)
 
 ## Management
+
+### Banner
+
+#### MOTD Banner
+
+```text
+You shall not pass. Unless you are authorized. Then you shall pass.
+EOF
+```
 
 ### Management Interfaces
 
@@ -222,6 +233,31 @@ daemon TerminAttr
    no shutdown
 ```
 
+### Logging
+
+#### Logging Servers and Features Summary
+
+| Type | Level |
+| ---- | ----- |
+
+| VRF | Source Interface |
+| --- | ---------------- |
+| default | Management0 |
+
+| VRF | Hosts | Ports | Protocol | SSL-profile |
+| --- | ----- | ----- | -------- | ----------- |
+| default | 10.200.0.108 | Default | UDP | - |
+| default | 10.200.1.108 | Default | UDP | - |
+
+#### Logging Servers and Features Device Configuration
+
+```eos
+!
+logging host 10.200.0.108
+logging host 10.200.1.108
+logging source-interface Management0
+```
+
 ## MLAG
 
 ### MLAG Summary
@@ -295,6 +331,7 @@ vlan internal order ascending range 1006 1199
 | 220 | IDF2_VOICE | - |
 | 310 | IDF3_DATA | - |
 | 320 | IDF3_VOICE | - |
+| 1000 | SECURITY | - |
 | 4093 | MLAG_L3 | MLAG |
 | 4094 | MLAG | MLAG |
 
@@ -320,6 +357,9 @@ vlan 310
 vlan 320
    name IDF3_VOICE
 !
+vlan 1000
+   name SECURITY
+!
 vlan 4093
    name MLAG_L3
    trunk group MLAG
@@ -339,10 +379,10 @@ vlan 4094
 
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | Channel-Group |
 | --------- | ----------- | ---- | ----- | ----------- | ----------- | ------------- |
-| Ethernet3 | L2_leaf-1b_Ethernet49 | *trunk | *110,120 | *- | *- | 3 |
-| Ethernet4 | L2_leaf-2a_Ethernet2/1 | *trunk | *210,220 | *- | *- | 4 |
-| Ethernet5 | L2_leaf-3a_Ethernet50 | *trunk | *310,320 | *- | *- | 5 |
-| Ethernet6 | L2_leaf-3b_Ethernet50 | *trunk | *310,320 | *- | *- | 5 |
+| Ethernet3 | L2_leaf-1b_Ethernet49 | *trunk | *110,120,1000 | *- | *- | 3 |
+| Ethernet4 | L2_leaf-2a_Ethernet2/1 | *trunk | *210,220,1000 | *- | *- | 4 |
+| Ethernet5 | L2_leaf-3a_Ethernet50 | *trunk | *310,320,1000 | *- | *- | 5 |
+| Ethernet6 | L2_leaf-3b_Ethernet50 | *trunk | *310,320,1000 | *- | *- | 5 |
 | Ethernet49/1 | MLAG_spine-1_Ethernet49/1 | *trunk | *- | *- | *MLAG | 491 |
 | Ethernet50/1 | MLAG_spine-1_Ethernet50/1 | *trunk | *- | *- | *MLAG | 491 |
 
@@ -391,9 +431,9 @@ interface Ethernet50/1
 
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | LACP Fallback Timeout | LACP Fallback Mode | MLAG ID | EVPN ESI |
 | --------- | ----------- | ---- | ----- | ----------- | ----------- | --------------------- | ------------------ | ------- | -------- |
-| Port-Channel3 | L2_IDF1_Port-Channel49 | trunk | 110,120 | - | - | - | - | 3 | - |
-| Port-Channel4 | L2_leaf-2a_Port-Channel11 | trunk | 210,220 | - | - | - | - | 4 | - |
-| Port-Channel5 | L2_IDF3_Port-Channel49 | trunk | 310,320 | - | - | - | - | 5 | - |
+| Port-Channel3 | L2_IDF1_Port-Channel49 | trunk | 110,120,1000 | - | - | - | - | 3 | - |
+| Port-Channel4 | L2_leaf-2a_Port-Channel11 | trunk | 210,220,1000 | - | - | - | - | 4 | - |
+| Port-Channel5 | L2_IDF3_Port-Channel49 | trunk | 310,320,1000 | - | - | - | - | 5 | - |
 | Port-Channel491 | MLAG_spine-1_Port-Channel491 | trunk | - | - | MLAG | - | - | - | - |
 
 #### Port-Channel Interfaces Device Configuration
@@ -403,7 +443,7 @@ interface Ethernet50/1
 interface Port-Channel3
    description L2_IDF1_Port-Channel49
    no shutdown
-   switchport trunk allowed vlan 110,120
+   switchport trunk allowed vlan 110,120,1000
    switchport mode trunk
    switchport
    mlag 3
@@ -411,7 +451,7 @@ interface Port-Channel3
 interface Port-Channel4
    description L2_leaf-2a_Port-Channel11
    no shutdown
-   switchport trunk allowed vlan 210,220
+   switchport trunk allowed vlan 210,220,1000
    switchport mode trunk
    switchport
    mlag 4
@@ -419,7 +459,7 @@ interface Port-Channel4
 interface Port-Channel5
    description L2_IDF3_Port-Channel49
    no shutdown
-   switchport trunk allowed vlan 310,320
+   switchport trunk allowed vlan 310,320,1000
    switchport mode trunk
    switchport
    mlag 5
@@ -471,6 +511,7 @@ interface Loopback0
 | Vlan220 | IDF2_VOICE | default | - | False |
 | Vlan310 | IDF3_DATA | default | - | False |
 | Vlan320 | IDF3_VOICE | default | - | False |
+| Vlan1000 | SECURITY | default | - | False |
 | Vlan4093 | MLAG_L3 | default | 1500 | False |
 | Vlan4094 | MLAG | default | 1500 | False |
 
@@ -484,6 +525,7 @@ interface Loopback0
 | Vlan220 | default | 10.2.20.3/24 | - | 10.2.20.1 | - | - |
 | Vlan310 | default | 10.3.10.3/24 | - | 10.3.10.1 | - | - |
 | Vlan320 | default | 10.3.20.3/24 | - | 10.3.20.1 | - | - |
+| Vlan1000 | default | 10.100.100.3/24 | - | 10.100.100.1 | - | - |
 | Vlan4093 | default | 10.1.253.3/31 | - | - | - | - |
 | Vlan4094 | default | 10.1.253.1/31 | - | - | - | - |
 
@@ -532,6 +574,12 @@ interface Vlan320
    no shutdown
    ip address 10.3.20.3/24
    ip virtual-router address 10.3.20.1
+!
+interface Vlan1000
+   description SECURITY
+   no shutdown
+   ip address 10.100.100.3/24
+   ip virtual-router address 10.100.100.1
 !
 interface Vlan4093
    description MLAG_L3

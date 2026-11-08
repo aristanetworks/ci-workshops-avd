@@ -70,3 +70,15 @@ tenants:
                 ip_address: 10.3.20.2/24
               - node: spine-2
                 ip_address: 10.3.20.3/24
+          - id: 1000
+            name: 'SECURITY'
+            tags: [ "IDF1_DATA", "IDF2_DATA", "IDF3_DATA" ]
+            enabled: true
+            ip_virtual_router_addresses:
+            - 10.100.100.1
+            nodes:
+            - node: spine-1
+              ip_address: 10.100.100.2/24
+            - node: spine-2
+              ip_address: 10.100.100.3/24
+

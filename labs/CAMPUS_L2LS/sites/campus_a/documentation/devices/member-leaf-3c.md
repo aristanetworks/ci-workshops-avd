@@ -3,6 +3,7 @@
 ## Table of Contents
 
 - [Management](#management)
+  - [Banner](#banner)
   - [Management Interfaces](#management-interfaces)
   - [DNS Domain](#dns-domain)
   - [IP Name Servers](#ip-name-servers)
@@ -15,6 +16,7 @@
   - [AAA Authorization](#aaa-authorization)
 - [Monitoring](#monitoring)
   - [TerminAttr Daemon](#terminattr-daemon)
+  - [Logging](#logging)
 - [Spanning Tree](#spanning-tree)
   - [Spanning Tree Summary](#spanning-tree-summary)
   - [Spanning Tree Device Configuration](#spanning-tree-device-configuration)
@@ -39,6 +41,15 @@
   - [VRF Instances Device Configuration](#vrf-instances-device-configuration)
 
 ## Management
+
+### Banner
+
+#### MOTD Banner
+
+```text
+You shall not pass. Unless you are authorized. Then you shall pass.
+EOF
+```
 
 ### Management Interfaces
 
@@ -215,6 +226,31 @@ daemon TerminAttr
    no shutdown
 ```
 
+### Logging
+
+#### Logging Servers and Features Summary
+
+| Type | Level |
+| ---- | ----- |
+
+| VRF | Source Interface |
+| --- | ---------------- |
+| default | Management0 |
+
+| VRF | Hosts | Ports | Protocol | SSL-profile |
+| --- | ----- | ----- | -------- | ----------- |
+| default | 10.200.0.108 | Default | UDP | - |
+| default | 10.200.1.108 | Default | UDP | - |
+
+#### Logging Servers and Features Device Configuration
+
+```eos
+!
+logging host 10.200.0.108
+logging host 10.200.1.108
+logging source-interface Management0
+```
+
 ## Spanning Tree
 
 ### Spanning Tree Summary
@@ -258,6 +294,7 @@ vlan internal order ascending range 1006 1199
 | ------- | ---- | ------------ |
 | 310 | IDF3_DATA | - |
 | 320 | IDF3_VOICE | - |
+| 1000 | SECURITY | - |
 
 ### VLANs Device Configuration
 
@@ -268,6 +305,9 @@ vlan 310
 !
 vlan 320
    name IDF3_VOICE
+!
+vlan 1000
+   name SECURITY
 ```
 
 ## Interfaces
@@ -280,8 +320,8 @@ vlan 320
 
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | Channel-Group |
 | --------- | ----------- | ---- | ----- | ----------- | ----------- | ------------- |
-| Ethernet49 | L2_leaf-3a_Ethernet51 | *trunk | *310,320 | *- | *- | 49 |
-| Ethernet50 | L2_leaf-3b_Ethernet51 | *trunk | *310,320 | *- | *- | 49 |
+| Ethernet49 | L2_leaf-3a_Ethernet51 | *trunk | *310,320,1000 | *- | *- | 49 |
+| Ethernet50 | L2_leaf-3b_Ethernet51 | *trunk | *310,320,1000 | *- | *- | 49 |
 
 *Inherited from Port-Channel Interface
 
@@ -308,7 +348,7 @@ interface Ethernet50
 
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | LACP Fallback Timeout | LACP Fallback Mode | MLAG ID | EVPN ESI |
 | --------- | ----------- | ---- | ----- | ----------- | ----------- | --------------------- | ------------------ | ------- | -------- |
-| Port-Channel49 | L2_IDF3_Port-Channel51 | trunk | 310,320 | - | - | - | - | - | - |
+| Port-Channel49 | L2_IDF3_Port-Channel51 | trunk | 310,320,1000 | - | - | - | - | - | - |
 
 #### Port-Channel Interfaces Device Configuration
 
@@ -317,7 +357,7 @@ interface Ethernet50
 interface Port-Channel49
    description L2_IDF3_Port-Channel51
    no shutdown
-   switchport trunk allowed vlan 310,320
+   switchport trunk allowed vlan 310,320,1000
    switchport mode trunk
    switchport
 ```

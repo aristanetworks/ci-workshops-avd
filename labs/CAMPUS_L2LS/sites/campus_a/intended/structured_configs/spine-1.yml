@@ -3,6 +3,12 @@ aaa_authorization:
     default: local
 aaa_root:
   disabled: true
+banners:
+  motd: 'You shall not pass. Unless you are authorized. Then you shall pass.
+
+    EOF
+
+    '
 config_end: true
 daemon_terminattr:
   cvaddrs:
@@ -98,6 +104,15 @@ local_users:
   sha512_password: $6$88cecc7f4676ecfe$2tXUeUOLrr5GapYvJj8AAD37eSdqEDmnTccqiq6l.vQF9f8RADg6kfGN21sL.mTCRtSkbae.DdzC7V/F2oHrh/
   ssh_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCrKJ8S5Kv7UmD9vb6aeJ8FaPoKF+TW42RDM4+w4mUDknIGrJ+42QoLskSBm9ngqjQfapckArVW6k/id3qrMaTmnJMVj0ywdFXma6VT1zAVRZOFX3/4bmH1x8pV4dsurXP18u9PBj2HlW/yTyHGPKKkQF2GtmQIoIu1vGwLHlTQC045dGHA5ai4Pd/AIv2L+VF4mWL0EuAx9tCrT5MI14wFNbi1FrtsLMiplw6H3c4eZV/C+AaBuMs26TsAmBuBSQYmOXQ0Y58n8SQMtB07W8v5iOqfJ1VAwQ4q9hVYdABM6YLxTHmNW8mZDBRkXmhrs83GikD6ZGZAseO2qzbTeqon
     arista@avd-workshop-campus-1-c644c9e8-eos
+logging:
+  vrfs:
+  - name: default
+    source_interface: Management0
+    hosts:
+    - name: 10.200.0.108
+      protocol: udp
+    - name: 10.200.1.108
+      protocol: udp
 loopback_interfaces:
 - name: Loopback0
   description: ROUTER_ID
@@ -219,7 +234,7 @@ port_channel_interfaces:
     enabled: true
     mode: trunk
     trunk:
-      allowed_vlan: 110,120
+      allowed_vlan: 110,120,1000
 - name: Port-Channel4
   description: L2_leaf-2a_Port-Channel11
   shutdown: false
@@ -228,7 +243,7 @@ port_channel_interfaces:
     enabled: true
     mode: trunk
     trunk:
-      allowed_vlan: 210,220
+      allowed_vlan: 210,220,1000
 - name: Port-Channel5
   description: L2_IDF3_Port-Channel49
   shutdown: false
@@ -237,7 +252,7 @@ port_channel_interfaces:
     enabled: true
     mode: trunk
     trunk:
-      allowed_vlan: 310,320
+      allowed_vlan: 310,320,1000
 router_ospf:
   process_ids:
   - id: 100
@@ -344,6 +359,19 @@ vlan_interfaces:
     - CAMPUS_A
     tags:
     - IDF3_VOICE
+- name: Vlan1000
+  description: SECURITY
+  shutdown: false
+  ip_address: 10.100.100.2/24
+  ip_virtual_router_addresses:
+  - 10.100.100.1
+  metadata:
+    tenants:
+    - CAMPUS_A
+    tags:
+    - IDF1_DATA
+    - IDF2_DATA
+    - IDF3_DATA
 vlan_internal_order:
   allocation: ascending
   range:
@@ -391,6 +419,11 @@ vlans:
     - CAMPUS_A
 - id: 320
   name: IDF3_VOICE
+  metadata:
+    tenants:
+    - CAMPUS_A
+- id: 1000
+  name: SECURITY
   metadata:
     tenants:
     - CAMPUS_A

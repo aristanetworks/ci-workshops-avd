@@ -3,6 +3,7 @@
 ## Table of Contents
 
 - [Management](#management)
+  - [Banner](#banner)
   - [Management Interfaces](#management-interfaces)
   - [DNS Domain](#dns-domain)
   - [IP Name Servers](#ip-name-servers)
@@ -15,6 +16,7 @@
   - [AAA Authorization](#aaa-authorization)
 - [Monitoring](#monitoring)
   - [TerminAttr Daemon](#terminattr-daemon)
+  - [Logging](#logging)
 - [MLAG](#mlag)
   - [MLAG Summary](#mlag-summary)
   - [MLAG Device Configuration](#mlag-device-configuration)
@@ -43,6 +45,15 @@
   - [VRF Instances Device Configuration](#vrf-instances-device-configuration)
 
 ## Management
+
+### Banner
+
+#### MOTD Banner
+
+```text
+You shall not pass. Unless you are authorized. Then you shall pass.
+EOF
+```
 
 ### Management Interfaces
 
@@ -219,6 +230,31 @@ daemon TerminAttr
    no shutdown
 ```
 
+### Logging
+
+#### Logging Servers and Features Summary
+
+| Type | Level |
+| ---- | ----- |
+
+| VRF | Source Interface |
+| --- | ---------------- |
+| default | Management0 |
+
+| VRF | Hosts | Ports | Protocol | SSL-profile |
+| --- | ----- | ----- | -------- | ----------- |
+| default | 10.200.0.108 | Default | UDP | - |
+| default | 10.200.1.108 | Default | UDP | - |
+
+#### Logging Servers and Features Device Configuration
+
+```eos
+!
+logging host 10.200.0.108
+logging host 10.200.1.108
+logging source-interface Management0
+```
+
 ## MLAG
 
 ### MLAG Summary
@@ -288,6 +324,7 @@ vlan internal order ascending range 1006 1199
 | ------- | ---- | ------------ |
 | 110 | IDF1_DATA | - |
 | 120 | IDF1_VOICE | - |
+| 1000 | SECURITY | - |
 | 4094 | MLAG | MLAG |
 
 ### VLANs Device Configuration
@@ -299,6 +336,9 @@ vlan 110
 !
 vlan 120
    name IDF1_VOICE
+!
+vlan 1000
+   name SECURITY
 !
 vlan 4094
    name MLAG
@@ -317,7 +357,7 @@ vlan 4094
 | --------- | ----------- | ---- | ----- | ----------- | ----------- | ------------- |
 | Ethernet47 | MLAG_leaf-1a_Ethernet47 | *trunk | *- | *- | *MLAG | 47 |
 | Ethernet48 | MLAG_leaf-1a_Ethernet48 | *trunk | *- | *- | *MLAG | 47 |
-| Ethernet49 | L2_spine-2_Ethernet3 | *trunk | *110,120 | *- | *- | 49 |
+| Ethernet49 | L2_spine-2_Ethernet3 | *trunk | *110,120,1000 | *- | *- | 49 |
 
 *Inherited from Port-Channel Interface
 
@@ -350,7 +390,7 @@ interface Ethernet49
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | LACP Fallback Timeout | LACP Fallback Mode | MLAG ID | EVPN ESI |
 | --------- | ----------- | ---- | ----- | ----------- | ----------- | --------------------- | ------------------ | ------- | -------- |
 | Port-Channel47 | MLAG_leaf-1a_Port-Channel47 | trunk | - | - | MLAG | - | - | - | - |
-| Port-Channel49 | L2_CAMPUS_A_SPINES_Port-Channel3 | trunk | 110,120 | - | - | - | - | 49 | - |
+| Port-Channel49 | L2_CAMPUS_A_SPINES_Port-Channel3 | trunk | 110,120,1000 | - | - | - | - | 49 | - |
 
 #### Port-Channel Interfaces Device Configuration
 
@@ -366,7 +406,7 @@ interface Port-Channel47
 interface Port-Channel49
    description L2_CAMPUS_A_SPINES_Port-Channel3
    no shutdown
-   switchport trunk allowed vlan 110,120
+   switchport trunk allowed vlan 110,120,1000
    switchport mode trunk
    switchport
    mlag 49

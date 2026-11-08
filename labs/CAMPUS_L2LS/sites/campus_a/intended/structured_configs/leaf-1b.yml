@@ -3,6 +3,12 @@ aaa_authorization:
     default: local
 aaa_root:
   disabled: true
+banners:
+  motd: 'You shall not pass. Unless you are authorized. Then you shall pass.
+
+    EOF
+
+    '
 config_end: true
 daemon_terminattr:
   cvaddrs:
@@ -66,6 +72,15 @@ local_users:
   sha512_password: $6$5fbc6c65ebd12c45$coNOPcixe.Em6UJGEu8.eTxHGa5Oh5jKU/ssRTyvneL3C7K8ZUxWMYuXMoCPIX6Y8Qz.lDjIuOcYLj2oLYakq/
   ssh_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCrKJ8S5Kv7UmD9vb6aeJ8FaPoKF+TW42RDM4+w4mUDknIGrJ+42QoLskSBm9ngqjQfapckArVW6k/id3qrMaTmnJMVj0ywdFXma6VT1zAVRZOFX3/4bmH1x8pV4dsurXP18u9PBj2HlW/yTyHGPKKkQF2GtmQIoIu1vGwLHlTQC045dGHA5ai4Pd/AIv2L+VF4mWL0EuAx9tCrT5MI14wFNbi1FrtsLMiplw6H3c4eZV/C+AaBuMs26TsAmBuBSQYmOXQ0Y58n8SQMtB07W8v5iOqfJ1VAwQ4q9hVYdABM6YLxTHmNW8mZDBRkXmhrs83GikD6ZGZAseO2qzbTeqon
     arista@avd-workshop-campus-1-c644c9e8-eos
+logging:
+  vrfs:
+  - name: default
+    source_interface: Management0
+    hosts:
+    - name: 10.200.0.108
+      protocol: udp
+    - name: 10.200.1.108
+      protocol: udp
 management_api_http:
   enable_https: true
   enable_vrfs:
@@ -159,7 +174,7 @@ port_channel_interfaces:
     enabled: true
     mode: trunk
     trunk:
-      allowed_vlan: 110,120
+      allowed_vlan: 110,120,1000
 service_routing_protocols_model: multi-agent
 spanning_tree:
   mode: mstp
@@ -199,6 +214,11 @@ vlans:
     - CAMPUS_A
 - id: 120
   name: IDF1_VOICE
+  metadata:
+    tenants:
+    - CAMPUS_A
+- id: 1000
+  name: SECURITY
   metadata:
     tenants:
     - CAMPUS_A

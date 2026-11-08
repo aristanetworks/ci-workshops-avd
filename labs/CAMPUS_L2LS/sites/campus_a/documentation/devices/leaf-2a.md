@@ -3,6 +3,7 @@
 ## Table of Contents
 
 - [Management](#management)
+  - [Banner](#banner)
   - [Management Interfaces](#management-interfaces)
   - [DNS Domain](#dns-domain)
   - [IP Name Servers](#ip-name-servers)
@@ -15,6 +16,7 @@
   - [AAA Authorization](#aaa-authorization)
 - [Monitoring](#monitoring)
   - [TerminAttr Daemon](#terminattr-daemon)
+  - [Logging](#logging)
 - [Spanning Tree](#spanning-tree)
   - [Spanning Tree Summary](#spanning-tree-summary)
   - [Spanning Tree Device Configuration](#spanning-tree-device-configuration)
@@ -39,6 +41,15 @@
   - [VRF Instances Device Configuration](#vrf-instances-device-configuration)
 
 ## Management
+
+### Banner
+
+#### MOTD Banner
+
+```text
+You shall not pass. Unless you are authorized. Then you shall pass.
+EOF
+```
 
 ### Management Interfaces
 
@@ -215,6 +226,31 @@ daemon TerminAttr
    no shutdown
 ```
 
+### Logging
+
+#### Logging Servers and Features Summary
+
+| Type | Level |
+| ---- | ----- |
+
+| VRF | Source Interface |
+| --- | ---------------- |
+| default | Management0 |
+
+| VRF | Hosts | Ports | Protocol | SSL-profile |
+| --- | ----- | ----- | -------- | ----------- |
+| default | 10.200.0.108 | Default | UDP | - |
+| default | 10.200.1.108 | Default | UDP | - |
+
+#### Logging Servers and Features Device Configuration
+
+```eos
+!
+logging host 10.200.0.108
+logging host 10.200.1.108
+logging source-interface Management0
+```
+
 ## Spanning Tree
 
 ### Spanning Tree Summary
@@ -258,6 +294,7 @@ vlan internal order ascending range 1006 1199
 | ------- | ---- | ------------ |
 | 210 | IDF2_DATA | - |
 | 220 | IDF2_VOICE | - |
+| 1000 | SECURITY | - |
 
 ### VLANs Device Configuration
 
@@ -268,6 +305,9 @@ vlan 210
 !
 vlan 220
    name IDF2_VOICE
+!
+vlan 1000
+   name SECURITY
 ```
 
 ## Interfaces
@@ -280,8 +320,8 @@ vlan 220
 
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | Channel-Group |
 | --------- | ----------- | ---- | ----- | ----------- | ----------- | ------------- |
-| Ethernet1/1 | L2_spine-1_Ethernet4 | *trunk | *210,220 | *- | *- | 11 |
-| Ethernet2/1 | L2_spine-2_Ethernet4 | *trunk | *210,220 | *- | *- | 11 |
+| Ethernet1/1 | L2_spine-1_Ethernet4 | *trunk | *210,220,1000 | *- | *- | 11 |
+| Ethernet2/1 | L2_spine-2_Ethernet4 | *trunk | *210,220,1000 | *- | *- | 11 |
 
 *Inherited from Port-Channel Interface
 
@@ -308,7 +348,7 @@ interface Ethernet2/1
 
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | LACP Fallback Timeout | LACP Fallback Mode | MLAG ID | EVPN ESI |
 | --------- | ----------- | ---- | ----- | ----------- | ----------- | --------------------- | ------------------ | ------- | -------- |
-| Port-Channel11 | L2_CAMPUS_A_SPINES_Port-Channel4 | trunk | 210,220 | - | - | - | - | - | - |
+| Port-Channel11 | L2_CAMPUS_A_SPINES_Port-Channel4 | trunk | 210,220,1000 | - | - | - | - | - | - |
 
 #### Port-Channel Interfaces Device Configuration
 
@@ -317,7 +357,7 @@ interface Ethernet2/1
 interface Port-Channel11
    description L2_CAMPUS_A_SPINES_Port-Channel4
    no shutdown
-   switchport trunk allowed vlan 210,220
+   switchport trunk allowed vlan 210,220,1000
    switchport mode trunk
    switchport
 ```
