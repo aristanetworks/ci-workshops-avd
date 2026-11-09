@@ -37,6 +37,7 @@ l3leaf:
     - group: IDF2
       filter:
         tags: [ "IDF2_DATA", "IDF2_VOICE" ]
+      campus_access_pod: IDF2
       mlag: false
       bgp_as: 65102
       nodes:

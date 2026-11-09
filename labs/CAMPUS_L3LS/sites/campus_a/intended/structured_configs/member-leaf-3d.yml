@@ -1,0 +1,175 @@
+aaa_authorization:
+  exec:
+    default: local
+aaa_root:
+  disabled: true
+banners:
+  motd: 'You shall not pass. Unless you are authorized. Then you shall pass.
+
+    EOF
+
+    '
+config_end: true
+daemon_terminattr:
+  cvaddrs:
+  - 192.168.0.5:9910
+  cvauth:
+    method: token
+    token_file: /tmp/token
+  cvsourceintf: Management0
+  cvvrf: default
+  disable_aaa: true
+  smashexcludes: ale,flexCounter,hardware,kni,pulse,strata
+dns_domain: atd.lab
+enable_password:
+  disabled: true
+ethernet_interfaces:
+- name: Ethernet49
+  description: L2_leaf-3a_Ethernet52
+  shutdown: false
+  channel_group:
+    id: 49
+    mode: active
+  metadata:
+    peer: leaf-3a
+    peer_interface: Ethernet52
+    peer_type: l3leaf
+- name: Ethernet50
+  description: L2_leaf-3b_Ethernet52
+  shutdown: false
+  channel_group:
+    id: 49
+    mode: active
+  metadata:
+    peer: leaf-3b
+    peer_interface: Ethernet52
+    peer_type: l3leaf
+hostname: member-leaf-3d
+ip_domain_lookup:
+  source_interfaces:
+  - name: Management0
+ip_igmp_snooping:
+  globally_enabled: true
+ip_name_server:
+  vrfs:
+  - name: default
+    servers:
+    - ip_address: 192.168.0.1
+local_users:
+- name: arista
+  privilege: 15
+  role: network-admin
+  sha512_password: $6$43b538c0edf0ed33$hwH35w4VeuPv/k5OKzXrUJgp0hdl9LPynQ42PYFZ.Ysxs9ed14dUbFhed7ja/ZDTrZXS8kdXpM6S83lVzEOaf0
+  ssh_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCrKJ8S5Kv7UmD9vb6aeJ8FaPoKF+TW42RDM4+w4mUDknIGrJ+42QoLskSBm9ngqjQfapckArVW6k/id3qrMaTmnJMVj0ywdFXma6VT1zAVRZOFX3/4bmH1x8pV4dsurXP18u9PBj2HlW/yTyHGPKKkQF2GtmQIoIu1vGwLHlTQC045dGHA5ai4Pd/AIv2L+VF4mWL0EuAx9tCrT5MI14wFNbi1FrtsLMiplw6H3c4eZV/C+AaBuMs26TsAmBuBSQYmOXQ0Y58n8SQMtB07W8v5iOqfJ1VAwQ4q9hVYdABM6YLxTHmNW8mZDBRkXmhrs83GikD6ZGZAseO2qzbTeqon
+    arista@avd-workshop-campus-1-c644c9e8-eos
+logging:
+  vrfs:
+  - name: default
+    source_interface: Management0
+    hosts:
+    - name: 10.200.0.108
+      protocol: udp
+    - name: 10.200.1.108
+      protocol: udp
+management_interfaces:
+- name: Management0
+  description: OOB_MANAGEMENT
+  shutdown: false
+  vrf: default
+  ip_address: 192.168.0.20/24
+  type: oob
+  gateway: 192.168.0.1
+metadata:
+  is_deployed: true
+  platform: cEOS
+  fabric_name: CAMPUS_A_FABRIC
+  cv_tags:
+    device_tags:
+    - name: topology_hint_network_type
+      value: campusV2
+    - name: topology_hint_type
+      value: Member-Leaf
+    - name: Role
+      value: Member-Leaf
+    - name: Campus
+      value: Cleveland
+    - name: Campus-Pod
+      value: Campus A
+    - name: Access-Pod
+      value: IDF3
+    interface_tags:
+    - interface: Ethernet49
+      tags:
+      - name: Link-Type
+        value: AVD-Managed
+      - name: Link-Type
+        value: Fabric
+      - name: Link-Type
+        value: Uplink
+    - interface: Ethernet50
+      tags:
+      - name: Link-Type
+        value: AVD-Managed
+      - name: Link-Type
+        value: Fabric
+      - name: Link-Type
+        value: Uplink
+    - interface: Management0
+      tags:
+      - name: Link-Type
+        value: AVD-Managed
+      - name: Link-Type
+        value: Management
+ntp:
+  local_interface:
+    name: Management0
+    vrf: default
+  servers:
+  - name: 192.168.0.1
+    iburst: true
+    preferred: true
+  vrf: default
+port_channel_interfaces:
+- name: Port-Channel49
+  description: L2_IDF3_Port-Channel52
+  shutdown: false
+  switchport:
+    enabled: true
+    mode: trunk
+    trunk:
+      allowed_vlan: 310,320,1000
+service_routing_protocols_model: multi-agent
+spanning_tree:
+  mode: mstp
+  mst_instances:
+  - id: '0'
+    priority: 32768
+static_routes:
+- vrf: default
+  prefix: 0.0.0.0/0
+  next_hop: 192.168.0.1
+transceiver_qsfp_default_mode_4x10: true
+vlan_internal_order:
+  allocation: ascending
+  range:
+    beginning: 1006
+    ending: 1199
+vlans:
+- id: 310
+  name: IDF3_DATA
+  metadata:
+    tenants:
+    - CAMPUS_A
+- id: 320
+  name: IDF3_VOICE
+  metadata:
+    tenants:
+    - CAMPUS_A
+- id: 1000
+  name: SECURITY
+  metadata:
+    tenants:
+    - CAMPUS_A
+vrfs:
+- name: default
+  ip_routing: false
