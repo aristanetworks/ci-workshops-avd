@@ -3,6 +3,7 @@
 ## Table of Contents
 
 - [Management](#management)
+  - [Banner](#banner)
   - [Management Interfaces](#management-interfaces)
   - [DNS Domain](#dns-domain)
   - [IP Name Servers](#ip-name-servers)
@@ -14,15 +15,20 @@
   - [AAA Authorization](#aaa-authorization)
 - [Monitoring](#monitoring)
   - [TerminAttr Daemon](#terminattr-daemon)
+  - [Logging](#logging)
 - [Spanning Tree](#spanning-tree)
   - [Spanning Tree Summary](#spanning-tree-summary)
   - [Spanning Tree Device Configuration](#spanning-tree-device-configuration)
 - [Internal VLAN Allocation Policy](#internal-vlan-allocation-policy)
   - [Internal VLAN Allocation Policy Summary](#internal-vlan-allocation-policy-summary)
   - [Internal VLAN Allocation Policy Device Configuration](#internal-vlan-allocation-policy-device-configuration)
+- [VLANs](#vlans)
+  - [VLANs Summary](#vlans-summary)
+  - [VLANs Device Configuration](#vlans-device-configuration)
 - [Interfaces](#interfaces)
   - [Ethernet Interfaces](#ethernet-interfaces)
   - [Loopback Interfaces](#loopback-interfaces)
+  - [VLAN Interfaces](#vlan-interfaces)
   - [VXLAN Interface](#vxlan-interface)
 - [Routing](#routing)
   - [Service Routing Protocols Model](#service-routing-protocols-model)
@@ -43,6 +49,15 @@
   - [VRF Instances Device Configuration](#vrf-instances-device-configuration)
 
 ## Management
+
+### Banner
+
+#### MOTD Banner
+
+```text
+You shall not pass. Unless you are authorized. Then you shall pass.
+EOF
+```
 
 ### Management Interfaces
 
@@ -193,6 +208,31 @@ daemon TerminAttr
    no shutdown
 ```
 
+### Logging
+
+#### Logging Servers and Features Summary
+
+| Type | Level |
+| ---- | ----- |
+
+| VRF | Source Interface |
+| --- | ---------------- |
+| default | Management0 |
+
+| VRF | Hosts | Ports | Protocol | SSL-profile |
+| --- | ----- | ----- | -------- | ----------- |
+| default | 10.200.0.108 | Default | UDP | - |
+| default | 10.200.1.108 | Default | UDP | - |
+
+#### Logging Servers and Features Device Configuration
+
+```eos
+!
+logging host 10.200.0.108
+logging host 10.200.1.108
+logging source-interface Management0
+```
+
 ## Spanning Tree
 
 ### Spanning Tree Summary
@@ -226,6 +266,30 @@ spanning-tree mst 0 priority 32768
 ```eos
 !
 vlan internal order ascending range 1006 1199
+```
+
+## VLANs
+
+### VLANs Summary
+
+| VLAN ID | Name | Trunk Groups |
+| ------- | ---- | ------------ |
+| 210 | IDF2_DATA | - |
+| 220 | IDF2_VOICE | - |
+| 1000 | SECURITY | - |
+
+### VLANs Device Configuration
+
+```eos
+!
+vlan 210
+   name IDF2_DATA
+!
+vlan 220
+   name IDF2_VOICE
+!
+vlan 1000
+   name SECURITY
 ```
 
 ## Interfaces
@@ -300,6 +364,47 @@ interface Loopback1
    ip address 10.255.255.5/32
 ```
 
+### VLAN Interfaces
+
+#### VLAN Interfaces Summary
+
+| Interface | Description | VRF | MTU | Shutdown |
+| --------- | ----------- | --- | --- | -------- |
+| Vlan210 | IDF2_DATA | OVERLAY | - | False |
+| Vlan220 | IDF2_VOICE | OVERLAY | - | False |
+| Vlan1000 | SECURITY | OVERLAY | - | False |
+
+##### IPv4
+
+| Interface | VRF | IP Address | IP Address Virtual | IP Router Virtual Address | ACL In | ACL Out |
+| --------- | --- | ---------- | ------------------ | ------------------------- | ------ | ------- |
+| Vlan210 | OVERLAY | - | 10.2.10.1/24 | - | - | - |
+| Vlan220 | OVERLAY | - | 10.2.20.1/24 | - | - | - |
+| Vlan1000 | OVERLAY | - | 10.100.100.1/24 | - | - | - |
+
+#### VLAN Interfaces Device Configuration
+
+```eos
+!
+interface Vlan210
+   description IDF2_DATA
+   no shutdown
+   vrf OVERLAY
+   ip address virtual 10.2.10.1/24
+!
+interface Vlan220
+   description IDF2_VOICE
+   no shutdown
+   vrf OVERLAY
+   ip address virtual 10.2.20.1/24
+!
+interface Vlan1000
+   description SECURITY
+   no shutdown
+   vrf OVERLAY
+   ip address virtual 10.100.100.1/24
+```
+
 ### VXLAN Interface
 
 #### VXLAN Interface Summary
@@ -309,6 +414,20 @@ interface Loopback1
 | Source Interface | Loopback1 |
 | UDP port | 4789 |
 
+##### VLAN to VNI, Flood List and Multicast Group Mappings
+
+| VLAN | VNI | Flood List | Multicast Group |
+| ---- | --- | ---------- | --------------- |
+| 210 | 10210 | - | - |
+| 220 | 10220 | - | - |
+| 1000 | 11000 | - | - |
+
+##### VRF to VNI and Multicast Group Mappings
+
+| VRF | VNI | Overlay Multicast Group to Encap Mappings |
+| --- | --- | ----------------------------------------- |
+| OVERLAY | 10 | - |
+
 #### VXLAN Interface Device Configuration
 
 ```eos
@@ -317,6 +436,10 @@ interface Vxlan1
    description leaf-2a_VTEP
    vxlan source-interface Loopback1
    vxlan udp-port 4789
+   vxlan vlan 210 vni 10210
+   vxlan vlan 220 vni 10220
+   vxlan vlan 1000 vni 11000
+   vxlan vrf OVERLAY vni 10
 ```
 
 ## Routing
@@ -350,12 +473,14 @@ ip virtual-router mac-address 00:1c:73:00:00:99
 | VRF | Routing Enabled |
 | --- | --------------- |
 | default | True |
+| OVERLAY | True |
 
 #### IP Routing Device Configuration
 
 ```eos
 !
 ip routing
+ip routing vrf OVERLAY
 ```
 
 ### IPv6 Routing
@@ -366,6 +491,7 @@ ip routing
 | --- | --------------- |
 | default | False |
 | default | false |
+| OVERLAY | false |
 
 ### Static Routes
 
@@ -436,6 +562,20 @@ ASN Notation: asplain
 | ---------- | -------- | ------------ | ------------- | ----------- | ------------ | ------------- | ------------------------------ |
 | EVPN-OVERLAY-PEERS | True | - | - | - | - | default | - |
 
+#### Router BGP VLANs
+
+| VLAN | Route-Distinguisher | Both Route-Target | Import Route Target | Export Route-Target | Redistribute |
+| ---- | ------------------- | ----------------- | ------------------- | ------------------- | ------------ |
+| 210 | 10.250.1.5:10210 | 10210:10210 | - | - | learned |
+| 220 | 10.250.1.5:10220 | 10220:10220 | - | - | learned |
+| 1000 | 10.250.1.5:11000 | 11000:11000 | - | - | learned |
+
+#### Router BGP VRFs
+
+| VRF | Route-Distinguisher | Redistribute | Graceful Restart |
+| --- | ------------------- | ------------ | ---------------- |
+| OVERLAY | 10.250.1.5:10 | connected | - |
+
 #### Router BGP Device Configuration
 
 ```eos
@@ -468,12 +608,34 @@ router bgp 65102
    neighbor 172.16.1.10 description spine-2_Ethernet4
    redistribute connected route-map RM-CONN-2-BGP
    !
+   vlan 210
+      rd 10.250.1.5:10210
+      route-target both 10210:10210
+      redistribute learned
+   !
+   vlan 220
+      rd 10.250.1.5:10220
+      route-target both 10220:10220
+      redistribute learned
+   !
+   vlan 1000
+      rd 10.250.1.5:11000
+      route-target both 11000:11000
+      redistribute learned
+   !
    address-family evpn
       neighbor EVPN-OVERLAY-PEERS activate
    !
    address-family ipv4
       no neighbor EVPN-OVERLAY-PEERS activate
       neighbor IPv4-UNDERLAY-PEERS activate
+   !
+   vrf OVERLAY
+      rd 10.250.1.5:10
+      route-target import evpn 10:10
+      route-target export evpn 10:10
+      router-id 10.250.1.5
+      redistribute connected
 ```
 
 ## BFD
@@ -555,8 +717,11 @@ route-map RM-CONN-2-BGP permit 10
 
 | VRF Name | IP Routing |
 | -------- | ---------- |
+| OVERLAY | enabled |
 
 ### VRF Instances Device Configuration
 
 ```eos
+!
+vrf instance OVERLAY
 ```

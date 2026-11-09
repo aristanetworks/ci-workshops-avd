@@ -3,6 +3,12 @@ aaa_authorization:
     default: local
 aaa_root:
   disabled: true
+banners:
+  motd: 'You shall not pass. Unless you are authorized. Then you shall pass.
+
+    EOF
+
+    '
 config_end: true
 daemon_terminattr:
   cvaddrs:
@@ -60,6 +66,15 @@ local_users:
   sha512_password: $6$7c02c6305e03f2fc$XsDXCGgjBsRE1pPLPOuPPVNiLE2h3K2Z.eriQynDKW4PuFTs.VOhqqnLfik9yZY1c68AyUa2/UCYtKWcRp0FR/
   ssh_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCrKJ8S5Kv7UmD9vb6aeJ8FaPoKF+TW42RDM4+w4mUDknIGrJ+42QoLskSBm9ngqjQfapckArVW6k/id3qrMaTmnJMVj0ywdFXma6VT1zAVRZOFX3/4bmH1x8pV4dsurXP18u9PBj2HlW/yTyHGPKKkQF2GtmQIoIu1vGwLHlTQC045dGHA5ai4Pd/AIv2L+VF4mWL0EuAx9tCrT5MI14wFNbi1FrtsLMiplw6H3c4eZV/C+AaBuMs26TsAmBuBSQYmOXQ0Y58n8SQMtB07W8v5iOqfJ1VAwQ4q9hVYdABM6YLxTHmNW8mZDBRkXmhrs83GikD6ZGZAseO2qzbTeqon
     arista@avd-workshop-campus-1-c644c9e8-eos
+logging:
+  vrfs:
+  - name: default
+    source_interface: Management0
+    hosts:
+    - name: 10.200.0.108
+      protocol: udp
+    - name: 10.200.1.108
+      protocol: udp
 loopback_interfaces:
 - name: Loopback0
   description: ROUTER_ID
@@ -93,6 +108,8 @@ metadata:
       value: Cleveland
     - name: Campus-Pod
       value: Campus A
+    - name: Access-Pod
+      value: IDF2
     interface_tags:
     - interface: Ethernet1/1
       tags:
@@ -197,6 +214,37 @@ router_bgp:
     connected:
       enabled: true
       route_map: RM-CONN-2-BGP
+  vlans:
+  - id: 210
+    metadata:
+      tenants:
+      - CAMPUS_A
+    rd: 10.250.1.5:10210
+    route_targets:
+      both:
+      - 10210:10210
+    redistribute_routes:
+    - learned
+  - id: 220
+    metadata:
+      tenants:
+      - CAMPUS_A
+    rd: 10.250.1.5:10220
+    route_targets:
+      both:
+      - 10220:10220
+    redistribute_routes:
+    - learned
+  - id: 1000
+    metadata:
+      tenants:
+      - CAMPUS_A
+    rd: 10.250.1.5:11000
+    route_targets:
+      both:
+      - 11000:11000
+    redistribute_routes:
+    - learned
   address_family_evpn:
     peer_groups:
     - name: EVPN-OVERLAY-PEERS
@@ -207,6 +255,22 @@ router_bgp:
       activate: true
     - name: EVPN-OVERLAY-PEERS
       activate: false
+  vrfs:
+  - name: OVERLAY
+    rd: 10.250.1.5:10
+    route_targets:
+      import:
+      - address_family: evpn
+        route_targets:
+        - '10:10'
+      export:
+      - address_family: evpn
+        route_targets:
+        - '10:10'
+    router_id: 10.250.1.5
+    redistribute:
+      connected:
+        enabled: true
 service_routing_protocols_model: multi-agent
 spanning_tree:
   mode: mstp
@@ -218,17 +282,81 @@ static_routes:
   prefix: 0.0.0.0/0
   next_hop: 192.168.0.1
 transceiver_qsfp_default_mode_4x10: true
+vlan_interfaces:
+- name: Vlan210
+  description: IDF2_DATA
+  shutdown: false
+  vrf: OVERLAY
+  ip_address_virtual: 10.2.10.1/24
+  metadata:
+    tenants:
+    - CAMPUS_A
+    tags:
+    - IDF2_DATA
+- name: Vlan220
+  description: IDF2_VOICE
+  shutdown: false
+  vrf: OVERLAY
+  ip_address_virtual: 10.2.20.1/24
+  metadata:
+    tenants:
+    - CAMPUS_A
+    tags:
+    - IDF2_VOICE
+- name: Vlan1000
+  description: SECURITY
+  shutdown: false
+  vrf: OVERLAY
+  ip_address_virtual: 10.100.100.1/24
+  metadata:
+    tenants:
+    - CAMPUS_A
+    tags:
+    - IDF1_DATA
+    - IDF2_DATA
+    - IDF3_DATA
 vlan_internal_order:
   allocation: ascending
   range:
     beginning: 1006
     ending: 1199
+vlans:
+- id: 210
+  name: IDF2_DATA
+  metadata:
+    tenants:
+    - CAMPUS_A
+- id: 220
+  name: IDF2_VOICE
+  metadata:
+    tenants:
+    - CAMPUS_A
+- id: 1000
+  name: SECURITY
+  metadata:
+    tenants:
+    - CAMPUS_A
 vrfs:
 - name: default
   ip_routing: false
+- name: OVERLAY
+  ip_routing: true
+  metadata:
+    tenants:
+    - CAMPUS_A
 vxlan_interface:
   vxlan1:
     description: leaf-2a_VTEP
     vxlan:
       source_interface: Loopback1
       udp_port: 4789
+      vlans:
+      - id: 210
+        vni: 10210
+      - id: 220
+        vni: 10220
+      - id: 1000
+        vni: 11000
+      vrfs:
+      - name: OVERLAY
+        vni: 10

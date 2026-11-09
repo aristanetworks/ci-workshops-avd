@@ -3,6 +3,12 @@ aaa_authorization:
     default: local
 aaa_root:
   disabled: true
+banners:
+  motd: 'You shall not pass. Unless you are authorized. Then you shall pass.
+
+    EOF
+
+    '
 config_end: true
 daemon_terminattr:
   cvaddrs:
@@ -110,6 +116,15 @@ local_users:
   sha512_password: $6$418f8f0125878a1e$XVO6t0XrtgAuRGjemw8tDyZfKz7vQ5nkL30ycZPzCHuTQakVrXdlLIT2doZw8TDczTHgPS5/i9yB.HIhlAgXa/
   ssh_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCrKJ8S5Kv7UmD9vb6aeJ8FaPoKF+TW42RDM4+w4mUDknIGrJ+42QoLskSBm9ngqjQfapckArVW6k/id3qrMaTmnJMVj0ywdFXma6VT1zAVRZOFX3/4bmH1x8pV4dsurXP18u9PBj2HlW/yTyHGPKKkQF2GtmQIoIu1vGwLHlTQC045dGHA5ai4Pd/AIv2L+VF4mWL0EuAx9tCrT5MI14wFNbi1FrtsLMiplw6H3c4eZV/C+AaBuMs26TsAmBuBSQYmOXQ0Y58n8SQMtB07W8v5iOqfJ1VAwQ4q9hVYdABM6YLxTHmNW8mZDBRkXmhrs83GikD6ZGZAseO2qzbTeqon
     arista@avd-workshop-campus-1-c644c9e8-eos
+logging:
+  vrfs:
+  - name: default
+    source_interface: Management0
+    hosts:
+    - name: 10.200.0.108
+      protocol: udp
+    - name: 10.200.1.108
+      protocol: udp
 loopback_interfaces:
 - name: Loopback0
   description: ROUTER_ID
@@ -240,7 +255,7 @@ port_channel_interfaces:
     enabled: true
     mode: trunk
     trunk:
-      allowed_vlan: none
+      allowed_vlan: 310,320,1000
 - name: Port-Channel52
   description: L2_member-leaf-3d_Port-Channel49
   shutdown: false
@@ -249,7 +264,7 @@ port_channel_interfaces:
     enabled: true
     mode: trunk
     trunk:
-      allowed_vlan: none
+      allowed_vlan: 310,320,1000
 - name: Port-Channel531
   description: L2_member-leaf-3e_Port-Channel49
   shutdown: false
@@ -258,7 +273,7 @@ port_channel_interfaces:
     enabled: true
     mode: trunk
     trunk:
-      allowed_vlan: none
+      allowed_vlan: 310,320,1000
 prefix_lists:
 - name: PL-LOOPBACKS-EVPN-OVERLAY
   sequence_numbers:
@@ -266,6 +281,10 @@ prefix_lists:
     action: permit 10.250.1.0/24 eq 32
   - sequence: 20
     action: permit 10.255.255.0/24 eq 32
+- name: PL-MLAG-PEER-VRFS
+  sequence_numbers:
+  - sequence: 10
+    action: permit 10.252.1.0/31
 route_maps:
 - name: RM-MLAG-PEER-IN
   sequence_numbers:
@@ -280,6 +299,14 @@ route_maps:
     type: permit
     match:
     - ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY
+- name: RM-CONN-2-BGP-VRFS
+  sequence_numbers:
+  - sequence: 10
+    type: deny
+    match:
+    - ip address prefix-list PL-MLAG-PEER-VRFS
+  - sequence: 20
+    type: permit
 router_bfd:
   multihop:
     interval: 300
@@ -352,6 +379,37 @@ router_bgp:
     connected:
       enabled: true
       route_map: RM-CONN-2-BGP
+  vlans:
+  - id: 310
+    metadata:
+      tenants:
+      - CAMPUS_A
+    rd: 10.250.1.6:10310
+    route_targets:
+      both:
+      - 10310:10310
+    redistribute_routes:
+    - learned
+  - id: 320
+    metadata:
+      tenants:
+      - CAMPUS_A
+    rd: 10.250.1.6:10320
+    route_targets:
+      both:
+      - 10320:10320
+    redistribute_routes:
+    - learned
+  - id: 1000
+    metadata:
+      tenants:
+      - CAMPUS_A
+    rd: 10.250.1.6:11000
+    route_targets:
+      both:
+      - 11000:11000
+    redistribute_routes:
+    - learned
   address_family_evpn:
     peer_groups:
     - name: EVPN-OVERLAY-PEERS
@@ -364,6 +422,29 @@ router_bgp:
       activate: true
     - name: EVPN-OVERLAY-PEERS
       activate: false
+  vrfs:
+  - name: OVERLAY
+    rd: 10.250.1.6:10
+    route_targets:
+      import:
+      - address_family: evpn
+        route_targets:
+        - '10:10'
+      export:
+      - address_family: evpn
+        route_targets:
+        - '10:10'
+    router_id: 10.250.1.6
+    updates:
+      wait_install: true
+    neighbors:
+    - ip_address: 10.252.1.1
+      peer_group: MLAG-IPv4-UNDERLAY-PEER
+      description: leaf-3b_Vlan3009
+    redistribute:
+      connected:
+        enabled: true
+        route_map: RM-CONN-2-BGP-VRFS
 service_routing_protocols_model: multi-agent
 spanning_tree:
   mode: mstp
@@ -388,6 +469,48 @@ vlan_interfaces:
   ip_address: 10.253.1.0/31
   mtu: 1500
   no_autostate: true
+- name: Vlan310
+  description: IDF3_DATA
+  shutdown: false
+  vrf: OVERLAY
+  ip_address_virtual: 10.3.10.1/24
+  metadata:
+    tenants:
+    - CAMPUS_A
+    tags:
+    - IDF3_DATA
+- name: Vlan320
+  description: IDF3_VOICE
+  shutdown: false
+  vrf: OVERLAY
+  ip_address_virtual: 10.3.20.1/24
+  metadata:
+    tenants:
+    - CAMPUS_A
+    tags:
+    - IDF3_VOICE
+- name: Vlan1000
+  description: SECURITY
+  shutdown: false
+  vrf: OVERLAY
+  ip_address_virtual: 10.100.100.1/24
+  metadata:
+    tenants:
+    - CAMPUS_A
+    tags:
+    - IDF1_DATA
+    - IDF2_DATA
+    - IDF3_DATA
+- name: Vlan3009
+  description: MLAG_L3_VRF_OVERLAY
+  shutdown: false
+  vrf: OVERLAY
+  ip_address: 10.252.1.0/31
+  mtu: 1500
+  metadata:
+    tenants:
+    - CAMPUS_A
+    type: underlay_peering
 vlan_internal_order:
   allocation: ascending
   range:
@@ -408,9 +531,36 @@ vlans:
   metadata:
     tenants:
     - system
+- id: 310
+  name: IDF3_DATA
+  metadata:
+    tenants:
+    - CAMPUS_A
+- id: 320
+  name: IDF3_VOICE
+  metadata:
+    tenants:
+    - CAMPUS_A
+- id: 1000
+  name: SECURITY
+  metadata:
+    tenants:
+    - CAMPUS_A
+- id: 3009
+  name: MLAG_L3_VRF_OVERLAY
+  trunk_groups:
+  - MLAG
+  metadata:
+    tenants:
+    - CAMPUS_A
 vrfs:
 - name: default
   ip_routing: false
+- name: OVERLAY
+  ip_routing: true
+  metadata:
+    tenants:
+    - CAMPUS_A
 vxlan_interface:
   vxlan1:
     description: leaf-3a_VTEP
@@ -418,3 +568,13 @@ vxlan_interface:
       source_interface: Loopback1
       udp_port: 4789
       virtual_router_encapsulation_mac_address: mlag-system-id
+      vlans:
+      - id: 310
+        vni: 10310
+      - id: 320
+        vni: 10320
+      - id: 1000
+        vni: 11000
+      vrfs:
+      - name: OVERLAY
+        vni: 10
