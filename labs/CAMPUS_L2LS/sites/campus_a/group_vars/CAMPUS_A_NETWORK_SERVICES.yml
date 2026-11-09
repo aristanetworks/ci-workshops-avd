@@ -81,26 +81,4 @@ tenants:
               ip_address: 10.100.100.2/24
             - node: spine-2
               ip_address: 10.100.100.3/24
-          - id: 1001
-            name: 'WIFI'
-            tags: [ "IDF1_DATA", "IDF2_DATA", "IDF3_DATA" ]
-            enabled: true
-            ip_virtual_router_addresses:
-            - 10.101.101.1
-            nodes:
-            - node: spine-1
-              ip_address: 10.101.101.2/24
-            - node: spine-2
-              ip_address: 10.101.101.3/24
-          - id: 1002
-            name: 'WIFI_2'
-            tags: [ "IDF1_DATA", "IDF2_DATA", "IDF3_DATA" ]
-            enabled: true
-            ip_virtual_router_addresses:
-            - 10.101.102.1
-            nodes:
-            - node: spine-1
-              ip_address: 10.101.102.2/24
-            - node: spine-2
-              ip_address: 10.101.102.3/24
 
