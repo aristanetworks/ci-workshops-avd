@@ -4,6 +4,7 @@ CAMPUS_A:
     CVP:
       hosts:
         cvp:
+          ansible_host: avd-workshop-campus-1-c644c9e8-eos.topo.testdrive.arista.com
     CAMPUS_A_FABRIC:
       children:
         CAMPUS_A_SPINES:
