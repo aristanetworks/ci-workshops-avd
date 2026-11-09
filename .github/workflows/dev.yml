@@ -16,25 +16,25 @@ jobs:
       - name: Hi
         run: echo "Hello World!"
 
-      # - name: Checkout
-      #   uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      # - name: Setup Python
-      #   uses: actions/setup-python@v6
+      - name: Setup Python
+        uses: actions/setup-python@v6
 
-      # - name: Install Python requirements
-      #   run: pip3 install -r requirements.txt
+      - name: Install Python requirements
+        run: pip3 install -r requirements.txt
 
-      # - name: Run pre-commit on files
-      #   uses: pre-commit/action@v3.0.1
+      - name: Run pre-commit on files
+        uses: pre-commit/action@v3.0.1
 
-      # - name: Check paths for sites/site_1
-      #   uses: dorny/paths-filter@v3
-      #   id: filter-site1
-      #   with:
-      #     filters: |
-      #       workflows:
-      #         - 'labs/L2LS/sites/site_1/**'
+      - name: Check paths for sites/campus_a
+        uses: dorny/paths-filter@v3
+        id: filter-campus_a
+        with:
+          filters: |
+            workflows:
+             - 'labs/CAMPUS_L2LS/sites/campus_a/**'
 
       # - name: Check paths for sites/site_2
       #   uses: dorny/paths-filter@v3
@@ -44,14 +44,14 @@ jobs:
       #       workflows:
       #         - 'labs/L2LS/sites/site_2/**'
 
-      # - name: Install collections
-      #   run: ansible-galaxy collection install -r requirements.yml
-      #   if: steps.filter-site1.outputs.workflows == 'true' || steps.filter-site2.outputs.workflows == 'true'
+      - name: Install collections
+        run: ansible-galaxy collection install -r requirements.yml
+        if: steps.filter-site1.outputs.workflows == 'true' || steps.filter-site2.outputs.workflows == 'true'
 
-      # - name: Test configuration for site1
-      #   run: make build-site-1
-      #   working-directory: labs/L2LS/
-      #   if: steps.filter-site1.outputs.workflows == 'true'
+      - name: Test configuration for Campus_A
+        run: make build-campus-a
+        working-directory: labs/CAMPUS_L2LS/
+        if: steps.filter-site1.outputs.workflows == 'true'
 
       # - name: Test configuration for site2
       #   run: make build-site-2
