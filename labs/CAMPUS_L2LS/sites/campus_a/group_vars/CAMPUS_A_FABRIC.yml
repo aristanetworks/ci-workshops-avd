@@ -129,3 +129,5 @@ l2leaf:
 ##################################################################
 
 underlay_routing_protocol: OSPF
+
+cv_server: avd-workshop-campus-1-c644c9e8-eos.topo.testdrive.arista.com
