@@ -1,0 +1,420 @@
+aaa_authorization:
+  exec:
+    default: local
+aaa_root:
+  disabled: true
+config_end: true
+daemon_terminattr:
+  cvaddrs:
+  - 192.168.0.5:9910
+  cvauth:
+    method: token
+    token_file: /tmp/token
+  cvsourceintf: Management0
+  cvvrf: default
+  disable_aaa: true
+  smashexcludes: ale,flexCounter,hardware,kni,pulse,strata
+dns_domain: atd.lab
+enable_password:
+  disabled: true
+ethernet_interfaces:
+- name: Ethernet47
+  description: MLAG_leaf-3b_Ethernet47
+  shutdown: false
+  channel_group:
+    id: 47
+    mode: active
+  metadata:
+    peer: leaf-3b
+    peer_interface: Ethernet47
+    peer_type: mlag_peer
+- name: Ethernet48
+  description: MLAG_leaf-3b_Ethernet48
+  shutdown: false
+  channel_group:
+    id: 47
+    mode: active
+  metadata:
+    peer: leaf-3b
+    peer_interface: Ethernet48
+    peer_type: mlag_peer
+- name: Ethernet49
+  description: P2P_spine-1_Ethernet5
+  shutdown: false
+  mtu: 1500
+  ip_address: 172.16.1.13/31
+  metadata:
+    peer: spine-1
+    peer_interface: Ethernet5
+    peer_type: spine
+  switchport:
+    enabled: false
+- name: Ethernet50
+  description: P2P_spine-2_Ethernet5
+  shutdown: false
+  mtu: 1500
+  ip_address: 172.16.1.15/31
+  metadata:
+    peer: spine-2
+    peer_interface: Ethernet5
+    peer_type: spine
+  switchport:
+    enabled: false
+- name: Ethernet51
+  description: L2_member-leaf-3c_Ethernet49
+  shutdown: false
+  channel_group:
+    id: 51
+    mode: active
+  metadata:
+    peer: member-leaf-3c
+    peer_interface: Ethernet49
+    peer_type: l2leaf
+- name: Ethernet52
+  description: L2_member-leaf-3d_Ethernet49
+  shutdown: false
+  channel_group:
+    id: 52
+    mode: active
+  metadata:
+    peer: member-leaf-3d
+    peer_interface: Ethernet49
+    peer_type: l2leaf
+- name: Ethernet53/1
+  description: L2_member-leaf-3e_Ethernet49
+  shutdown: false
+  channel_group:
+    id: 531
+    mode: active
+  metadata:
+    peer: member-leaf-3e
+    peer_interface: Ethernet49
+    peer_type: l2leaf
+hostname: leaf-3a
+ip_domain_lookup:
+  source_interfaces:
+  - name: Management0
+ip_igmp_snooping:
+  globally_enabled: true
+ip_name_server:
+  vrfs:
+  - name: default
+    servers:
+    - ip_address: 192.168.0.1
+ip_routing: true
+ip_virtual_router_mac_address: 00:1c:73:00:00:99
+local_users:
+- name: arista
+  privilege: 15
+  role: network-admin
+  sha512_password: $6$418f8f0125878a1e$XVO6t0XrtgAuRGjemw8tDyZfKz7vQ5nkL30ycZPzCHuTQakVrXdlLIT2doZw8TDczTHgPS5/i9yB.HIhlAgXa/
+  ssh_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCrKJ8S5Kv7UmD9vb6aeJ8FaPoKF+TW42RDM4+w4mUDknIGrJ+42QoLskSBm9ngqjQfapckArVW6k/id3qrMaTmnJMVj0ywdFXma6VT1zAVRZOFX3/4bmH1x8pV4dsurXP18u9PBj2HlW/yTyHGPKKkQF2GtmQIoIu1vGwLHlTQC045dGHA5ai4Pd/AIv2L+VF4mWL0EuAx9tCrT5MI14wFNbi1FrtsLMiplw6H3c4eZV/C+AaBuMs26TsAmBuBSQYmOXQ0Y58n8SQMtB07W8v5iOqfJ1VAwQ4q9hVYdABM6YLxTHmNW8mZDBRkXmhrs83GikD6ZGZAseO2qzbTeqon
+    arista@avd-workshop-campus-1-c644c9e8-eos
+loopback_interfaces:
+- name: Loopback0
+  description: ROUTER_ID
+  shutdown: false
+  ip_address: 10.250.1.6/32
+- name: Loopback1
+  description: VXLAN_TUNNEL_SOURCE
+  shutdown: false
+  ip_address: 10.255.255.6/32
+management_interfaces:
+- name: Management0
+  description: OOB_MANAGEMENT
+  shutdown: false
+  vrf: default
+  ip_address: 192.168.0.17/24
+  type: oob
+  gateway: 192.168.0.1
+metadata:
+  is_deployed: true
+  platform: cEOS
+  fabric_name: CAMPUS_A_FABRIC
+  cv_tags:
+    device_tags:
+    - name: topology_hint_network_type
+      value: campusV2
+    - name: topology_hint_type
+      value: Leaf
+    - name: Role
+      value: Leaf
+    - name: Campus
+      value: Cleveland
+    - name: Campus-Pod
+      value: Campus A
+    - name: Access-Pod
+      value: IDF3
+    interface_tags:
+    - interface: Ethernet47
+      tags:
+      - name: Link-Type
+        value: AVD-Managed
+      - name: Link-Type
+        value: Fabric
+      - name: Link-Type
+        value: MLAG
+    - interface: Ethernet48
+      tags:
+      - name: Link-Type
+        value: AVD-Managed
+      - name: Link-Type
+        value: Fabric
+      - name: Link-Type
+        value: MLAG
+    - interface: Ethernet49
+      tags:
+      - name: Link-Type
+        value: AVD-Managed
+      - name: Link-Type
+        value: Fabric
+      - name: Link-Type
+        value: Uplink
+    - interface: Ethernet50
+      tags:
+      - name: Link-Type
+        value: AVD-Managed
+      - name: Link-Type
+        value: Fabric
+      - name: Link-Type
+        value: Uplink
+    - interface: Ethernet51
+      tags:
+      - name: Link-Type
+        value: AVD-Managed
+      - name: Link-Type
+        value: Fabric
+      - name: Link-Type
+        value: Downlink
+    - interface: Ethernet52
+      tags:
+      - name: Link-Type
+        value: AVD-Managed
+      - name: Link-Type
+        value: Fabric
+      - name: Link-Type
+        value: Downlink
+    - interface: Ethernet53/1
+      tags:
+      - name: Link-Type
+        value: AVD-Managed
+      - name: Link-Type
+        value: Fabric
+      - name: Link-Type
+        value: Downlink
+    - interface: Management0
+      tags:
+      - name: Link-Type
+        value: AVD-Managed
+      - name: Link-Type
+        value: Management
+mlag_configuration:
+  domain_id: IDF3
+  local_interface: Vlan4094
+  peer_address: 10.253.1.1
+  peer_link: Port-Channel47
+ntp:
+  local_interface:
+    name: Management0
+    vrf: default
+  servers:
+  - name: 192.168.0.1
+    iburst: true
+    preferred: true
+  vrf: default
+port_channel_interfaces:
+- name: Port-Channel47
+  description: MLAG_leaf-3b_Port-Channel47
+  shutdown: false
+  switchport:
+    enabled: true
+    mode: trunk
+    trunk:
+      groups:
+      - MLAG
+- name: Port-Channel51
+  description: L2_member-leaf-3c_Port-Channel49
+  shutdown: false
+  mlag: 51
+  switchport:
+    enabled: true
+    mode: trunk
+    trunk:
+      allowed_vlan: none
+- name: Port-Channel52
+  description: L2_member-leaf-3d_Port-Channel49
+  shutdown: false
+  mlag: 52
+  switchport:
+    enabled: true
+    mode: trunk
+    trunk:
+      allowed_vlan: none
+- name: Port-Channel531
+  description: L2_member-leaf-3e_Port-Channel49
+  shutdown: false
+  mlag: 531
+  switchport:
+    enabled: true
+    mode: trunk
+    trunk:
+      allowed_vlan: none
+prefix_lists:
+- name: PL-LOOPBACKS-EVPN-OVERLAY
+  sequence_numbers:
+  - sequence: 10
+    action: permit 10.250.1.0/24 eq 32
+  - sequence: 20
+    action: permit 10.255.255.0/24 eq 32
+route_maps:
+- name: RM-MLAG-PEER-IN
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    description: Make routes learned over MLAG Peer-link less preferred on spines to ensure optimal routing
+    set:
+    - origin incomplete
+- name: RM-CONN-2-BGP
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    match:
+    - ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY
+router_bfd:
+  multihop:
+    interval: 300
+    min_rx: 300
+    multiplier: 3
+router_bgp:
+  as: '65103'
+  router_id: 10.250.1.6
+  maximum_paths:
+    paths: 4
+  updates:
+    wait_install: true
+  bgp:
+    default:
+      ipv4_unicast: false
+  peer_groups:
+  - name: MLAG-IPv4-UNDERLAY-PEER
+    metadata:
+      type: ipv4
+    remote_as: '65103'
+    description: leaf-3b
+    next_hop_self: true
+    send_community: all
+    maximum_routes: 256000
+    route_map_in: RM-MLAG-PEER-IN
+  - name: IPv4-UNDERLAY-PEERS
+    metadata:
+      type: ipv4
+    send_community: all
+    maximum_routes: 256000
+  - name: EVPN-OVERLAY-PEERS
+    metadata:
+      type: evpn
+    update_source: Loopback0
+    bfd: true
+    ebgp_multihop: 3
+    send_community: all
+    maximum_routes: 0
+  neighbors:
+  - ip_address: 10.252.1.1
+    peer_group: MLAG-IPv4-UNDERLAY-PEER
+    metadata:
+      peer: leaf-3b
+    description: leaf-3b_Vlan4093
+  - ip_address: 172.16.1.12
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65100'
+    metadata:
+      peer: spine-1
+    description: spine-1_Ethernet5
+  - ip_address: 172.16.1.14
+    peer_group: IPv4-UNDERLAY-PEERS
+    remote_as: '65100'
+    metadata:
+      peer: spine-2
+    description: spine-2_Ethernet5
+  - ip_address: 10.1.252.1
+    peer_group: EVPN-OVERLAY-PEERS
+    remote_as: '65100'
+    metadata:
+      peer: spine-1
+    description: spine-1_Loopback0
+  - ip_address: 10.1.252.2
+    peer_group: EVPN-OVERLAY-PEERS
+    remote_as: '65100'
+    metadata:
+      peer: spine-2
+    description: spine-2_Loopback0
+  redistribute:
+    connected:
+      enabled: true
+      route_map: RM-CONN-2-BGP
+  address_family_evpn:
+    peer_groups:
+    - name: EVPN-OVERLAY-PEERS
+      activate: true
+  address_family_ipv4:
+    peer_groups:
+    - name: MLAG-IPv4-UNDERLAY-PEER
+      activate: true
+    - name: IPv4-UNDERLAY-PEERS
+      activate: true
+    - name: EVPN-OVERLAY-PEERS
+      activate: false
+service_routing_protocols_model: multi-agent
+spanning_tree:
+  mode: mstp
+  mst_instances:
+  - id: '0'
+    priority: 32768
+  no_spanning_tree_vlan: 4093-4094
+static_routes:
+- vrf: default
+  prefix: 0.0.0.0/0
+  next_hop: 192.168.0.1
+transceiver_qsfp_default_mode_4x10: true
+vlan_interfaces:
+- name: Vlan4093
+  description: MLAG_L3
+  shutdown: false
+  ip_address: 10.252.1.0/31
+  mtu: 1500
+- name: Vlan4094
+  description: MLAG
+  shutdown: false
+  ip_address: 10.253.1.0/31
+  mtu: 1500
+  no_autostate: true
+vlan_internal_order:
+  allocation: ascending
+  range:
+    beginning: 1006
+    ending: 1199
+vlans:
+- id: 4093
+  name: MLAG_L3
+  trunk_groups:
+  - MLAG
+  metadata:
+    tenants:
+    - system
+- id: 4094
+  name: MLAG
+  trunk_groups:
+  - MLAG
+  metadata:
+    tenants:
+    - system
+vrfs:
+- name: default
+  ip_routing: false
+vxlan_interface:
+  vxlan1:
+    description: leaf-3a_VTEP
+    vxlan:
+      source_interface: Loopback1
+      udp_port: 4789
+      virtual_router_encapsulation_mac_address: mlag-system-id
