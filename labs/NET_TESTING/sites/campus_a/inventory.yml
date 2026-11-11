@@ -1,0 +1,46 @@
+---
+CAMPUS_A:
+  children:
+    CVP:
+      hosts:
+        cvp:
+          ansible_host: avd-workshop-campus-1-c644c9e8-eos.topo.testdrive.arista.com
+    CAMPUS_A_FABRIC:
+      children:
+        CAMPUS_A_SPINES:
+          hosts:
+            spine-1:
+              ansible_host: 192.168.0.12
+            spine-2:
+              ansible_host: 192.168.0.13
+        CAMPUS_A_LEAFS:
+          children:
+            IDF1_LEAFS:
+              hosts:
+                leaf-1a:
+                  ansible_host: 192.168.0.14
+                leaf-1b:
+                  ansible_host: 192.168.0.15
+            IDF2_LEAFS:
+              hosts:
+                leaf-2a:
+                  ansible_host: 192.168.0.16
+            IDF3_LEAFS:
+              hosts:
+                leaf-3a:
+                  ansible_host: 192.168.0.17
+                leaf-3b:
+                  ansible_host: 192.168.0.18
+              children:
+                IDF3_MEMBER_LEAFS:
+                  hosts:
+                    member-leaf-3c:
+                      ansible_host: 192.168.0.19
+                    member-leaf-3d:
+                      ansible_host: 192.168.0.20
+                    member-leaf-3e:
+                      ansible_host: 192.168.0.21
+    CAMPUS_A_NETWORK_SERVICES:
+      children:
+        CAMPUS_A_SPINES:
+        CAMPUS_A_LEAFS:

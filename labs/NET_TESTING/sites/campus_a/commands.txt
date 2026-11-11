@@ -1,0 +1,12 @@
+anta get from-ansible \
+--ansible-inventory sites/campus_a/inventory.yml \
+--ansible-group CAMPUS_A_FABRIC \
+--output sites/campus_a/anta_inventory.yml \
+--overwrite
+
+
+anta nrfu -u arista -p ${LABPASSPHRASE} -i sites/campus_a/anta_inventory.yml -c tests/all.yml table
+
+anta nrfu -u arista -p ${LABPASSPHRASE} -i sites/campus_a/anta_inventory.yml -c tests/all.yml --hide skipped table
+
+anta nrfu -u arista -p ${LABPASSPHRASE} -i sites/campus_a/anta_inventory.yml -c tests/all.yml table --group-by device
