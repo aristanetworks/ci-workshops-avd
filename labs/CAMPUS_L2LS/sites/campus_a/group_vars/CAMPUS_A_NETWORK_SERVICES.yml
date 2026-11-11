@@ -86,10 +86,10 @@ tenants:
             tags: [ "IDF1_DATA", "IDF2_DATA", "IDF3_DATA" ]
             enabled: true
             ip_virtual_router_addresses:
-            - 10.101.101.1
+            - 10.100.101.1
             nodes:
             - node: spine-1
-              ip_address: 10.101.101.2/24
+              ip_address: 10.100.101.2/24
             - node: spine-2
-              ip_address: 10.101.101.3/24
+              ip_address: 10.100.101.3/24
 
